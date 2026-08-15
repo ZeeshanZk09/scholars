@@ -1,16 +1,10 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/lib/auth";
 
 export async function proxy(request: NextRequest) {
-  // Use getToken instead of auth() to avoid importing Prisma/bcrypt in the Edge runtime
-  const token = await getToken({
-    req: request,
-    secret: process.env.AUTH_SECRET,
-    secureCookie: process.env.NODE_ENV === "production",
-  });
-  
-  const isLoggedIn = Boolean(token);
+  const session = await auth();
+  const isLoggedIn = Boolean(session?.user);
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin") && !isLoggedIn) {

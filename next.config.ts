@@ -45,7 +45,7 @@ if (isProduction) {
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  serverExternalPackages: ["@prisma/client", "bcryptjs"],
+  serverExternalPackages: ["@prisma/client", "bcryptjs", "isomorphic-dompurify", "jsdom"],
   headers: async () => [
     {
       source: "/(.*)",
