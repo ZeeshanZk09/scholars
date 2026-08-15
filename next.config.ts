@@ -44,7 +44,6 @@ if (isProduction) {
 }
 
 const nextConfig: NextConfig = {
-  reactCompiler: true,
   headers: async () => [
     {
       source: "/(.*)",
