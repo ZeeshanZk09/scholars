@@ -44,10 +44,11 @@ if (isProduction) {
 }
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["@prisma/client", "bcryptjs"],
   headers: async () => [
     {
       source: "/(.*)",
-      headers: securityHeaders,
+      headers: [...securityHeaders],
     },
   ],
   images: {
@@ -55,6 +56,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "placehold.co",
+      },
+      {
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
