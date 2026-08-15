@@ -46,42 +46,42 @@ enum Permission {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String     @unique
   emailVerified DateTime?
   image         String?
-  role          Role      @default(EDITOR)
+  role          Role       @default(EDITOR)
   passwordHash  String?
   status        UserStatus @default(ACTIVE)
   lastLoginAt   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   deletedAt     DateTime?
 
-  accounts        Account[]
-  sessions        Session[]
-  createdBanners  Banner[]         @relation("BannerCreatedBy")
-  updatedBanners  Banner[]         @relation("BannerUpdatedBy")
-  createdPages    Page[]           @relation("PageCreatedBy")
-  updatedPages    Page[]           @relation("PageUpdatedBy")
-  createdFaculties Faculty[]         @relation("FacultyCreatedBy")
-  updatedFaculties Faculty[]         @relation("FacultyUpdatedBy")
-  createdFacilities Facility[]        @relation("FacilityCreatedBy")
-  updatedFacilities Facility[]        @relation("FacilityUpdatedBy")
-  createdTestimonials Testimonial[] @relation("TestimonialCreatedBy")
-  updatedTestimonials Testimonial[] @relation("TestimonialUpdatedBy")
-  createdBlogCategories BlogCategory[] @relation("BlogCategoryCreatedBy")
-  createdBlogTags      BlogTag[]        @relation("BlogTagCreatedBy")
-  authoredBlogPosts    BlogPost[]       @relation("BlogPostAuthor")
-  createdBlogPosts     BlogPost[]       @relation("BlogPostCreatedBy")
-  updatedBlogPosts     BlogPost[]       @relation("BlogPostUpdatedBy")
-  createdSchoolClasses   SchoolClass[]   @relation("SchoolClassCreatedBy")
-  updatedSchoolClasses   SchoolClass[]   @relation("SchoolClassUpdatedBy")
-  createdAcademicLevels  AcademicLevel[] @relation("AcademicLevelCreatedBy")
-  updatedAcademicLevels  AcademicLevel[] @relation("AcademicLevelUpdatedBy")
-  createdCollegePrograms CollegeProgram[] @relation("CollegeProgramCreatedBy")
-  updatedCollegePrograms CollegeProgram[] @relation("CollegeProgramUpdatedBy")
+  accounts                Account[]
+  sessions                Session[]
+  createdBanners          Banner[]          @relation("BannerCreatedBy")
+  updatedBanners          Banner[]          @relation("BannerUpdatedBy")
+  createdPages            Page[]            @relation("PageCreatedBy")
+  updatedPages            Page[]            @relation("PageUpdatedBy")
+  createdFaculties        Faculty[]         @relation("FacultyCreatedBy")
+  updatedFaculties        Faculty[]         @relation("FacultyUpdatedBy")
+  createdFacilities       Facility[]        @relation("FacilityCreatedBy")
+  updatedFacilities       Facility[]        @relation("FacilityUpdatedBy")
+  createdTestimonials     Testimonial[]     @relation("TestimonialCreatedBy")
+  updatedTestimonials     Testimonial[]     @relation("TestimonialUpdatedBy")
+  createdBlogCategories   BlogCategory[]    @relation("BlogCategoryCreatedBy")
+  createdBlogTags         BlogTag[]         @relation("BlogTagCreatedBy")
+  authoredBlogPosts       BlogPost[]        @relation("BlogPostAuthor")
+  createdBlogPosts        BlogPost[]        @relation("BlogPostCreatedBy")
+  updatedBlogPosts        BlogPost[]        @relation("BlogPostUpdatedBy")
+  createdSchoolClasses    SchoolClass[]     @relation("SchoolClassCreatedBy")
+  updatedSchoolClasses    SchoolClass[]     @relation("SchoolClassUpdatedBy")
+  createdAcademicLevels   AcademicLevel[]   @relation("AcademicLevelCreatedBy")
+  updatedAcademicLevels   AcademicLevel[]   @relation("AcademicLevelUpdatedBy")
+  createdCollegePrograms  CollegeProgram[]  @relation("CollegeProgramCreatedBy")
+  updatedCollegePrograms  CollegeProgram[]  @relation("CollegeProgramUpdatedBy")
   createdCoachingPrograms CoachingProgram[] @relation("CoachingProgramCreatedBy")
   updatedCoachingPrograms CoachingProgram[] @relation("CoachingProgramUpdatedBy")
   createdComputerCourses  ComputerCourse[]  @relation("ComputerCourseCreatedBy")
@@ -91,10 +91,10 @@ model User {
   createdAcademicSessions AcademicSession[] @relation("AcademicSessionCreatedBy")
   updatedAcademicSessions AcademicSession[] @relation("AcademicSessionUpdatedBy")
 
-  @@map("users")
   @@index([email])
   @@index([status])
   @@index([deletedAt])
+  @@map("users")
 }
 
 enum UserStatus {
@@ -155,105 +155,105 @@ enum ContentStatus {
 }
 
 model AcademicSession {
-  id         String   @id @default(cuid())
-  name       String   @unique
-  slug       String   @unique
-  startDate  DateTime?
-  endDate    DateTime?
-  isActive   Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  startDate   DateTime?
+  endDate     DateTime?
+  isActive    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   createdById String?
   updatedById String?
 
-  createdBy     User?             @relation("AcademicSessionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy     User?             @relation("AcademicSessionUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  createdBy        User?             @relation("AcademicSessionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy        User?             @relation("AcademicSessionUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
   admissionPeriods AdmissionPeriod[]
 
-  @@map("academic_sessions")
   @@index([isActive])
   @@index([createdAt])
+  @@map("academic_sessions")
 }
 
 // School levels: Nursery, KG/Prep, Primary, Middle, Secondary, Class 9–10
 model AcademicLevel {
-  id           String   @id @default(cuid())
-  name         String   @unique
-  slug         String   @unique
+  id           String        @id @default(cuid())
+  name         String        @unique
+  slug         String        @unique
   description  String?
   status       ContentStatus @default(DRAFT)
-  displayOrder Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  displayOrder Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   createdById  String?
   updatedById  String?
   deletedAt    DateTime?
 
-  createdBy User?  @relation("AcademicLevelCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy User?  @relation("AcademicLevelUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  createdBy User?         @relation("AcademicLevelCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy User?         @relation("AcademicLevelUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
   classes   SchoolClass[]
 
-  @@map("academic_levels")
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("academic_levels")
 }
 
 model SchoolClass {
-  id              String        @id @default(cuid())
-  name            String
-  slug            String        @unique
-  description     String?
-  eligibility     String?
+  id               String        @id @default(cuid())
+  name             String
+  slug             String        @unique
+  description      String?
+  eligibility      String?
   learningOutcomes String?
-  levelId         String
-  status          ContentStatus @default(DRAFT)
-  displayOrder    Int           @default(0)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  createdById     String?
-  updatedById     String?
-  deletedAt       DateTime?
+  levelId          String
+  status           ContentStatus @default(DRAFT)
+  displayOrder     Int           @default(0)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  createdById      String?
+  updatedById      String?
+  deletedAt        DateTime?
 
   level     AcademicLevel @relation(fields: [levelId], references: [id], onDelete: Cascade)
   createdBy User?         @relation("SchoolClassCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User?         @relation("SchoolClassUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("school_classes")
   @@index([levelId])
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("school_classes")
 }
 
 model CollegeProgram {
-  id                  String        @id @default(cuid())
-  name                String
-  slug                String        @unique
-  groupName           String?
-  description         String?
-  subjects            String?
-  eligibility         String?
-  duration            String?
+  id                    String        @id @default(cuid())
+  name                  String
+  slug                  String        @unique
+  groupName             String?
+  description           String?
+  subjects              String?
+  eligibility           String?
+  duration              String?
   admissionRequirements String?
-  status              ContentStatus @default(DRAFT)
-  displayOrder        Int           @default(0)
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  createdById         String?
-  updatedById         String?
-  deletedAt           DateTime?
+  status                ContentStatus @default(DRAFT)
+  displayOrder          Int           @default(0)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  createdById           String?
+  updatedById           String?
+  deletedAt             DateTime?
 
   createdBy User? @relation("CollegeProgramCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("CollegeProgramUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("college_programs")
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("college_programs")
 }
 
 model CoachingProgram {
@@ -279,44 +279,44 @@ model CoachingProgram {
   createdBy User? @relation("CoachingProgramCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("CoachingProgramUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("coaching_programs")
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("coaching_programs")
 }
 
 model ComputerCourse {
-  id                String        @id @default(cuid())
-  name              String
-  slug              String        @unique
-  shortDescription  String?
-  detailedDescription String?      @db.Text
-  duration          String?
-  eligibility       String?
-  courseOutline     String?       @db.Text
-  instructor        String?
-  timing            String?
-  fee               String?
-  admissionStatus   String?
-  isFeatured        Boolean       @default(false)
-  status            ContentStatus @default(DRAFT)
-  displayOrder      Int           @default(0)
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  createdById       String?
-  updatedById       String?
-  deletedAt         DateTime?
+  id                  String        @id @default(cuid())
+  name                String
+  slug                String        @unique
+  shortDescription    String?
+  detailedDescription String?       @db.Text
+  duration            String?
+  eligibility         String?
+  courseOutline       String?       @db.Text
+  instructor          String?
+  timing              String?
+  fee                 String?
+  admissionStatus     String?
+  isFeatured          Boolean       @default(false)
+  status              ContentStatus @default(DRAFT)
+  displayOrder        Int           @default(0)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  createdById         String?
+  updatedById         String?
+  deletedAt           DateTime?
 
   createdBy User? @relation("ComputerCourseCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("ComputerCourseUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("computer_courses")
   @@index([isFeatured])
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("computer_courses")
 }
 
 // ============================================================
@@ -337,52 +337,52 @@ enum AdmissionStatus {
 }
 
 model AdmissionPeriod {
-  id            String            @id @default(cuid())
-  sessionId     String
-  category      AdmissionCategory
-  title         String
-  description   String?           @db.Text
-  openingDate   DateTime?
-  closingDate   DateTime?
-  status        AdmissionStatus   @default(COMING_SOON)
-  isActive      Boolean           @default(false)
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  createdById   String?
-  updatedById   String?
+  id          String            @id @default(cuid())
+  sessionId   String
+  category    AdmissionCategory
+  title       String
+  description String?           @db.Text
+  openingDate DateTime?
+  closingDate DateTime?
+  status      AdmissionStatus   @default(COMING_SOON)
+  isActive    Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  createdById String?
+  updatedById String?
 
-  session    AcademicSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  createdBy  User?           @relation("AdmissionPeriodCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy  User?           @relation("AdmissionPeriodUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  session      AcademicSession        @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdBy    User?                  @relation("AdmissionPeriodCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy    User?                  @relation("AdmissionPeriodUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
   requirements AdmissionRequirement[]
   inquiries    AdmissionInquiry[]
 
-  @@map("admission_periods")
   @@unique([sessionId, category])
   @@index([category])
   @@index([status])
   @@index([category, status])
   @@index([isActive])
+  @@map("admission_periods")
 }
 
 model AdmissionRequirement {
-  id                       String   @id @default(cuid())
-  admissionPeriodId        String
-  eligibility              String?  @db.Text
-  requiredDocuments        String?  @db.Text
-  applicationProcess       String?  @db.Text
-  importantDates           String?  @db.Text
-  feeInformation           String?  @db.Text
-  prospectusUrl            String?
-  instructions             String?  @db.Text
-  contactInformation       String?  @db.Text
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  admissionPeriodId  String
+  eligibility        String?  @db.Text
+  requiredDocuments  String?  @db.Text
+  applicationProcess String?  @db.Text
+  importantDates     String?  @db.Text
+  feeInformation     String?  @db.Text
+  prospectusUrl      String?
+  instructions       String?  @db.Text
+  contactInformation String?  @db.Text
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   admissionPeriod AdmissionPeriod @relation(fields: [admissionPeriodId], references: [id], onDelete: Cascade)
 
-  @@map("admission_requirements")
   @@index([admissionPeriodId])
+  @@map("admission_requirements")
 }
 
 enum InquiryStatus {
@@ -392,27 +392,27 @@ enum InquiryStatus {
 }
 
 model AdmissionInquiry {
-  id                String          @id @default(cuid())
-  admissionPeriodId String?
-  studentName       String
+  id                 String        @id @default(cuid())
+  admissionPeriodId  String?
+  studentName        String
   parentGuardianName String?
-  phone             String
-  email             String?
-  interestedProgram String?
-  classOrCourse     String?
-  message           String?         @db.Text
-  status            InquiryStatus   @default(PENDING)
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  phone              String
+  email              String?
+  interestedProgram  String?
+  classOrCourse      String?
+  message            String?       @db.Text
+  status             InquiryStatus @default(PENDING)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 
   admissionPeriod AdmissionPeriod? @relation(fields: [admissionPeriodId], references: [id], onDelete: SetNull)
 
-  @@map("admission_inquiries")
   @@index([admissionPeriodId])
   @@index([status])
   @@index([status, createdAt])
   @@index([createdAt])
   @@index([email])
+  @@map("admission_inquiries")
 }
 
 // ============================================================
@@ -420,28 +420,27 @@ model AdmissionInquiry {
 // ============================================================
 
 model Banner {
-  id              String        @id @default(cuid())
-  title           String
-  subtitle        String?
-  description     String?       @db.Text
-  imageUrl        String
-  linkUrl         String?
-  ctaLabel        String?
-  startDate       DateTime?
-  endDate         DateTime?
-  status          ContentStatus @default(DRAFT)
-  displayOrder    Int           @default(0)
-  publishedAt     DateTime?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  createdById     String?
-  updatedById     String?
-  deletedAt       DateTime?
+  id           String        @id @default(cuid())
+  title        String
+  subtitle     String?
+  description  String?       @db.Text
+  imageUrl     String
+  linkUrl      String?
+  ctaLabel     String?
+  startDate    DateTime?
+  endDate      DateTime?
+  status       ContentStatus @default(DRAFT)
+  displayOrder Int           @default(0)
+  publishedAt  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  createdById  String?
+  updatedById  String?
+  deletedAt    DateTime?
 
   createdBy User? @relation("BannerCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("BannerUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("banners")
   @@index([status])
   @@index([publishedAt])
   @@index([displayOrder])
@@ -449,127 +448,127 @@ model Banner {
   @@index([startDate])
   @@index([endDate])
   @@index([deletedAt])
+  @@map("banners")
 }
 
-
 model Page {
-  id            String   @id @default(cuid())
+  id            String        @id @default(cuid())
   title         String
-  slug          String   @unique
-  content       String?  @db.Text
+  slug          String        @unique
+  content       String?       @db.Text
   featuredImage String?
   layout        String?
   status        ContentStatus @default(DRAFT)
   publishedAt   DateTime?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   createdById   String?
   updatedById   String?
   deletedAt     DateTime?
 
-  createdBy User? @relation("PageCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy User? @relation("PageUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  createdBy User?         @relation("PageCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy User?         @relation("PageUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
   sections  PageSection[]
   seos      SeoMeta[]
 
-  @@map("pages")
   @@index([status])
   @@index([publishedAt])
   @@index([status, publishedAt])
   @@index([deletedAt])
+  @@map("pages")
 }
 
 model PageSection {
-  id          String   @id @default(cuid())
-  pageId      String
-  title       String?
-  content     String?  @db.Text
-  type        String
-  displayOrder Int     @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  pageId       String
+  title        String?
+  content      String?  @db.Text
+  type         String
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
-  @@map("page_sections")
   @@index([pageId])
   @@index([displayOrder])
+  @@map("page_sections")
 }
 
 model SeoMeta {
-  id          String   @id @default(cuid())
-  pageId      String?  @unique
-  blogPostId  String?  @unique
-  seoTitle    String?
-  metaDescription String? @db.Text
-  keywords    String?
-  canonicalUrl String?
-  ogTitle     String?
-  ogDescription String? @db.Text
-  ogImage     String?
-  robots      String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  pageId          String?  @unique
+  blogPostId      String?  @unique
+  seoTitle        String?
+  metaDescription String?  @db.Text
+  keywords        String?
+  canonicalUrl    String?
+  ogTitle         String?
+  ogDescription   String?  @db.Text
+  ogImage         String?
+  robots          String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   page     Page?     @relation(fields: [pageId], references: [id], onDelete: Cascade)
   blogPost BlogPost? @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
 
-  @@map("seo_meta")
   @@index([pageId])
   @@index([blogPostId])
+  @@map("seo_meta")
 }
 
 model Faculty {
-  id          String        @id @default(cuid())
-  name        String
-  designation String?
-  department  String?
+  id            String        @id @default(cuid())
+  name          String
+  designation   String?
+  department    String?
   qualification String?
-  experience  String?
-  subject     String?
-  profileImage String?
-  biography   String?       @db.Text
-  status      ContentStatus @default(DRAFT)
-  displayOrder Int           @default(0)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  createdById String?
-  updatedById String?
-  deletedAt   DateTime?
+  experience    String?
+  subject       String?
+  profileImage  String?
+  biography     String?       @db.Text
+  status        ContentStatus @default(DRAFT)
+  displayOrder  Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  createdById   String?
+  updatedById   String?
+  deletedAt     DateTime?
 
   createdBy User? @relation("FacultyCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("FacultyUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("faculties")
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("faculties")
 }
 
 model Facility {
-  id          String        @id @default(cuid())
-  name        String
-  slug        String        @unique
-  description String?       @db.Text
-  imageUrl    String?
-  icon        String?
-  status      ContentStatus @default(DRAFT)
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  description  String?       @db.Text
+  imageUrl     String?
+  icon         String?
+  status       ContentStatus @default(DRAFT)
   displayOrder Int           @default(0)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  createdById String?
-  updatedById String?
-  deletedAt   DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  createdById  String?
+  updatedById  String?
+  deletedAt    DateTime?
 
   createdBy User? @relation("FacilityCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("FacilityUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("facilities")
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("facilities")
 }
 
 enum TestimonialType {
@@ -579,30 +578,30 @@ enum TestimonialType {
 }
 
 model Testimonial {
-  id          String          @id @default(cuid())
-  name        String
-  role        String?
-  type        TestimonialType
-  message     String          @db.Text
-  imageUrl    String?
-  rating      Int             @default(5)
-  status      ContentStatus   @default(DRAFT)
-  displayOrder Int            @default(0)
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  createdById String?
-  updatedById String?
-  deletedAt   DateTime?
+  id           String          @id @default(cuid())
+  name         String
+  role         String?
+  type         TestimonialType
+  message      String          @db.Text
+  imageUrl     String?
+  rating       Int             @default(5)
+  status       ContentStatus   @default(DRAFT)
+  displayOrder Int             @default(0)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  createdById  String?
+  updatedById  String?
+  deletedAt    DateTime?
 
   createdBy User? @relation("TestimonialCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("TestimonialUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
 
-  @@map("testimonials")
   @@index([type])
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("testimonials")
 }
 
 // ============================================================
@@ -610,41 +609,41 @@ model Testimonial {
 // ============================================================
 
 model BlogCategory {
-  id          String        @id @default(cuid())
-  name        String
-  slug        String        @unique
-  description String?
-  status      ContentStatus @default(DRAFT)
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  description  String?
+  status       ContentStatus @default(DRAFT)
   displayOrder Int           @default(0)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  createdById String?
-  deletedAt   DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  createdById  String?
+  deletedAt    DateTime?
 
-  createdBy   User?             @relation("BlogCategoryCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  postLinks   BlogPostCategory[]
+  createdBy User?              @relation("BlogCategoryCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  postLinks BlogPostCategory[]
 
-  @@map("blog_categories")
   @@index([status])
   @@index([displayOrder])
   @@index([status, displayOrder])
   @@index([deletedAt])
+  @@map("blog_categories")
 }
 
 model BlogTag {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
-  slug        String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  slug        String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   createdById String?
   deletedAt   DateTime?
 
-  createdBy User?       @relation("BlogTagCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy User?         @relation("BlogTagCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   postLinks BlogPostTag[]
 
-  @@map("blog_tags")
   @@index([deletedAt])
+  @@map("blog_tags")
 }
 
 enum BlogStatus {
@@ -655,43 +654,43 @@ enum BlogStatus {
 }
 
 model BlogPost {
-  id              String      @id @default(cuid())
-  title           String
-  slug            String      @unique
-  excerpt         String?
-  content         String      @db.Text
-  featuredImage   String?
-  status          BlogStatus  @default(DRAFT)
-  publishedAt     DateTime?
-  authorId        String
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  createdById     String?
-  updatedById     String?
-  deletedAt       DateTime?
+  id            String     @id @default(cuid())
+  title         String
+  slug          String     @unique
+  excerpt       String?
+  content       String     @db.Text
+  featuredImage String?
+  status        BlogStatus @default(DRAFT)
+  publishedAt   DateTime?
+  authorId      String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  createdById   String?
+  updatedById   String?
+  deletedAt     DateTime?
 
-  author          User?        @relation("BlogPostAuthor", fields: [authorId], references: [id], onDelete: Restrict)
-  createdBy       User?        @relation("BlogPostCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy       User?        @relation("BlogPostUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
-  categories      BlogPostCategory[]
-  tags            BlogPostTag[]
-  seo             SeoMeta[]
+  author     User?              @relation("BlogPostAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+  createdBy  User?              @relation("BlogPostCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy  User?              @relation("BlogPostUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  categories BlogPostCategory[]
+  tags       BlogPostTag[]
+  seo        SeoMeta[]
 
-  @@map("blog_posts")
   @@index([status])
   @@index([publishedAt])
   @@index([status, publishedAt])
   @@index([authorId])
   @@index([createdAt])
   @@index([deletedAt])
+  @@map("blog_posts")
 }
 
 model BlogPostCategory {
   blogPostId String
   categoryId String
 
-  blogPost     BlogPost     @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
-  category     BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  blogPost BlogPost     @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  category BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@id([blogPostId, categoryId])
   @@map("blog_post_categories")
@@ -730,11 +729,11 @@ model ContactMessage {
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
 
-  @@map("contact_messages")
   @@index([email])
   @@index([status])
   @@index([status, createdAt])
   @@index([createdAt])
+  @@map("contact_messages")
 }
 
 // ============================================================
@@ -742,35 +741,35 @@ model ContactMessage {
 // ============================================================
 
 model SiteSetting {
-  id         String   @id @default(cuid())
-  key        String   @unique
-  value      String?  @db.Text
-  group      String?
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String?  @db.Text
+  group       String?
   description String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  @@map("site_settings")
   @@index([group])
+  @@map("site_settings")
 }
 
 model NavigationItem {
-  id          String  @id @default(cuid())
-  label       String
-  url         String
-  position    String?
-  parentId    String?
-  displayOrder Int    @default(0)
-  status      ContentStatus @default(PUBLISHED)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String        @id @default(cuid())
+  label        String
+  url          String
+  position     String?
+  parentId     String?
+  displayOrder Int           @default(0)
+  status       ContentStatus @default(PUBLISHED)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   parent   NavigationItem?  @relation("NavigationParent", fields: [parentId], references: [id], onDelete: SetNull)
   children NavigationItem[] @relation("NavigationParent")
 
-  @@map("navigation_items")
   @@index([parentId])
   @@index([position])
   @@index([status])
   @@index([displayOrder])
+  @@map("navigation_items")
 }

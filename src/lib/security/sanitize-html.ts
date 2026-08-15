@@ -1,7 +1,4 @@
-import DOMPurify from "isomorphic-dompurify";
-
-const SAFE_URI =
-  /^(?:(?:https?|mailto|tel):|\/|data:image\/(?:png|jpe?g|gif|webp);base64,|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i;
+import sanitizeHtml from "sanitize-html";
 
 /**
  * Server-side HTML sanitization applied to rich content before it is stored.
@@ -9,9 +6,8 @@ const SAFE_URI =
  * trust content that arrives over the wire.
  */
 export function sanitizeRichHtml(html: string): string {
-  return DOMPurify.sanitize(html, {
-    USE_PROFILES: { html: true },
-    ALLOWED_TAGS: [
+  return sanitizeHtml(html, {
+    allowedTags: [
       "p",
       "br",
       "h1",
@@ -44,41 +40,17 @@ export function sanitizeRichHtml(html: string): string {
       "th",
       "td",
     ],
-    ALLOWED_ATTR: [
-      "href",
-      "target",
-      "rel",
-      "src",
-      "alt",
-      "title",
-      "class",
-      "colspan",
-      "rowspan",
-    ],
-    ALLOWED_URI_REGEXP: SAFE_URI,
-    FORBID_TAGS: [
-      "style",
-      "form",
-      "input",
-      "button",
-      "iframe",
-      "object",
-      "embed",
-      "script",
-      "svg",
-      "math",
-      "link",
-      "meta",
-    ],
-    FORBID_ATTR: [
-      "style",
-      "onerror",
-      "onload",
-      "onclick",
-      "onmouseover",
-      "onmouseout",
-      "onkeydown",
-      "onkeyup",
-    ],
+    allowedAttributes: {
+      "*": ["class"],
+      a: ["href", "target", "rel"],
+      img: ["src", "alt", "title"],
+      td: ["colspan", "rowspan"],
+      th: ["colspan", "rowspan"],
+    },
+    allowedSchemes: ["http", "https", "mailto", "tel"],
+    allowedSchemesByTag: {
+      img: ["http", "https", "data"],
+    },
+    allowProtocolRelative: false,
   });
 }

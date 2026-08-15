@@ -45,7 +45,7 @@ if (isProduction) {
 
 const nextConfig: NextConfig = {
   output: process.env.VERCEL ? undefined : "standalone",
-  serverExternalPackages: ["@prisma/client", "bcryptjs", "isomorphic-dompurify", "jsdom"],
+  serverExternalPackages: ["@prisma/client", "bcryptjs", "jsdom"],
   headers: async () => [
     {
       source: "/(.*)",
