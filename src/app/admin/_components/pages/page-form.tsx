@@ -43,7 +43,7 @@ function toDateTimeLocal(value?: string): string {
   )}:${pad(date.getMinutes())}`;
 }
 
-export function PageForm({ mode, initial }: PageFormProps) {
+export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<PageFormData>({
@@ -67,7 +67,7 @@ export function PageForm({ mode, initial }: PageFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.title.trim()) {
@@ -123,8 +123,14 @@ export function PageForm({ mode, initial }: PageFormProps) {
     }
   }
 
+  const actionText = mode === "edit" ? "Save Changes" : "Create Page";
+  const submitButtonText = saving ? "Saving..." : actionText;
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-8 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-8 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div className="space-y-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
@@ -347,7 +353,7 @@ export function PageForm({ mode, initial }: PageFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Page"}
+          {submitButtonText}
         </button>
       </div>
     </form>

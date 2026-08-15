@@ -6,6 +6,14 @@ import { toast } from "sonner";
 
 import SidebarPostTab from "../../_components/editor/SidebarPost";
 import EditorMain from "../../_components/editor/EditorMain";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
 
 type PostForm = {
   slug: string;
@@ -74,7 +82,7 @@ export function BlogEditorForm({
 
   function setField(
     key: string,
-    value: string | number | number[] | string[] | Record<string, string>,
+    value: string | number | number[] | string[] | Record<string, string>
   ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
@@ -105,23 +113,20 @@ export function BlogEditorForm({
     };
 
     try {
-      const response = await fetch(
-        isEdit ? `/api/v1/admin/blogs/${id}` : "/api/v1/admin/blogs",
-        {
-          method: isEdit ? "PATCH" : "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title,
-            slug: form.slug || undefined,
-            excerpt: form.excerpt || undefined,
-            content,
-            featuredImage: form.featuredImageUrl || undefined,
-            status,
-            categoryName: form.category || undefined,
-            seo,
-          }),
-        },
-      );
+      const response = await fetch(isEdit ? `/api/v1/admin/blogs/${id}` : "/api/v1/admin/blogs", {
+        method: isEdit ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          slug: form.slug || undefined,
+          excerpt: form.excerpt || undefined,
+          content,
+          featuredImage: form.featuredImageUrl || undefined,
+          status,
+          categoryName: form.category || undefined,
+          seo,
+        }),
+      });
 
       if (response.status === 401) {
         router.push("/auth/login?callbackUrl=/admin/blogs");
@@ -136,8 +141,7 @@ export function BlogEditorForm({
       const body = await response.json().catch(() => null);
 
       if (!response.ok) {
-        const message =
-          body?.error?.message ?? body?.message ?? "Failed to save the post.";
+        const message = body?.error?.message ?? body?.message ?? "Failed to save the post.";
         toast.error(message);
         return;
       }
@@ -152,6 +156,13 @@ export function BlogEditorForm({
     }
   }
 
+  let submitButtonText = "Save Draft";
+  if (saving) {
+    submitButtonText = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonText = "Update Post";
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -159,32 +170,26 @@ export function BlogEditorForm({
           <h1 className="text-lg font-semibold text-slate-900">
             {mode === "edit" ? "Edit Blog Post" : "New Blog Post"}
           </h1>
-          <p className="mt-1 text-sm text-slate-600">
-            Draft content using the rich text editor.
-          </p>
+          <p className="mt-1 text-sm text-slate-600">Draft content using the rich text editor.</p>
         </div>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 text-sm text-slate-600">
             Status
-            <select
-              value={status}
-              onChange={(event) => setStatus(event.target.value)}
-              className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200"
-            >
-              <option value="DRAFT">DRAFT</option>
-              <option value="PUBLISHED">PUBLISHED</option>
-              <option value="SCHEDULED">SCHEDULED</option>
-              <option value="ARCHIVED">ARCHIVED</option>
-            </select>
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger className="w-[140px] bg-white">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="DRAFT">DRAFT</SelectItem>
+                <SelectItem value="PUBLISHED">PUBLISHED</SelectItem>
+                <SelectItem value="SCHEDULED">SCHEDULED</SelectItem>
+                <SelectItem value="ARCHIVED">ARCHIVED</SelectItem>
+              </SelectContent>
+            </Select>
           </label>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={saving}
-            className="inline-flex items-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-60"
-          >
-            {saving ? "Saving..." : mode === "edit" ? "Update Post" : "Save Draft"}
-          </button>
+          <Button type="button" onClick={handleSubmit} disabled={saving}>
+            {submitButtonText}
+          </Button>
         </div>
       </div>
 

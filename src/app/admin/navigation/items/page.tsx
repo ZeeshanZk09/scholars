@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { NavigationService } from "@/services/navigation";
 import { DeleteButton } from "../../_components/school/delete-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Navigation Items",
@@ -20,7 +21,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function AdminNavigationItemsPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

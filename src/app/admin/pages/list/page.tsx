@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { PageService } from "@/services/pages";
 import { DeleteButton } from "../../_components/school/delete-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Pages & SEO",
@@ -20,7 +21,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function AdminPagesListPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -86,9 +87,7 @@ export default async function AdminPagesListPage() {
                 <tr key={page.id}>
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {page.title}
-                    <span className="block text-xs font-normal text-slate-500">
-                      /{page.slug}
-                    </span>
+                    <span className="block text-xs font-normal text-slate-500">/{page.slug}</span>
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
                     {page.sectionCount}
@@ -130,11 +129,7 @@ export default async function AdminPagesListPage() {
                         <Pencil className="h-4 w-4 text-slate-300" />
                       )}
                       {canDelete ? (
-                        <DeleteButton
-                          id={page.id}
-                          endpoint="/api/v1/admin/pages"
-                          label="Delete"
-                        />
+                        <DeleteButton id={page.id} endpoint="/api/v1/admin/pages" label="Delete" />
                       ) : null}
                     </div>
                   </td>

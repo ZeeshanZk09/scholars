@@ -27,7 +27,7 @@ export function AdmissionRequirementForm({
   mode,
   initial,
   periods,
-}: AdmissionRequirementFormProps) {
+}: Readonly<AdmissionRequirementFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<AdmissionRequirementFormData>({
@@ -93,16 +93,17 @@ export function AdmissionRequirementForm({
       );
       router.refresh();
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to save admission requirement"
-      );
+      toast.error(error instanceof Error ? error.message : "Failed to save admission requirement");
     } finally {
       setSaving(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div>
         <label htmlFor="period" className="block text-sm font-medium text-slate-900">
           Admission Period

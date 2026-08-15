@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { FacilityService } from "@/services/facilities";
 import { FacilityForm } from "../../_components/facilities/facility-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Facility",
@@ -15,10 +16,8 @@ export const metadata: Metadata = {
 
 export default async function EditFacilityPage({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  let user;
+}: Readonly<{ params: Promise<{ id: string }> }>) {
+  let user: User;
 
   try {
     user = await requireUser();

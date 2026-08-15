@@ -40,7 +40,9 @@ export default async function CollegePage() {
     : [];
 
   const streams = Array.from(
-    new Set(programs.map((program) => program.groupName).filter((name): name is string => Boolean(name)))
+    new Set(
+      programs.map((program) => program.groupName).filter((name): name is string => Boolean(name))
+    )
   );
 
   return (
@@ -63,9 +65,7 @@ export default async function CollegePage() {
           {streams.length > 0 ? (
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {streams.map((stream) => {
-                const count = programs.filter(
-                  (program) => program.groupName === stream
-                ).length;
+                const count = programs.filter((program) => program.groupName === stream).length;
                 return (
                   <div key={stream} className="rounded-lg border bg-surface p-6">
                     <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-navy text-white">
@@ -177,9 +177,7 @@ export default async function CollegePage() {
                 <dl className="mt-6 space-y-3 text-sm">
                   <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">
                     <dt className="text-slate-600">Session</dt>
-                    <dd className="font-medium text-slate-900">
-                      {collegePeriod.session.name}
-                    </dd>
+                    <dd className="font-medium text-slate-900">{collegePeriod.session.name}</dd>
                   </div>
                   {collegePeriod.openingDate ? (
                     <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">

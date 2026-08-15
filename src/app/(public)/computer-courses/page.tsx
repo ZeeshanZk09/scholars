@@ -48,9 +48,7 @@ export default async function ComputerCoursesPage() {
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {courses.length > 0 ? (
-              courses.map((course) => (
-                <ComputerCourseCard key={course.id} course={course} />
-              ))
+              courses.map((course) => <ComputerCourseCard key={course.id} course={course} />)
             ) : (
               <EmptyState
                 className="col-span-full"
@@ -73,10 +71,7 @@ export default async function ComputerCoursesPage() {
             />
             <div className="mt-12 space-y-6">
               {courses.map((course) => (
-                <article
-                  key={course.id}
-                  className="overflow-hidden rounded-xl border bg-white"
-                >
+                <article key={course.id} className="overflow-hidden rounded-xl border bg-white">
                   <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
                     <div>
                       <h2 className="text-lg font-semibold text-navy">{course.name}</h2>

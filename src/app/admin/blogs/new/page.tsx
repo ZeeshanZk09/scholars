@@ -5,6 +5,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BlogService } from "@/services/blogs";
 import { BlogEditorForm } from "./blog-editor-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Blog Post",
@@ -19,7 +20,7 @@ const EDUCATIONAL_SEGMENTS = [
 ];
 
 export default async function NewBlogPostPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

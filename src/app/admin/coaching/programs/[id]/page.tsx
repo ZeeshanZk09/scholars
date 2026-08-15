@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { CoachingProgramService } from "@/services/coaching";
 import { CoachingProgramForm } from "../../../_components/coaching/coaching-program-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Coaching Program",
@@ -15,10 +16,10 @@ export const metadata: Metadata = {
 
 export default async function EditCoachingProgramPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();

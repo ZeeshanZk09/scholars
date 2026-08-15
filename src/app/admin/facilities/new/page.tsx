@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { FacilityForm } from "../../_components/facilities/facility-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Facility",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewFacilityPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

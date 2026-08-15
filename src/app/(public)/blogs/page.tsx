@@ -24,7 +24,7 @@ type BlogsPageProps = {
   searchParams: Promise<{ page?: string }>;
 };
 
-export default async function BlogsPage({ searchParams }: BlogsPageProps) {
+export default async function BlogsPage({ searchParams }: Readonly<BlogsPageProps>) {
   const { page } = await searchParams;
   const currentPage = Math.max(1, Number(page) || 1);
   const skip = (currentPage - 1) * PAGE_SIZE;

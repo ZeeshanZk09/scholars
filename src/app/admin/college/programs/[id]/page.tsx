@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ProgramService } from "@/services/programs";
 import { ProgramForm } from "../../../_components/college/program-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit College Program",
@@ -18,7 +19,7 @@ export default async function EditCollegeProgramPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

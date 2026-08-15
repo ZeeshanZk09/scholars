@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { SchoolService } from "@/services/academics";
 import { LevelForm } from "../../../_components/school/level-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Academic Level",
@@ -15,10 +16,10 @@ export const metadata: Metadata = {
 
 export default async function EditAcademicLevelPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();

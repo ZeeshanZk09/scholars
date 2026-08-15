@@ -6,6 +6,7 @@ import { Mail } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ContactService } from "@/services/contact";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Contact Inquiries",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminContactPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

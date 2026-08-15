@@ -37,12 +37,17 @@ const getBlogCached = cache(async (slug: string) => {
   }
 });
 
-export async function generateMetadata({
-  params,
-}: BlogDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlogCached(slug);
   const seo = blog.seo[0];
+
+  let images;
+  if (seo?.ogImage) {
+    images = [{ url: seo.ogImage }];
+  } else if (blog.featuredImage) {
+    images = [{ url: blog.featuredImage }];
+  }
 
   return {
     title: seo?.seoTitle ?? blog.title,
@@ -59,16 +64,12 @@ export async function generateMetadata({
       url: `/blogs/${blog.slug}`,
       publishedTime: (blog.publishedAt ?? blog.createdAt).toISOString(),
       authors: blog.author?.name ? [blog.author.name] : undefined,
-      images: seo?.ogImage
-        ? [{ url: seo.ogImage }]
-        : blog.featuredImage
-          ? [{ url: blog.featuredImage }]
-          : undefined,
+      images,
     },
   };
 }
 
-export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+export default async function BlogDetailPage({ params }: Readonly<BlogDetailPageProps>) {
   const { slug } = await params;
   const blog = await getBlogCached(slug);
   const seo = blog.seo[0];
@@ -81,9 +82,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     datePublished: (blog.publishedAt ?? blog.createdAt).toISOString(),
     dateModified: blog.updatedAt.toISOString(),
     image: seo?.ogImage ?? blog.featuredImage ?? undefined,
-    author: blog.author?.name
-      ? { "@type": "Person", name: blog.author.name }
-      : undefined,
+    author: blog.author?.name ? { "@type": "Person", name: blog.author.name } : undefined,
     publisher: {
       "@type": "Organization",
       name: siteConfig.fullName,

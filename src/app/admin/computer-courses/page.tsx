@@ -6,6 +6,7 @@ import { Monitor, Plus } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ComputerCourseService } from "@/services/computer-courses";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Computer Courses",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminComputerCoursesPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -33,8 +34,8 @@ export default async function AdminComputerCoursesPage() {
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Computer Courses Module</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage computer education courses, outlines, schedules and admission status shown
-            on the public Computer Courses page.
+            Manage computer education courses, outlines, schedules and admission status shown on the
+            public Computer Courses page.
           </p>
         </div>
         <Link

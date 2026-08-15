@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { AdmissionPeriodForm } from "../../../_components/admissions/admission-period-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Admission Period",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewAdmissionPeriodPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

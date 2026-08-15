@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
 import { InquiryStatusButton } from "../../_components/admissions/inquiry-status-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Applications",
@@ -24,7 +25,7 @@ function formatDate(value: Date): string {
 }
 
 export default async function AdminAdmissionInquiriesPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -87,9 +88,7 @@ export default async function AdminAdmissionInquiriesPage() {
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
                     {inquiry.phone}
-                    {inquiry.email ? (
-                      <span className="block text-xs">{inquiry.email}</span>
-                    ) : null}
+                    {inquiry.email ? <span className="block text-xs">{inquiry.email}</span> : null}
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 lg:table-cell">
                     {inquiry.interestedProgram ?? inquiry.classOrCourse ?? "—"}

@@ -17,7 +17,7 @@ type SiteSettingFormProps = {
   initial?: Partial<SiteSettingFormData> & { id?: string };
 };
 
-export function SiteSettingForm({ mode, initial }: SiteSettingFormProps) {
+export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<SiteSettingFormData>({
@@ -31,7 +31,7 @@ export function SiteSettingForm({ mode, initial }: SiteSettingFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.key.trim()) {
@@ -77,8 +77,18 @@ export function SiteSettingForm({ mode, initial }: SiteSettingFormProps) {
     }
   }
 
+  let submitButtonText = "Create Setting";
+  if (saving) {
+    submitButtonText = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonText = "Save Changes";
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="key" className="block text-sm font-medium text-slate-900">
@@ -152,7 +162,7 @@ export function SiteSettingForm({ mode, initial }: SiteSettingFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Setting"}
+          {submitButtonText}
         </button>
       </div>
     </form>

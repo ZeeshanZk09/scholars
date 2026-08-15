@@ -8,6 +8,7 @@ import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
 import { DeleteButton } from "../../_components/school/delete-button";
 import { PeriodSelect } from "../../_components/admissions/period-select";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Admission Requirements",
@@ -16,10 +17,10 @@ export const metadata: Metadata = {
 
 export default async function AdminAdmissionRequirementsPage({
   searchParams,
-}: {
+}: Readonly<{
   searchParams: Promise<{ periodId?: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();
@@ -37,11 +38,8 @@ export default async function AdminAdmissionRequirementsPage({
   const { periodId } = await searchParams;
 
   const { items: periods } = await admissions.listPeriods({ skip: 0, take: 100 });
-  const selectedPeriod =
-    periods.find((period) => period.id === periodId) ?? periods[0] ?? null;
-  const requirements = selectedPeriod
-    ? await admissions.listRequirements(selectedPeriod.id)
-    : [];
+  const selectedPeriod = periods.find((period) => period.id === periodId) ?? periods[0] ?? null;
+  const requirements = selectedPeriod ? await admissions.listRequirements(selectedPeriod.id) : [];
 
   return (
     <div className="space-y-6">

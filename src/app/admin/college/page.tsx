@@ -6,6 +6,7 @@ import { BookOpen, Plus } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ProgramService } from "@/services/programs";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "College",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminCollegePage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -33,8 +34,8 @@ export default async function AdminCollegePage() {
         <div>
           <h1 className="text-lg font-semibold text-slate-900">College Module</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage intermediate programs, academic streams and eligibility shown on the
-            public College page.
+            Manage intermediate programs, academic streams and eligibility shown on the public
+            College page.
           </p>
         </div>
         <Link

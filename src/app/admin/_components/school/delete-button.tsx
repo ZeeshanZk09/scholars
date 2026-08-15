@@ -10,7 +10,7 @@ type DeleteButtonProps = {
   label?: string;
 };
 
-export function DeleteButton({ id, endpoint, label = "Delete" }: DeleteButtonProps) {
+export function DeleteButton({ id, endpoint, label = "Delete" }: Readonly<DeleteButtonProps>) {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
 

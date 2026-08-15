@@ -43,13 +43,11 @@ export default async function SchoolPage() {
     ? await new AdmissionsService().listRequirements(schoolPeriod.id)
     : [];
 
-  const orderedClasses = [...classes].sort(
-    (a, b) => a.displayOrder - b.displayOrder
-  );
+  const orderedClasses = [...classes].sort((a, b) => a.displayOrder - b.displayOrder);
   const gradeRange =
     orderedClasses.length > 1
-      ? `${orderedClasses[0]?.name ?? "—"} to ${orderedClasses[orderedClasses.length - 1]?.name ?? "—"}`
-      : orderedClasses[0]?.name ?? "—";
+      ? `${orderedClasses[0]?.name ?? "—"} to ${orderedClasses.at(-1)?.name ?? "—"}`
+      : (orderedClasses[0]?.name ?? "—");
 
   return (
     <>
@@ -198,9 +196,7 @@ export default async function SchoolPage() {
             {schoolPeriod ? (
               <div className="rounded-xl border bg-white p-6 sm:p-8">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <h3 className="text-xl font-semibold text-navy">
-                    {schoolPeriod.title}
-                  </h3>
+                  <h3 className="text-xl font-semibold text-navy">{schoolPeriod.title}</h3>
                   <StatusBadge status={schoolPeriod.status} />
                 </div>
                 {schoolPeriod.description ? (
@@ -211,9 +207,7 @@ export default async function SchoolPage() {
                 <dl className="mt-6 space-y-3 text-sm">
                   <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">
                     <dt className="text-slate-600">Session</dt>
-                    <dd className="font-medium text-slate-900">
-                      {schoolPeriod.session.name}
-                    </dd>
+                    <dd className="font-medium text-slate-900">{schoolPeriod.session.name}</dd>
                   </div>
                   {schoolPeriod.openingDate ? (
                     <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">

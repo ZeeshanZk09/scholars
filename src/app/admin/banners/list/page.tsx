@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BannerService } from "@/services/banners";
 import { DeleteButton } from "../../_components/school/delete-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Banners List",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminBannersListPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

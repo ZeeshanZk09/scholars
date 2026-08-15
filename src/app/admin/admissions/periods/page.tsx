@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
 import { DeleteButton } from "../../_components/school/delete-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Admission Periods",
@@ -27,7 +28,7 @@ function formatDate(value: Date | null): string {
 }
 
 export default async function AdminAdmissionPeriodsPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

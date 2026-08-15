@@ -6,6 +6,7 @@ import { Building2, Plus } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { FacilityService } from "@/services/facilities";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Facilities",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminFacilitiesPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

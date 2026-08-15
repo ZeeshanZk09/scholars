@@ -6,6 +6,7 @@ import { PenTool, Plus } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { CoachingProgramService } from "@/services/coaching";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Coaching",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminCoachingPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -33,8 +34,8 @@ export default async function AdminCoachingPage() {
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Coaching Module</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage coaching programs, classes, subjects and timings shown on the public
-            Coaching page.
+            Manage coaching programs, classes, subjects and timings shown on the public Coaching
+            page.
           </p>
         </div>
         <Link

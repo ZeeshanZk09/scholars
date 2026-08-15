@@ -6,6 +6,7 @@ import { BookOpenCheck } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ProgramService } from "@/services/programs";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Programs Module",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminProgramsPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

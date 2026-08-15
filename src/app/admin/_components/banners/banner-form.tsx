@@ -25,7 +25,7 @@ type BannerFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function BannerForm({ mode, initial }: BannerFormProps) {
+export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<BannerFormData>({
@@ -45,7 +45,7 @@ export function BannerForm({ mode, initial }: BannerFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.title.trim()) {
@@ -74,9 +74,7 @@ export function BannerForm({ mode, initial }: BannerFormProps) {
 
     try {
       const response = await fetch(
-        mode === "edit"
-          ? `/api/v1/admin/banners/${initial?.id}`
-          : "/api/v1/admin/banners",
+        mode === "edit" ? `/api/v1/admin/banners/${initial?.id}` : "/api/v1/admin/banners",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
@@ -101,8 +99,18 @@ export function BannerForm({ mode, initial }: BannerFormProps) {
     }
   }
 
+  let submitButtonText = "Create Banner";
+  if (saving) {
+    submitButtonText = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonText = "Save Changes";
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-slate-900">
           Title <span className="text-red-600">*</span>
@@ -269,7 +277,7 @@ export function BannerForm({ mode, initial }: BannerFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Banner"}
+          {submitButtonText}
         </button>
       </div>
     </form>

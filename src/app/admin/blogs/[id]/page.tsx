@@ -5,6 +5,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BlogService } from "@/services/blogs";
 import { BlogEditorForm } from "../new/blog-editor-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Blog Post",
@@ -20,10 +21,8 @@ const EDUCATIONAL_SEGMENTS = [
 
 export default async function EditBlogPostPage({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  let user;
+}: Readonly<{ params: Promise<{ id: string }> }>) {
+  let user: User;
 
   try {
     user = await requireUser();

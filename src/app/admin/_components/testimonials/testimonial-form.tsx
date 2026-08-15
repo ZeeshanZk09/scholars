@@ -24,7 +24,7 @@ type TestimonialFormProps = {
 const TYPE_OPTIONS = ["STUDENT", "PARENT", "ALUMNI"] as const;
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function TestimonialForm({ mode, initial }: TestimonialFormProps) {
+export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<TestimonialFormData>({
@@ -42,7 +42,7 @@ export function TestimonialForm({ mode, initial }: TestimonialFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.name.trim()) {
@@ -99,8 +99,18 @@ export function TestimonialForm({ mode, initial }: TestimonialFormProps) {
     }
   }
 
+  let buttonText = "Create Testimonial";
+  if (saving) {
+    buttonText = "Saving...";
+  } else if (mode === "edit") {
+    buttonText = "Save Changes";
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-slate-900">
@@ -138,7 +148,9 @@ export function TestimonialForm({ mode, initial }: TestimonialFormProps) {
           <select
             id="type"
             value={form.type}
-            onChange={(event) => setField("type", event.target.value as TestimonialFormData["type"])}
+            onChange={(event) =>
+              setField("type", event.target.value as TestimonialFormData["type"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {TYPE_OPTIONS.map((type) => (
@@ -200,7 +212,9 @@ export function TestimonialForm({ mode, initial }: TestimonialFormProps) {
           <select
             id="status"
             value={form.status}
-            onChange={(event) => setField("status", event.target.value as TestimonialFormData["status"])}
+            onChange={(event) =>
+              setField("status", event.target.value as TestimonialFormData["status"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {STATUS_OPTIONS.map((status) => (
@@ -238,7 +252,7 @@ export function TestimonialForm({ mode, initial }: TestimonialFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Testimonial"}
+          {buttonText}
         </button>
       </div>
     </form>

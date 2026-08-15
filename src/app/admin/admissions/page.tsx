@@ -6,6 +6,7 @@ import { CalendarClock, ClipboardList, GraduationCap, Inbox, Plus } from "lucide
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Admissions",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminAdmissionsPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -129,9 +130,9 @@ export default async function AdminAdmissionsPage() {
           </div>
           <h2 className="mt-4 text-sm font-semibold text-slate-900">Admission Status</h2>
           <p className="mt-1 text-xs leading-relaxed text-slate-500">
-            Set each period to COMING_SOON, OPEN or CLOSED from the Admission Periods section.
-            The public website reflects the current status automatically and closed periods do
-            not accept applications.
+            Set each period to COMING_SOON, OPEN or CLOSED from the Admission Periods section. The
+            public website reflects the current status automatically and closed periods do not
+            accept applications.
           </p>
         </div>
       </div>

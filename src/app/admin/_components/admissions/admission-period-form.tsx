@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type AdmissionPeriodFormData = {
   sessionId: string;
@@ -45,7 +47,11 @@ function toDateTimeLocal(value?: string): string {
   )}:${pad(date.getMinutes())}`;
 }
 
-export function AdmissionPeriodForm({ mode, initial, sessions }: AdmissionPeriodFormProps) {
+export function AdmissionPeriodForm({
+  mode,
+  initial,
+  sessions,
+}: Readonly<AdmissionPeriodFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<AdmissionPeriodFormData>({
@@ -66,7 +72,7 @@ export function AdmissionPeriodForm({ mode, initial, sessions }: AdmissionPeriod
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: SyntheticEvent) {
     event.preventDefault();
 
     if (!form.title.trim()) {
@@ -116,8 +122,13 @@ export function AdmissionPeriodForm({ mode, initial, sessions }: AdmissionPeriod
     }
   }
 
+  const submitText = mode === "edit" ? "Save Changes" : "Create Period";
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-slate-900">
@@ -236,15 +247,15 @@ export function AdmissionPeriodForm({ mode, initial, sessions }: AdmissionPeriod
           </p>
         </div>
 
-        <label className="flex items-center gap-2 pt-6 text-sm font-medium text-slate-900">
-          <input
+        <Label className="flex items-center gap-2 pt-6 text-sm font-medium text-slate-900">
+          <Input
             type="checkbox"
             checked={form.isActive}
             onChange={(event) => setField("isActive", event.target.checked)}
             className="h-4 w-4 rounded border-slate-300"
           />
           Active (featured on the public site)
-        </label>
+        </Label>
       </div>
 
       <div className="flex items-center justify-end gap-3 border-t border-slate-100 pt-5">
@@ -259,7 +270,7 @@ export function AdmissionPeriodForm({ mode, initial, sessions }: AdmissionPeriod
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Period"}
+          {saving ? "Saving..." : submitText}
         </button>
       </div>
     </form>

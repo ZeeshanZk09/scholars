@@ -25,7 +25,7 @@ type ProgramFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function ProgramForm({ mode, initial }: ProgramFormProps) {
+export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<ProgramFormData>({
@@ -45,7 +45,7 @@ export function ProgramForm({ mode, initial }: ProgramFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.name.trim()) {
@@ -94,8 +94,18 @@ export function ProgramForm({ mode, initial }: ProgramFormProps) {
     }
   }
 
+  let submitButtonText = "Create Program";
+  if (saving) {
+    submitButtonText = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonText = "Save Changes";
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-slate-900">
           Name <span className="text-red-600">*</span>
@@ -216,7 +226,9 @@ export function ProgramForm({ mode, initial }: ProgramFormProps) {
           <select
             id="status"
             value={form.status}
-            onChange={(event) => setField("status", event.target.value as ProgramFormData["status"])}
+            onChange={(event) =>
+              setField("status", event.target.value as ProgramFormData["status"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {STATUS_OPTIONS.map((status) => (
@@ -254,7 +266,7 @@ export function ProgramForm({ mode, initial }: ProgramFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Program"}
+          {submitButtonText}
         </button>
       </div>
     </form>

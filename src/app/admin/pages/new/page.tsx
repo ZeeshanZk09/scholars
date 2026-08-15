@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { PageForm } from "../../_components/pages/page-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Page",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewPageForm() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -36,9 +37,7 @@ export default async function NewPageForm() {
           Back to Pages
         </Link>
         <h1 className="text-lg font-semibold text-slate-900">New Page</h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Create a page with content and SEO metadata.
-        </p>
+        <p className="mt-1 text-sm text-slate-600">Create a page with content and SEO metadata.</p>
       </div>
 
       <PageForm mode="create" />

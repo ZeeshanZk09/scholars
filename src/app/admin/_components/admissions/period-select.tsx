@@ -8,7 +8,7 @@ type PeriodSelectProps = {
   emptyLabel: string;
 };
 
-export function PeriodSelect({ value, periods, emptyLabel }: PeriodSelectProps) {
+export function PeriodSelect({ value, periods, emptyLabel }: Readonly<PeriodSelectProps>) {
   const router = useRouter();
 
   return (

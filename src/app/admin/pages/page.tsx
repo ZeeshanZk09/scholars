@@ -6,6 +6,7 @@ import { FileText, Plus } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { PageService } from "@/services/pages";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Pages & SEO",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminPagesPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -63,9 +64,7 @@ export default async function AdminPagesPage() {
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
           {publishedCount} published · {pages.length - publishedCount} draft/archived
         </p>
-        <span className="mt-3 inline-block text-sm font-medium text-slate-700">
-          Manage Pages →
-        </span>
+        <span className="mt-3 inline-block text-sm font-medium text-slate-700">Manage Pages →</span>
       </Link>
     </div>
   );

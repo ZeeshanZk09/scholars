@@ -17,7 +17,7 @@ const STATUS_OPTIONS: { value: InquiryStatus; label: string }[] = [
   { value: "CLOSED", label: "Closed" },
 ];
 
-export function InquiryStatusButton({ id, current }: InquiryStatusButtonProps) {
+export function InquiryStatusButton({ id, current }: Readonly<InquiryStatusButtonProps>) {
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
 

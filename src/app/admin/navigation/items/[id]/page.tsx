@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { NavigationService } from "@/services/navigation";
 import { NavigationItemForm } from "../../../_components/navigation/navigation-item-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Navigation Item",
@@ -15,10 +16,10 @@ export const metadata: Metadata = {
 
 export default async function EditNavigationItemPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();

@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ComputerCourseService } from "@/services/computer-courses";
 import { DeleteButton } from "../../_components/school/delete-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Computer Courses",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminComputerCoursesListPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -80,9 +81,7 @@ export default async function AdminComputerCoursesListPage() {
                 <tr key={course.id}>
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {course.name}
-                    <span className="block text-xs font-normal text-slate-500">
-                      /{course.slug}
-                    </span>
+                    <span className="block text-xs font-normal text-slate-500">/{course.slug}</span>
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
                     {course.duration ?? "—"}

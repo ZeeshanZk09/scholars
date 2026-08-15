@@ -8,6 +8,7 @@ import { requireUser } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { AdmissionsService } from "@/services/admissions";
 import { AdmissionPeriodForm } from "../../../_components/admissions/admission-period-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Admission Period",
@@ -16,10 +17,10 @@ export const metadata: Metadata = {
 
 export default async function EditAdmissionPeriodPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();

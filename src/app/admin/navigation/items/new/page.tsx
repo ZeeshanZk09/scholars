@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { NavigationService } from "@/services/navigation";
 import { NavigationItemForm } from "../../../_components/navigation/navigation-item-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Navigation Item",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewNavigationItemPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -39,9 +40,7 @@ export default async function NewNavigationItemPage() {
           Back to Navigation Items
         </Link>
         <h1 className="text-lg font-semibold text-slate-900">New Navigation Item</h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Add a link to the main or footer navigation.
-        </p>
+        <p className="mt-1 text-sm text-slate-600">Add a link to the main or footer navigation.</p>
       </div>
 
       <NavigationItemForm

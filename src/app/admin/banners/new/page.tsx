@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BannerForm } from "../../_components/banners/banner-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Banner",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewBannerPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

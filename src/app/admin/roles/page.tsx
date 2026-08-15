@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getPermissionsForRole, hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { USER_ROLES, type Role } from "@/types/auth/roles.types";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Roles & Permissions",
@@ -21,7 +22,7 @@ const PERMISSION_ENTRIES = Object.entries(PERMISSIONS) as Array<
 >;
 
 export default async function AdminRolesPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -48,9 +49,7 @@ export default async function AdminRolesPage() {
         {roles.map((role) => (
           <div key={role} className="rounded-lg border border-slate-200 bg-white p-4">
             <h2 className="text-sm font-semibold text-slate-900">{role}</h2>
-            <p className="mt-1 text-xs leading-relaxed text-slate-500">
-              {ROLE_DESCRIPTIONS[role]}
-            </p>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500">{ROLE_DESCRIPTIONS[role]}</p>
           </div>
         ))}
       </div>
@@ -71,7 +70,7 @@ export default async function AdminRolesPage() {
             {PERMISSION_ENTRIES.map(([key, permission]) => (
               <tr key={permission}>
                 <td className="px-4 py-3 font-medium text-slate-900">
-                  {key.replace(/_/g, " ")}
+                  {key.replaceAll("_", " ")}
                   <span className="block text-xs font-normal text-slate-500">{permission}</span>
                 </td>
                 {roles.map((role) => (

@@ -28,7 +28,7 @@ export function NavigationItemForm({
   initial,
   parents,
   currentId,
-}: NavigationItemFormProps) {
+}: Readonly<NavigationItemFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<NavigationItemFormData>({
@@ -71,9 +71,7 @@ export function NavigationItemForm({
 
     try {
       const response = await fetch(
-        mode === "edit"
-          ? `/api/v1/admin/navigation/${initial?.id}`
-          : "/api/v1/admin/navigation",
+        mode === "edit" ? `/api/v1/admin/navigation/${initial?.id}` : "/api/v1/admin/navigation",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
@@ -101,7 +99,10 @@ export function NavigationItemForm({
   const availableParents = parents.filter((parent) => parent.id !== currentId);
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="label" className="block text-sm font-medium text-slate-900">

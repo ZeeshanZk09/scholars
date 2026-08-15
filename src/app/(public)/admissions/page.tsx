@@ -54,9 +54,7 @@ export default async function AdmissionsPage() {
   );
 
   const featuredPeriod = activePeriods[0] ?? periods.items[0];
-  const requirements = featuredPeriod
-    ? await admissions.listRequirements(featuredPeriod.id)
-    : [];
+  const requirements = featuredPeriod ? await admissions.listRequirements(featuredPeriod.id) : [];
 
   const hasActive = activePeriods.length > 0;
 
@@ -74,20 +72,14 @@ export default async function AdmissionsPage() {
         <Container className="py-16 sm:py-24">
           <SectionHeader
             eyebrow={hasActive ? "Open Now" : "Admission Periods"}
-            title={
-              hasActive
-                ? "Open Admission Periods"
-                : "Upcoming Admission Periods"
-            }
+            title={hasActive ? "Open Admission Periods" : "Upcoming Admission Periods"}
             description={
               "Check the admission periods below for the session, dates and status of each program area."
             }
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {activePeriods.length > 0 ? (
-              activePeriods.map((period) => (
-                <AdmissionCard key={period.id} period={period} />
-              ))
+              activePeriods.map((period) => <AdmissionCard key={period.id} period={period} />)
             ) : (
               <EmptyState
                 className="col-span-full"
@@ -123,41 +115,31 @@ export default async function AdmissionsPage() {
                   <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
                     {requirement.requiredDocuments ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Required Documents
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Required Documents</h3>
                         <p>{requirement.requiredDocuments}</p>
                       </div>
                     ) : null}
                     {requirement.applicationProcess ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Application Process
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Application Process</h3>
                         <p>{requirement.applicationProcess}</p>
                       </div>
                     ) : null}
                     {requirement.importantDates ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Important Dates
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Important Dates</h3>
                         <p>{requirement.importantDates}</p>
                       </div>
                     ) : null}
                     {requirement.feeInformation ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Fee Information
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Fee Information</h3>
                         <p>{requirement.feeInformation}</p>
                       </div>
                     ) : null}
                     {requirement.contactInformation ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Contact
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Contact</h3>
                         <p>{requirement.contactInformation}</p>
                       </div>
                     ) : null}
@@ -179,16 +161,11 @@ export default async function AdmissionsPage() {
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
-              <div
-                key={step.title}
-                className="rounded-lg border bg-surface p-6"
-              >
+              <div key={step.title} className="rounded-lg border bg-surface p-6">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-sm font-bold text-white">
                   {index + 1}
                 </span>
-                <h3 className="mt-4 text-lg font-semibold text-navy">
-                  {step.title}
-                </h3>
+                <h3 className="mt-4 text-lg font-semibold text-navy">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {step.description}
                 </p>

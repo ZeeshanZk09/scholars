@@ -9,13 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { siteConfig } from "@/lib/site-config";
 
 const ContactForm = dynamic(() =>
-  import("@/components/forms/contact-form").then((mod) => mod.ContactForm),
+  import("@/components/forms/contact-form").then((mod) => mod.ContactForm)
 );
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description:
-    "Get in touch with Scholar — admissions, campus visits, fees and general enquiries.",
+  description: "Get in touch with Scholar — admissions, campus visits, fees and general enquiries.",
   alternates: {
     canonical: "/contact",
   },
@@ -36,7 +35,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         eyebrow="Contact Us"
-        title="We&apos;re Here to Help"
+        title="We're Here to Help"
         description="Questions about admissions, fees, or a campus visit? Reach out — our team is happy to help."
         crumbs={[{ label: "Contact" }]}
       />

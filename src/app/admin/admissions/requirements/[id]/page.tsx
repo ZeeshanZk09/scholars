@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
 import { AdmissionRequirementForm } from "../../../_components/admissions/admission-requirement-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Admission Requirement",
@@ -15,10 +16,10 @@ export const metadata: Metadata = {
 
 export default async function EditAdmissionRequirementPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();

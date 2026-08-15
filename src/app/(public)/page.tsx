@@ -30,7 +30,7 @@ import { CoachingProgramService } from "@/services/coaching";
 import { ComputerCourseService } from "@/services/computer-courses";
 
 const HeroCarousel = dynamic(() =>
-  import("@/components/sections/hero-carousel").then((mod) => mod.HeroCarousel),
+  import("@/components/sections/hero-carousel").then((mod) => mod.HeroCarousel)
 );
 
 export const metadata: Metadata = {
@@ -54,20 +54,17 @@ const whyUs = [
   {
     icon: Users,
     title: "Dedicated Faculty",
-    description:
-      "Qualified and experienced teachers committed to every student's progress.",
+    description: "Qualified and experienced teachers committed to every student's progress.",
   },
   {
     icon: BookOpenCheck,
     title: "Structured Academics",
-    description:
-      "Clear syllabi, regular assessments and focused preparation for board exams.",
+    description: "Clear syllabi, regular assessments and focused preparation for board exams.",
   },
   {
     icon: Award,
     title: "Character & Confidence",
-    description:
-      "Co-curricular activities and mentorship build leadership and strong values.",
+    description: "Co-curricular activities and mentorship build leadership and strong values.",
   },
 ];
 
@@ -133,7 +130,12 @@ export default async function HomePage() {
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {programs.slice(0, 4).map((program) => (
-              <ProgramCard key={program.id} program={program} ctaLabel="Admissions" ctaHref="/admissions" />
+              <ProgramCard
+                key={program.id}
+                program={program}
+                ctaLabel="Admissions"
+                ctaHref="/admissions"
+              />
             ))}
           </div>
           <div className="mt-10 text-center">
@@ -192,9 +194,7 @@ export default async function HomePage() {
                   <item.icon className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="text-lg font-semibold text-navy">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
               </div>
             ))}
           </div>
@@ -202,10 +202,7 @@ export default async function HomePage() {
       </section>
 
       {/* Coaching & Computer courses highlight */}
-      <CoachingCoursesPromo
-        coaching={coaching}
-        computerCourses={computerCourses}
-      />
+      <CoachingCoursesPromo coaching={coaching} computerCourses={computerCourses} />
 
       {/* Testimonials */}
       <section className="bg-white">

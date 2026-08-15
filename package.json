@@ -14,6 +14,7 @@
     "db:seed": "prisma db seed",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "docker:build": "docker build -t scholar-website .",
     "docker:run": "docker run -p 3000:3000 --env-file .env scholar-website",

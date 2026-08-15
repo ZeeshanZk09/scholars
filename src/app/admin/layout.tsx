@@ -20,6 +20,7 @@ import {
   BookOpenCheck,
   Inbox,
   Menu,
+  UserIcon,
 } from "lucide-react";
 import { Toaster } from "sonner";
 
@@ -34,6 +35,9 @@ const MODULE_ICONS: Record<AdminModule, typeof LayoutDashboard> = {
   roles: ShieldCheck,
   banners: ImageIcon,
   pages: FileText,
+  principal: UserIcon,
+  management: Users,
+  faculty: Users,
   testimonials: Star,
   admissions: GraduationCap,
   school: Building2,

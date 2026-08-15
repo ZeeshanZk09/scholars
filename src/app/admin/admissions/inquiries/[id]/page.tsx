@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
 import { InquiryStatusButton } from "../../../_components/admissions/inquiry-status-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Application Details",
@@ -31,10 +32,10 @@ function formatDate(value: Date): string {
 
 export default async function AdminAdmissionInquiryDetailPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();
@@ -102,9 +103,7 @@ export default async function AdminAdmissionInquiryDetailPage({
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               {row.label}
             </p>
-            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">
-              {row.value ?? "—"}
-            </p>
+            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">{row.value ?? "—"}</p>
           </div>
         ))}
       </div>

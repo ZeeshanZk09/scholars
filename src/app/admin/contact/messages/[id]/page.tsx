@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ContactService } from "@/services/contact";
 import { MessageStatusButton } from "../../../_components/contact/message-status-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Message Details",
@@ -38,10 +39,10 @@ type DetailRow = {
 
 export default async function AdminContactMessageDetailPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string }>;
-}) {
-  let user;
+}>) {
+  let user: User;
 
   try {
     user = await requireUser();
@@ -112,9 +113,7 @@ export default async function AdminContactMessageDetailPage({
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               {row.label}
             </p>
-            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">
-              {row.value ?? "—"}
-            </p>
+            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">{row.value ?? "—"}</p>
           </div>
         ))}
       </div>

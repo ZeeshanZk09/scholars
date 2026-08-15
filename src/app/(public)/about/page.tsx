@@ -57,13 +57,8 @@ export default function AboutPage() {
           />
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {institutions.map((institution) => (
-              <div
-                key={institution.href}
-                className="rounded-lg border bg-surface p-6"
-              >
-                <h3 className="text-lg font-semibold text-navy">
-                  {institution.title}
-                </h3>
+              <div key={institution.href} className="rounded-lg border bg-surface p-6">
+                <h3 className="text-lg font-semibold text-navy">{institution.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {institution.description}
                 </p>
@@ -83,9 +78,7 @@ export default function AboutPage() {
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
             {values.map((value) => (
               <div key={value.title} className="rounded-lg border bg-white p-6">
-                <h3 className="text-lg font-semibold text-navy">
-                  {value.title}
-                </h3>
+                <h3 className="text-lg font-semibold text-navy">{value.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {value.description}
                 </p>

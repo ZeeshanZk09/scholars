@@ -6,6 +6,7 @@ import { Menu, Plus } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { NavigationService } from "@/services/navigation";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Navigation",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminNavigationPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -63,9 +64,7 @@ export default async function AdminNavigationPage() {
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
           {publishedCount} published · {items.length - publishedCount} draft/archived
         </p>
-        <span className="mt-3 inline-block text-sm font-medium text-slate-700">
-          Manage Items →
-        </span>
+        <span className="mt-3 inline-block text-sm font-medium text-slate-700">Manage Items →</span>
       </Link>
     </div>
   );

@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 type ComputerCourseFormData = {
   name: string;
@@ -29,7 +31,7 @@ type ComputerCourseFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function ComputerCourseForm({ mode, initial }: ComputerCourseFormProps) {
+export function ComputerCourseForm({ mode, initial }: Readonly<ComputerCourseFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<ComputerCourseFormData>({
@@ -56,7 +58,7 @@ export function ComputerCourseForm({ mode, initial }: ComputerCourseFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.name.trim()) {
@@ -115,8 +117,18 @@ export function ComputerCourseForm({ mode, initial }: ComputerCourseFormProps) {
     }
   }
 
+  let submitButtonText = "Create Course";
+  if (saving) {
+    submitButtonText = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonText = "Save Changes";
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-slate-900">
           Course Title <span className="text-red-600">*</span>
@@ -280,7 +292,9 @@ export function ComputerCourseForm({ mode, initial }: ComputerCourseFormProps) {
           <select
             id="status"
             value={form.status}
-            onChange={(event) => setField("status", event.target.value as ComputerCourseFormData["status"])}
+            onChange={(event) =>
+              setField("status", event.target.value as ComputerCourseFormData["status"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {STATUS_OPTIONS.map((status) => (
@@ -306,15 +320,15 @@ export function ComputerCourseForm({ mode, initial }: ComputerCourseFormProps) {
         </div>
       </div>
 
-      <label className="flex items-center gap-2 text-sm font-medium text-slate-900">
-        <input
+      <Label className="flex items-center gap-2 text-sm font-medium text-slate-900">
+        <Input
           type="checkbox"
           checked={form.isFeatured}
           onChange={(event) => setField("isFeatured", event.target.checked)}
           className="h-4 w-4 rounded border-slate-300"
         />
         Featured course (highlighted on the site)
-      </label>
+      </Label>
 
       <div className="flex items-center justify-end gap-3 border-t border-slate-100 pt-5">
         <Link
@@ -328,7 +342,7 @@ export function ComputerCourseForm({ mode, initial }: ComputerCourseFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Course"}
+          {submitButtonText}
         </button>
       </div>
     </form>

@@ -131,6 +131,21 @@ export const ADMIN_MODULES = {
     href: "/admin/pages",
     permission: PERMISSIONS.CMS_READ,
   },
+  principal: {
+    label: "Principal Message",
+    href: "/admin/principal",
+    permission: PERMISSIONS.CMS_READ,
+  },
+  management: {
+    label: "Management",
+    href: "/admin/management",
+    permission: PERMISSIONS.CMS_READ,
+  },
+  faculty: {
+    label: "Faculty",
+    href: "/admin/faculty",
+    permission: PERMISSIONS.CMS_READ,
+  },
   testimonials: {
     label: "Testimonials",
     href: "/admin/testimonials",

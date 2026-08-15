@@ -28,7 +28,7 @@ export default function EditorMain({ content, onChange, title, onTitleChange }: 
 
   // Extract word count from content
   const wordCount = (content || "")
-    .replaceAll(/<[^>]*>/g, " ")
+    .replaceAll(/<[^<>]*>/g, " ")
     .split(/\s+/)
     .filter((word) => word.length > 0).length;
 

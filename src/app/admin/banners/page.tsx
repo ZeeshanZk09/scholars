@@ -6,6 +6,7 @@ import { ImageIcon, Plus } from "lucide-react";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BannerService } from "@/services/banners";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Banners",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminBannersPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -34,8 +35,8 @@ export default async function AdminBannersPage() {
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Banners Module</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage the banners shown on the public website, including images, links and
-            display order.
+            Manage the banners shown on the public website, including images, links and display
+            order.
           </p>
         </div>
         {canCreate ? (

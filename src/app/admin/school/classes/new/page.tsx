@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { SchoolService } from "@/services/academics";
 import { ClassForm } from "../../../_components/school/class-form";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Class",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewSchoolClassPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -39,12 +40,13 @@ export default async function NewSchoolClassPage() {
           Back to Classes
         </Link>
         <h1 className="text-lg font-semibold text-slate-900">New Class</h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Add a class such as Nursery, KG or Grade 1.
-        </p>
+        <p className="mt-1 text-sm text-slate-600">Add a class such as Nursery, KG or Grade 1.</p>
       </div>
 
-      <ClassForm mode="create" levels={levels.map((level) => ({ id: level.id, name: level.name }))} />
+      <ClassForm
+        mode="create"
+        levels={levels.map((level) => ({ id: level.id, name: level.name }))}
+      />
     </div>
   );
 }

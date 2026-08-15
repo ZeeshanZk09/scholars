@@ -8,7 +8,7 @@ import { AdmissionsService } from "@/services/admissions";
 import { siteConfig } from "@/lib/site-config";
 
 const AdmissionApplyForm = dynamic(() =>
-  import("@/components/forms/admission-apply-form").then((mod) => mod.AdmissionApplyForm),
+  import("@/components/forms/admission-apply-form").then((mod) => mod.AdmissionApplyForm)
 );
 
 export const metadata: Metadata = {
@@ -64,9 +64,9 @@ export default async function AdmissionApplyPage() {
                         Admissions are currently closed
                       </h2>
                       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-                        We are not accepting applications right now. New admission periods will
-                        be announced here — check back soon or contact the admissions office for
-                        the upcoming schedule.
+                        We are not accepting applications right now. New admission periods will be
+                        announced here — check back soon or contact the admissions office for the
+                        upcoming schedule.
                       </p>
                     </div>
                   </CardContent>

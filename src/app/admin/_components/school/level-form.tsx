@@ -20,7 +20,7 @@ type LevelFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function LevelForm({ mode, initial }: LevelFormProps) {
+export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<LevelFormData>({
@@ -35,7 +35,7 @@ export function LevelForm({ mode, initial }: LevelFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.name.trim()) {
@@ -54,7 +54,9 @@ export function LevelForm({ mode, initial }: LevelFormProps) {
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/academics/levels/${initial?.id}` : "/api/v1/admin/academics/levels",
+        mode === "edit"
+          ? `/api/v1/admin/academics/levels/${initial?.id}`
+          : "/api/v1/admin/academics/levels",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
@@ -79,8 +81,13 @@ export function LevelForm({ mode, initial }: LevelFormProps) {
     }
   }
 
+  const submitText = mode === "edit" ? "Save Changes" : "Create Level";
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-slate-900">
           Name <span className="text-red-600">*</span>
@@ -171,7 +178,7 @@ export function LevelForm({ mode, initial }: LevelFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Level"}
+          {saving ? "Saving..." : submitText}
         </button>
       </div>
     </form>

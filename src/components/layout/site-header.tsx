@@ -65,9 +65,7 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
     );
   }
 
-  const hasActiveChild = item.children.some((child) =>
-    isNavItemActive(pathname, child.href)
-  );
+  const hasActiveChild = item.children.some((child) => isNavItemActive(pathname, child.href));
 
   return (
     <DropdownMenu>
@@ -108,10 +106,7 @@ export function SiteHeader() {
       <Container className="flex h-16 items-center justify-between gap-4">
         <Logo />
 
-        <nav
-          aria-label="Main"
-          className="hidden items-center lg:flex lg:gap-1"
-        >
+        <nav aria-label="Main" className="hidden items-center lg:flex lg:gap-1">
           {siteNav.map((item) => (
             <DesktopNavItem key={item.href} item={item} pathname={pathname} />
           ))}
@@ -136,9 +131,7 @@ export function SiteHeader() {
             <SheetContent side="right" className="w-[85%] max-w-sm overflow-y-auto">
               <SheetHeader className="text-left">
                 <SheetTitle>Menu</SheetTitle>
-                <SheetDescription>
-                  Explore Scholar Higher Secondary School
-                </SheetDescription>
+                <SheetDescription>Explore Scholar Higher Secondary School</SheetDescription>
               </SheetHeader>
 
               <div className="mt-6 flex flex-col gap-1">
@@ -149,9 +142,7 @@ export function SiteHeader() {
                         href={item.href}
                         className={cn(
                           "block rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent",
-                          isNavItemActive(pathname, item.href)
-                            ? "text-navy"
-                            : "text-slate-700"
+                          isNavItemActive(pathname, item.href) ? "text-navy" : "text-slate-700"
                         )}
                       >
                         {item.label}

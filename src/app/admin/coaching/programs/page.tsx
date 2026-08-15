@@ -7,6 +7,7 @@ import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { CoachingProgramService } from "@/services/coaching";
 import { DeleteButton } from "../../_components/school/delete-button";
+import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Coaching Programs",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminCoachingProgramsPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -28,7 +29,10 @@ export default async function AdminCoachingProgramsPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.CMS_CREATE);
   const canDelete = hasPermission(user.role, PERMISSIONS.CMS_DELETE);
-  const { items: programs } = await new CoachingProgramService().listForAdmin({ skip: 0, take: 100 });
+  const { items: programs } = await new CoachingProgramService().listForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">

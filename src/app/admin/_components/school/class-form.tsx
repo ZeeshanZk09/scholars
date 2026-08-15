@@ -24,7 +24,7 @@ type ClassFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function ClassForm({ mode, initial, levels }: ClassFormProps) {
+export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<ClassFormData>({
@@ -42,7 +42,7 @@ export function ClassForm({ mode, initial, levels }: ClassFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.name.trim()) {
@@ -68,7 +68,9 @@ export function ClassForm({ mode, initial, levels }: ClassFormProps) {
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/academics/classes/${initial?.id}` : "/api/v1/admin/academics/classes",
+        mode === "edit"
+          ? `/api/v1/admin/academics/classes/${initial?.id}`
+          : "/api/v1/admin/academics/classes",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
@@ -93,8 +95,18 @@ export function ClassForm({ mode, initial, levels }: ClassFormProps) {
     }
   }
 
+  let submitButtonText = "Create Class";
+  if (saving) {
+    submitButtonText = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonText = "Save Changes";
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
+    >
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-slate-900">
           Name <span className="text-red-600">*</span>
@@ -234,7 +246,7 @@ export function ClassForm({ mode, initial, levels }: ClassFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Class"}
+          {submitButtonText}
         </button>
       </div>
     </form>
