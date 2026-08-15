@@ -24,7 +24,7 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // `script-src 'self' 'unsafe-inline'${isProduction ? "" : " 'unsafe-eval'"}`,
-      "style-src 'self' 'unsafe-inline'",
+      // "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://placehold.co",
       "font-src 'self' data:",
       "connect-src 'self'",

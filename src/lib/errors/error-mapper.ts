@@ -1,6 +1,7 @@
 import { AppError, isAppError, DatabaseError } from "./app-error";
 import { ERROR_CODES } from "./error-codes";
 import { logger } from "@/lib/logger/logger";
+import { isDevelopment } from "@/config/env";
 
 const GENERIC_ERROR_MESSAGE =
   "We couldn't complete your request right now. Please try again later.";
@@ -41,7 +42,16 @@ export function toSafeError(error: unknown, requestId?: string): SafeError {
     code: ERROR_CODES.INTERNAL_ERROR,
     message: GENERIC_ERROR_MESSAGE,
     statusCode: 500,
+    details: isDevelopment ? { name: errorName(error) } : undefined,
   };
+}
+
+function errorName(error: unknown): string | null {
+  if (typeof error === "object" && error !== null && "name" in error) {
+    const name = (error as { name?: unknown }).name;
+    return typeof name === "string" ? name : null;
+  }
+  return typeof error;
 }
 
 export function toAppError(error: unknown): AppError {
