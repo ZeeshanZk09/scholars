@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 
-import { ConflictError, NotFoundError } from "@/lib/errors";
+import { AuthorizationError, ConflictError, NotFoundError } from "@/lib/errors";
 import { UserRepository, type UserSafe } from "@/repositories/users";
+import type { ApiUser } from "@/server/auth/route-guard";
 import type { CreateUserInput } from "@/schemas/user/user.schema";
 
 export class UserService {
@@ -52,11 +53,24 @@ export class UserService {
       role?: "SUPER_ADMIN" | "ADMIN" | "EDITOR";
       status?: "ACTIVE" | "INACTIVE" | "SUSPENDED";
     },
+    actor?: ApiUser,
   ): Promise<UserSafe> {
-    await this.getById(id);
+    const target = await this.getById(id);
+
+    if (actor && actor.id === id) {
+      throw new AuthorizationError("You cannot update your own account through this endpoint.");
+    }
 
     if (input.email) {
       await this.assertEmailAvailable(input.email, id);
+    }
+
+    if (target.role === "SUPER_ADMIN" && input.role && input.role !== "SUPER_ADMIN") {
+      await this.assertSuperAdminRemains();
+    }
+
+    if (target.role === "SUPER_ADMIN" && input.status && input.status !== "ACTIVE") {
+      await this.assertSuperAdminRemains();
     }
 
     const user = await this.userRepository.update(id, {
@@ -74,11 +88,31 @@ export class UserService {
     return user;
   }
 
-  async removeUser(id: string): Promise<void> {
+  async removeUser(id: string, actor?: ApiUser): Promise<void> {
+    const target = await this.getById(id);
+
+    if (actor && actor.id === id) {
+      throw new AuthorizationError("You cannot delete your own account.");
+    }
+
+    if (target.role === "SUPER_ADMIN") {
+      await this.assertSuperAdminRemains();
+    }
+
     const deleted = await this.userRepository.softDelete(id);
 
     if (!deleted) {
       throw new NotFoundError("User not found.");
+    }
+  }
+
+  private async assertSuperAdminRemains(): Promise<void> {
+    const count = await this.userRepository.countActiveSuperAdmins();
+
+    if (count <= 1) {
+      throw new AuthorizationError(
+        "At least one active super admin must remain.",
+      );
     }
   }
 

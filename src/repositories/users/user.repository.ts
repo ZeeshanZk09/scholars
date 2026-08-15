@@ -82,6 +82,12 @@ export class UserRepository {
     });
   }
 
+  async countActiveSuperAdmins(): Promise<number> {
+    return prisma.user.count({
+      where: { role: "SUPER_ADMIN", status: "ACTIVE", deletedAt: null },
+    });
+  }
+
   async create(record: CreateUserRecord): Promise<{ id: string }> {
     return prisma.user.create({
       data: {

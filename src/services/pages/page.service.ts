@@ -1,4 +1,5 @@
 import { ConflictError, NotFoundError } from "@/lib/errors";
+import { sanitizeRichHtml } from "@/lib/security/sanitize-html";
 import { slugify } from "@/lib/utils/slug";
 import {
   PageRepository,
@@ -63,7 +64,7 @@ export class PageService {
     return this.pageRepository.create({
       title: input.title,
       slug,
-      content: input.content || null,
+      content: input.content ? sanitizeRichHtml(input.content) : null,
       featuredImage: input.featuredImage || null,
       layout: input.layout || null,
       status: input.status,
@@ -81,7 +82,12 @@ export class PageService {
     const page = await this.pageRepository.update(id, {
       title: input.title,
       slug: input.slug === undefined ? undefined : slugify(input.slug),
-      content: input.content === undefined ? undefined : input.content || null,
+      content:
+        input.content === undefined
+          ? undefined
+          : input.content
+            ? sanitizeRichHtml(input.content)
+            : null,
       featuredImage:
         input.featuredImage === undefined ? undefined : input.featuredImage || null,
       layout: input.layout === undefined ? undefined : input.layout || null,

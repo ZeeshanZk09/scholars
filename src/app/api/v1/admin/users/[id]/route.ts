@@ -7,22 +7,22 @@ import { requireApiPermission } from "@/server/auth";
 import { UserService } from "@/services/users";
 
 export const PATCH = withApiHandler(async (_ctx, request, routeContext) => {
-  await requireApiPermission(PERMISSIONS.USER_UPDATE);
+  const actor = await requireApiPermission(PERMISSIONS.USER_UPDATE);
 
   const id = await getRouteParam(routeContext, "id");
   const input = await parseJsonBody(request, updateUserSchema);
 
-  const user = await new UserService().updateUser(id, input);
+  const user = await new UserService().updateUser(id, input, actor);
 
   return jsonSuccess(user, "User updated successfully");
 });
 
 export const DELETE = withApiHandler(async (_ctx, _request, routeContext) => {
-  await requireApiPermission(PERMISSIONS.USER_DELETE);
+  const actor = await requireApiPermission(PERMISSIONS.USER_DELETE);
 
   const id = await getRouteParam(routeContext, "id");
 
-  await new UserService().removeUser(id);
+  await new UserService().removeUser(id, actor);
 
   return jsonSuccess({ id }, "User deleted successfully");
 });

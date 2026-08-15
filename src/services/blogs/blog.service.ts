@@ -1,4 +1,5 @@
 import { ConflictError, NotFoundError } from "@/lib/errors";
+import { sanitizeRichHtml } from "@/lib/security/sanitize-html";
 import { slugify } from "@/lib/utils/slug";
 import { BlogRepository, type BlogPublicDetail, type BlogSafe } from "@/repositories/blogs";
 import type { CreateBlogInput, UpdateBlogInput } from "@/schemas/blog/blog.schema";
@@ -55,7 +56,7 @@ export class BlogService {
       title: input.title,
       slug,
       excerpt: input.excerpt || null,
-      content: input.content,
+      content: sanitizeRichHtml(input.content),
       featuredImage: input.featuredImage || null,
       status: input.status,
       categoryName: input.categoryName || null,
@@ -81,7 +82,7 @@ export class BlogService {
       title: input.title,
       slug: input.slug === undefined ? undefined : slugify(input.slug),
       excerpt: input.excerpt === undefined ? undefined : input.excerpt || null,
-      content: input.content,
+      content: input.content === undefined ? undefined : sanitizeRichHtml(input.content),
       featuredImage: input.featuredImage === undefined ? undefined : input.featuredImage || null,
       status: input.status,
       publishedAt: input.publishedAt === undefined ? undefined : input.publishedAt,

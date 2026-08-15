@@ -1,9 +1,12 @@
 import { withApiHandler } from "@/lib/api/api-handler";
 import { jsonSuccess } from "@/lib/response/api-response";
 import { signOut } from "@/lib/auth";
+import { assertSameOrigin } from "@/lib/security/same-origin";
 import { getApiUser } from "@/server/auth";
 
-export const POST = withApiHandler(async () => {
+export const POST = withApiHandler(async (_ctx, request) => {
+  assertSameOrigin(request);
+
   const user = await getApiUser();
 
   await signOut({ redirect: false });
