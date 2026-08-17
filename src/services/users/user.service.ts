@@ -1,9 +1,10 @@
 import bcrypt from "bcryptjs";
 
+import type { CreateUserInput } from "@/schemas/user/user.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { AuthorizationError, ConflictError, NotFoundError } from "@/lib/errors";
 import { UserRepository, type UserSafe } from "@/repositories/users";
-import type { ApiUser } from "@/server/auth/route-guard";
-import type { CreateUserInput } from "@/schemas/user/user.schema";
 
 export class UserService {
   private readonly userRepository: UserRepository;
@@ -53,7 +54,7 @@ export class UserService {
       role?: "SUPER_ADMIN" | "ADMIN" | "EDITOR";
       status?: "ACTIVE" | "INACTIVE" | "SUSPENDED";
     },
-    actor?: ApiUser,
+    actor?: ApiUser
   ): Promise<UserSafe> {
     const target = await this.getById(id);
 
@@ -110,9 +111,7 @@ export class UserService {
     const count = await this.userRepository.countActiveSuperAdmins();
 
     if (count <= 1) {
-      throw new AuthorizationError(
-        "At least one active super admin must remain.",
-      );
+      throw new AuthorizationError("At least one active super admin must remain.");
     }
   }
 

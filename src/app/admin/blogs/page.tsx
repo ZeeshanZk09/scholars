@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { Plus, Pencil } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Plus, Pencil } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BlogService } from "@/services/blogs";
-import { User } from "next-auth";
-import { DeleteButton } from "../_components/school/delete-button";
 
 export const metadata: Metadata = {
   title: "Blog Posts",
@@ -36,7 +38,9 @@ export default async function AdminBlogsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Blog Posts</h1>
-          <p className="mt-1 text-sm text-slate-600">Manage posts published on the website.</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Manage posts published on the website.
+          </p>
         </div>
         {canCreate ? (
           <Link
@@ -62,7 +66,10 @@ export default async function AdminBlogsPage() {
           <tbody className="divide-y divide-slate-100">
             {blogs.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={4}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No blog posts yet.
                 </td>
               </tr>
@@ -71,7 +78,9 @@ export default async function AdminBlogsPage() {
                 <tr key={blog.id}>
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {blog.title}
-                    <span className="block text-xs font-normal text-slate-500">/{blog.slug}</span>
+                    <span className="block text-xs font-normal text-slate-500">
+                      /{blog.slug}
+                    </span>
                   </td>
                   <td className="hidden px-4 py-3 md:table-cell">
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
@@ -94,7 +103,11 @@ export default async function AdminBlogsPage() {
                         <Pencil className="ml-auto h-4 w-4 text-slate-300" />
                       )}
                       {canDelete ? (
-                        <DeleteButton id={blog.id} endpoint="/api/v1/admin/blogs" label="Delete" />
+                        <DeleteButton
+                          id={blog.id}
+                          endpoint="/api/v1/admin/blogs"
+                          label="Delete"
+                        />
                       ) : null}
                     </div>
                   </td>

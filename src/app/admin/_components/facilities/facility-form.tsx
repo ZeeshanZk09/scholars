@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type FacilityFormData = {
@@ -35,7 +35,10 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
     displayOrder: initial?.displayOrder ?? 0,
   });
 
-  function setField<K extends keyof FacilityFormData>(key: K, value: FacilityFormData[K]) {
+  function setField<K extends keyof FacilityFormData>(
+    key: K,
+    value: FacilityFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -60,13 +63,15 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/facilities/${initial?.id}` : "/api/v1/admin/facilities",
+        mode === "edit"
+          ? `/api/v1/admin/facilities/${initial?.id}`
+          : "/api/v1/admin/facilities",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -79,7 +84,9 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
       router.push("/admin/facilities");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save facility");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save facility",
+      );
     } finally {
       setSaving(false);
     }
@@ -99,7 +106,10 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-slate-900"
+          >
             Name <span className="text-red-600">*</span>
           </label>
           <input
@@ -112,7 +122,10 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
           />
         </div>
         <div>
-          <label htmlFor="slug" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="slug"
+            className="block text-sm font-medium text-slate-900"
+          >
             Slug
           </label>
           <input
@@ -127,7 +140,10 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-slate-900"
+        >
           Description
         </label>
         <textarea
@@ -142,7 +158,10 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="imageUrl" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="imageUrl"
+            className="block text-sm font-medium text-slate-900"
+          >
             Image URL
           </label>
           <input
@@ -155,7 +174,10 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
           />
         </div>
         <div>
-          <label htmlFor="icon" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="icon"
+            className="block text-sm font-medium text-slate-900"
+          >
             Icon
           </label>
           <input
@@ -171,14 +193,20 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
             onChange={(event) =>
-              setField("status", event.target.value as FacilityFormData["status"])
+              setField(
+                "status",
+                event.target.value as FacilityFormData["status"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -191,7 +219,10 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="displayOrder"
+            className="block text-sm font-medium text-slate-900"
+          >
             Display Order
           </label>
           <input
@@ -199,7 +230,9 @@ export function FacilityForm({ mode, initial }: Readonly<FacilityFormProps>) {
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) => setField("displayOrder", Number(event.target.value))}
+            onChange={(event) =>
+              setField("displayOrder", Number(event.target.value))
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

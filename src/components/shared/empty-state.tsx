@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
+
+import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -32,9 +33,7 @@ export function EmptyState({
     >
       {icon ? <div className="text-muted-foreground">{icon}</div> : null}
       <h3 className="text-lg font-semibold text-navy">{title}</h3>
-      {description ? (
-        <p className="max-w-md text-sm text-muted-foreground">{description}</p>
-      ) : null}
+      {description ? <p className="max-w-md text-sm text-muted-foreground">{description}</p> : null}
       {actionLabel && (actionHref || onAction) ? (
         <Button asChild={!!actionHref} onClick={onAction} className="mt-2">
           {actionHref ? <Link href={actionHref}>{actionLabel}</Link> : actionLabel}

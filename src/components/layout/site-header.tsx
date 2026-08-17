@@ -1,15 +1,14 @@
 "use client";
 
-import * as React from "react";
+import { ChevronDown, GraduationCap, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, GraduationCap, Menu } from "lucide-react";
+import * as React from "react";
 
-import { siteConfig } from "@/lib/site-config";
-import { siteNav, isNavItemActive, type NavItem } from "./site-nav";
 import { Container } from "./container";
+import { siteNav, isNavItemActive, type NavItem } from "./site-nav";
+
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,8 +24,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { siteConfig } from "@/lib/site-config";
+import { cn } from "@/lib/utils";
 
-function Logo({ onClick }: { onClick?: () => void }) {
+function Logo({ onClick }: Readonly<{ onClick?: () => void }>) {
   return (
     <Link
       href="/"
@@ -47,7 +48,7 @@ function Logo({ onClick }: { onClick?: () => void }) {
   );
 }
 
-function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string }) {
+function DesktopNavItem({ item, pathname }: Readonly<{ item: NavItem; pathname: string }>) {
   const active = isNavItemActive(pathname, item.href);
 
   if (!item.children) {
@@ -75,18 +76,19 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
             "inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             active || hasActiveChild ? "text-navy" : "text-slate-600"
           )}
+          type="button"
         >
           {item.label}
           <ChevronDown className="h-4 w-4 opacity-60" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-56">
+      <DropdownMenuContent align="start" className="w-80">
         {item.children.map((child) => (
           <DropdownMenuItem key={child.href} asChild>
-            <Link href={child.href}>
-              {child.label}
+            <Link href={child.href} className="flex items-start justify-between">
+              <span className="whitespace-nowrap">{child.label}</span>
               {child.description ? (
-                <span className="ml-auto pl-4 text-xs text-muted-foreground">
+                <span className="ml-auto pl-4 text-right text-xs text-muted-foreground">
                   {child.description}
                 </span>
               ) : null}
@@ -102,7 +104,7 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-40 border-b bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/80">
       <Container className="flex h-16 items-center justify-between gap-4">
         <Logo />
 

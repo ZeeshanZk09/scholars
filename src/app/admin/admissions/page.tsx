@@ -1,12 +1,19 @@
-import type { Metadata } from "next";
+import {
+  CalendarClock,
+  ClipboardList,
+  GraduationCap,
+  Inbox,
+  Plus,
+} from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CalendarClock, ClipboardList, GraduationCap, Inbox, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Admissions",
@@ -27,12 +34,15 @@ export default async function AdminAdmissionsPage() {
   }
 
   const admissions = new AdmissionsService();
-  const [{ total: periodTotal }, { total: inquiryTotal }, { total: pendingTotal }] =
-    await Promise.all([
-      admissions.listPeriods({ skip: 0, take: 1 }),
-      admissions.listInquiries({ skip: 0, take: 1 }),
-      admissions.listInquiries({ skip: 0, take: 1, status: "PENDING" }),
-    ]);
+  const [
+    { total: periodTotal },
+    { total: inquiryTotal },
+    { total: pendingTotal },
+  ] = await Promise.all([
+    admissions.listPeriods({ skip: 0, take: 1 }),
+    admissions.listInquiries({ skip: 0, take: 1 }),
+    admissions.listInquiries({ skip: 0, take: 1, status: "PENDING" }),
+  ]);
 
   const stats = [
     {
@@ -58,10 +68,12 @@ export default async function AdminAdmissionsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Admissions Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Admissions Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Control admission periods, status and requirements, and review applications submitted
-            from the public website.
+            Control admission periods, status and requirements, and review
+            applications submitted from the public website.
           </p>
         </div>
         <Link
@@ -90,11 +102,17 @@ export default async function AdminAdmissionsPage() {
                     {stat.badge}
                   </span>
                 ) : null}
-                <span className="text-2xl font-bold text-slate-900">{stat.value}</span>
+                <span className="text-2xl font-bold text-slate-900">
+                  {stat.value}
+                </span>
               </span>
             </div>
-            <h2 className="mt-4 text-sm font-semibold text-slate-900">{stat.label}</h2>
-            <p className="mt-1 text-xs leading-relaxed text-slate-500">{stat.description}</p>
+            <h2 className="mt-4 text-sm font-semibold text-slate-900">
+              {stat.label}
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500">
+              {stat.description}
+            </p>
             <span className="mt-3 inline-block text-sm font-medium text-slate-700">
               {stat.action} →
             </span>
@@ -113,9 +131,12 @@ export default async function AdminAdmissionsPage() {
               {periodTotal > 0 ? "Manage" : "—"}
             </span>
           </div>
-          <h2 className="mt-4 text-sm font-semibold text-slate-900">Requirements</h2>
+          <h2 className="mt-4 text-sm font-semibold text-slate-900">
+            Requirements
+          </h2>
           <p className="mt-1 text-xs leading-relaxed text-slate-500">
-            Eligibility, documents, process, dates, fees and instructions per period.
+            Eligibility, documents, process, dates, fees and instructions per
+            period.
           </p>
           <span className="mt-3 inline-block text-sm font-medium text-slate-700">
             Manage Requirements →
@@ -128,11 +149,13 @@ export default async function AdminAdmissionsPage() {
               <GraduationCap className="h-5 w-5" aria-hidden="true" />
             </span>
           </div>
-          <h2 className="mt-4 text-sm font-semibold text-slate-900">Admission Status</h2>
+          <h2 className="mt-4 text-sm font-semibold text-slate-900">
+            Admission Status
+          </h2>
           <p className="mt-1 text-xs leading-relaxed text-slate-500">
-            Set each period to COMING_SOON, OPEN or CLOSED from the Admission Periods section. The
-            public website reflects the current status automatically and closed periods do not
-            accept applications.
+            Set each period to COMING_SOON, OPEN or CLOSED from the Admission
+            Periods section. The public website reflects the current status
+            automatically and closed periods do not accept applications.
           </p>
         </div>
       </div>

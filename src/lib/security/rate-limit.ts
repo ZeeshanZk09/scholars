@@ -16,11 +16,7 @@ let checksSinceCleanup = 0;
  * Throws RateLimitError (429) when `limit` requests are exceeded within `windowMs`.
  * NOTE: single-instance only; replace with a shared store (Redis etc.) when scaling.
  */
-export function rateLimit(options: {
-  key: string;
-  limit?: number;
-  windowMs?: number;
-}): void {
+export function rateLimit(options: { key: string; limit?: number; windowMs?: number }): void {
   const { key, limit = 10, windowMs = 60_000 } = options;
   const now = Date.now();
   const bucket = buckets.get(key);

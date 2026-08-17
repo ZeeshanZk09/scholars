@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { type User } from "next-auth";
+
+import { BlogEditorForm } from "../new/blog-editor-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BlogService } from "@/services/blogs";
-import { BlogEditorForm } from "../new/blog-editor-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Blog Post",

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type DeleteButtonProps = {
@@ -10,7 +10,11 @@ type DeleteButtonProps = {
   label?: string;
 };
 
-export function DeleteButton({ id, endpoint, label = "Delete" }: Readonly<DeleteButtonProps>) {
+export function DeleteButton({
+  id,
+  endpoint,
+  label = "Delete",
+}: Readonly<DeleteButtonProps>) {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ type AdmissionApplyFormProps = {
   periodId?: string;
 };
 
-export function AdmissionApplyForm({ periodId }: AdmissionApplyFormProps) {
+export function AdmissionApplyForm({ periodId }: Readonly<AdmissionApplyFormProps>) {
   const {
     register,
     handleSubmit,

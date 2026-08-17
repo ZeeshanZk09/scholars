@@ -1,7 +1,9 @@
-import { prisma } from "@/server/db";
-import { NotFoundError } from "@/lib/errors";
-import { ContentStatus } from "@prisma/client";
+import { type ContentStatus } from "@prisma/client";
+
 import type { CreateFacultyInput, UpdateFacultyInput } from "@/schemas/faculty/faculty.schema";
+
+import { NotFoundError } from "@/lib/errors";
+import { prisma } from "@/server/db";
 
 export class FacultyService {
   async list({
@@ -9,7 +11,12 @@ export class FacultyService {
     take = 20,
     status,
     department,
-  }: { skip?: number; take?: number; status?: ContentStatus; department?: string } = {}) {
+  }: {
+    skip?: number;
+    take?: number;
+    status?: ContentStatus;
+    department?: string;
+  } = {}) {
     const where = {
       ...(status && { status }),
       ...(department && { department }),
@@ -28,7 +35,11 @@ export class FacultyService {
     return { items, total };
   }
 
-  async listPublished({ skip = 0, take = 50, department }: { skip?: number; take?: number; department?: string } = {}) {
+  async listPublished({
+    skip = 0,
+    take = 50,
+    department,
+  }: { skip?: number; take?: number; department?: string } = {}) {
     return this.list({ skip, take, status: "PUBLISHED", department });
   }
 

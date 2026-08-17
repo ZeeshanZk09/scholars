@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { isDevelopment } from "@/config/env";
 
 type LogLevel = "debug" | "info" | "warn" | "error";

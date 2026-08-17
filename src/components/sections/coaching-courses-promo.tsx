@@ -1,12 +1,13 @@
-import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+import type { CoachingProgramPublic } from "@/repositories/coaching";
+import type { ComputerCoursePublic } from "@/repositories/computer-courses";
 
 import { Container } from "@/components/layout/container";
 import { SectionHeader } from "@/components/shared/section-header";
 import { Button } from "@/components/ui/button";
-import type { CoachingProgramPublic } from "@/repositories/coaching";
-import type { ComputerCoursePublic } from "@/repositories/computer-courses";
 
 type CoachingCoursesPromoProps = {
   coaching: CoachingProgramPublic[];
@@ -16,7 +17,7 @@ type CoachingCoursesPromoProps = {
 export function CoachingCoursesPromo({
   coaching,
   computerCourses,
-}: CoachingCoursesPromoProps) {
+}: Readonly<CoachingCoursesPromoProps>) {
   const featuredCoaching = coaching[0];
   const featuredCourse = computerCourses[0];
 
@@ -33,7 +34,7 @@ export function CoachingCoursesPromo({
             href="/coaching"
             className="group overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="relative aspect-[16/9] overflow-hidden">
+            <div className="relative aspect-video overflow-hidden">
               <Image
                 src="/images/pexels-tima-miroshnichenko-5427868.jpg"
                 alt="Students studying in a Scholar coaching class"
@@ -44,9 +45,7 @@ export function CoachingCoursesPromo({
               />
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-semibold text-navy">
-                Scholar Coaching
-              </h3>
+              <h3 className="text-xl font-semibold text-navy">Scholar Coaching</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {featuredCoaching
                   ? `Featured program: ${featuredCoaching.name}.`
@@ -66,7 +65,7 @@ export function CoachingCoursesPromo({
             href="/computer-courses"
             className="group overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="relative aspect-[16/9] overflow-hidden">
+            <div className="relative aspect-video overflow-hidden">
               <Image
                 src="/images/pexels-pavel-danilyuk-8423043.jpg"
                 alt="Students learning computer skills in a Scholar computer course"
@@ -77,9 +76,7 @@ export function CoachingCoursesPromo({
               />
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-semibold text-navy">
-                Scholar Computer Courses
-              </h3>
+              <h3 className="text-xl font-semibold text-navy">Scholar Computer Courses</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {featuredCourse
                   ? `Featured course: ${featuredCourse.name}.`

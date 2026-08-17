@@ -1,5 +1,5 @@
-import { AuthorizationError } from "@/lib/errors";
 import { env } from "@/config/env";
+import { AuthorizationError } from "@/lib/errors";
 
 /**
  * CSRF defense for cookie-based custom endpoints. Modern browsers always send

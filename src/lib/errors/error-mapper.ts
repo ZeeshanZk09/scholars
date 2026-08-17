@@ -1,7 +1,8 @@
-import { AppError, isAppError, DatabaseError } from "./app-error";
+import { type AppError, isAppError, DatabaseError } from "./app-error";
 import { ERROR_CODES } from "./error-codes";
-import { logger } from "@/lib/logger/logger";
+
 import { isDevelopment } from "@/config/env";
+import { logger } from "@/lib/logger/logger";
 
 const GENERIC_ERROR_MESSAGE =
   "We couldn't complete your request right now. Please try again later.";

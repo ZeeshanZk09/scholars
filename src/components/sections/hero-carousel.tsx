@@ -1,23 +1,25 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import * as React from "react";
+
+import type { BannerPublic } from "@/repositories/banners/banner.repository";
 
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
-  CarouselApi,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site-config";
-import type { BannerPublic } from "@/repositories/banners/banner.repository";
+import { cn } from "@/lib/utils";
 
 type HeroSlide = {
   id: string;
@@ -26,6 +28,7 @@ type HeroSlide = {
   description: string;
   href: string;
   ctaLabel: string;
+  imageUrl: string | null;
 };
 
 const FALLBACK_SLIDES: HeroSlide[] = [
@@ -36,6 +39,7 @@ const FALLBACK_SLIDES: HeroSlide[] = [
     description: siteConfig.description,
     href: siteConfig.applyUrl,
     ctaLabel: "Apply Now",
+    imageUrl: null,
   },
 ];
 
@@ -47,6 +51,7 @@ function toSlides(banners: BannerPublic[]): HeroSlide[] {
     description: banner.description ?? siteConfig.tagline,
     href: banner.linkUrl ?? siteConfig.applyUrl,
     ctaLabel: banner.ctaLabel ?? (banner.linkUrl ? "Learn More" : "Apply Now"),
+    imageUrl: banner.imageUrl,
   }));
 }
 
@@ -80,10 +85,22 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
           }),
         ]}
       >
-        <CarouselContent>
-          {slides.map((slide) => (
-            <CarouselItem key={slide.id}>
-              <Container className="py-20 sm:py-28 lg:py-32">
+        <CarouselContent className="ml-0">
+          {slides.map((slide, index) => (
+            <CarouselItem key={slide.id} className="relative pl-0">
+              {slide.imageUrl && (
+                <>
+                  <Image
+                    src={slide.imageUrl}
+                    alt={slide.title}
+                    fill
+                    className="object-contain object-center opacity-40"
+                    priority={index === 0}
+                  />
+                  <div className="absolute inset-0 bg-linear-to-r from-navy-dark/90 to-navy-dark/30" />
+                </>
+              )}
+              <Container className="relative z-10 py-20 sm:py-28 lg:py-32">
                 <div className="max-w-3xl space-y-5">
                   {slide.eyebrow ? (
                     <p className="text-sm font-semibold uppercase tracking-widest text-sky-200">

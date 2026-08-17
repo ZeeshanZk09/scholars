@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
+import { CoachingCard } from "@/components/cards/coaching-card";
 import { Container } from "@/components/layout/container";
+import { CtaSection } from "@/components/shared/cta-section";
+import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionHeader } from "@/components/shared/section-header";
-import { CtaSection } from "@/components/shared/cta-section";
-import { CoachingCard } from "@/components/cards/coaching-card";
-import { EmptyState } from "@/components/shared/empty-state";
 import { CoachingProgramService } from "@/services/coaching";
 
 export const metadata: Metadata = {
@@ -48,7 +48,9 @@ export default async function CoachingPage() {
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {programs.length > 0 ? (
-              programs.map((program) => <CoachingCard key={program.id} program={program} />)
+              programs.map((program) => (
+                <CoachingCard key={program.id} program={program} />
+              ))
             ) : (
               <EmptyState
                 className="col-span-full"
@@ -66,15 +68,24 @@ export default async function CoachingPage() {
           {programs.length > 0 ? (
             <div className="overflow-hidden rounded-xl border bg-white">
               <div className="border-b bg-surface px-6 py-4">
-                <h2 className="text-lg font-semibold text-navy">Classes, Subjects & Timings</h2>
+                <h2 className="text-lg font-semibold text-navy">
+                  Classes, Subjects & Timings
+                </h2>
               </div>
               <ul className="divide-y divide-slate-100">
                 {programs.map((program) => (
-                  <li key={program.id} className="grid gap-3 px-6 py-5 sm:grid-cols-3">
+                  <li
+                    key={program.id}
+                    className="grid gap-3 px-6 py-5 sm:grid-cols-3"
+                  >
                     <div>
-                      <p className="text-sm font-semibold text-navy">{program.name}</p>
+                      <p className="text-sm font-semibold text-navy">
+                        {program.name}
+                      </p>
                       {program.category ? (
-                        <p className="mt-0.5 text-xs text-muted-foreground">{program.category}</p>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {program.category}
+                        </p>
                       ) : null}
                     </div>
                     <div>
@@ -90,7 +101,9 @@ export default async function CoachingPage() {
                         Timings
                       </p>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        {[program.timing, program.duration].filter(Boolean).join(" · ") || "—"}
+                        {[program.timing, program.duration]
+                          .filter(Boolean)
+                          .join(" · ") || "—"}
                       </p>
                     </div>
                   </li>

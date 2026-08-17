@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type AdmissionRequirementFormData = {
@@ -44,12 +44,12 @@ export function AdmissionRequirementForm({
 
   function setField<K extends keyof AdmissionRequirementFormData>(
     key: K,
-    value: AdmissionRequirementFormData[K]
+    value: AdmissionRequirementFormData[K],
   ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     setSaving(true);
@@ -76,28 +76,42 @@ export function AdmissionRequirementForm({
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
 
       if (!response.ok) {
-        throw new Error(result?.message ?? "Failed to save admission requirement");
+        throw new Error(
+          result?.message ?? "Failed to save admission requirement",
+        );
       }
 
       toast.success(
-        mode === "edit" ? "Admission requirement updated" : "Admission requirement created"
+        mode === "edit"
+          ? "Admission requirement updated"
+          : "Admission requirement created",
       );
       router.push(
-        `/admin/admissions/requirements?periodId=${encodeURIComponent(form.admissionPeriodId)}`
+        `/admin/admissions/requirements?periodId=${encodeURIComponent(form.admissionPeriodId)}`,
       );
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save admission requirement");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to save admission requirement",
+      );
     } finally {
       setSaving(false);
     }
   }
+
+  const getSubmitButtonText = () => {
+    if (saving) return "Saving...";
+    if (mode === "edit") return "Save Changes";
+    return "Create Requirement";
+  };
 
   return (
     <form
@@ -105,26 +119,35 @@ export function AdmissionRequirementForm({
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label htmlFor="period" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="period"
+          className="block text-sm font-medium text-slate-900"
+        >
           Admission Period
         </label>
         <select
           id="period"
           value={form.admissionPeriodId}
           disabled={mode === "edit"}
-          onChange={(event) => setField("admissionPeriodId", event.target.value)}
+          onChange={(event) =>
+            setField("admissionPeriodId", event.target.value)
+          }
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500 disabled:bg-slate-50"
         >
           {periods.map((period) => (
             <option key={period.id} value={period.id}>
-              {period.title} ({period.category.replace("_", " ")} — {period.status})
+              {period.title} ({period.category.replace("_", " ")} —{" "}
+              {period.status})
             </option>
           ))}
         </select>
       </div>
 
       <div>
-        <label htmlFor="eligibility" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="eligibility"
+          className="block text-sm font-medium text-slate-900"
+        >
           Eligibility
         </label>
         <textarea
@@ -137,26 +160,36 @@ export function AdmissionRequirementForm({
       </div>
 
       <div>
-        <label htmlFor="requiredDocuments" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="requiredDocuments"
+          className="block text-sm font-medium text-slate-900"
+        >
           Required Documents
         </label>
         <textarea
           id="requiredDocuments"
           value={form.requiredDocuments}
-          onChange={(event) => setField("requiredDocuments", event.target.value)}
+          onChange={(event) =>
+            setField("requiredDocuments", event.target.value)
+          }
           rows={3}
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
         />
       </div>
 
       <div>
-        <label htmlFor="applicationProcess" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="applicationProcess"
+          className="block text-sm font-medium text-slate-900"
+        >
           Application Process
         </label>
         <textarea
           id="applicationProcess"
           value={form.applicationProcess}
-          onChange={(event) => setField("applicationProcess", event.target.value)}
+          onChange={(event) =>
+            setField("applicationProcess", event.target.value)
+          }
           rows={3}
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
         />
@@ -164,7 +197,10 @@ export function AdmissionRequirementForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="importantDates" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="importantDates"
+            className="block text-sm font-medium text-slate-900"
+          >
             Important Dates
           </label>
           <textarea
@@ -176,7 +212,10 @@ export function AdmissionRequirementForm({
           />
         </div>
         <div>
-          <label htmlFor="feeInformation" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="feeInformation"
+            className="block text-sm font-medium text-slate-900"
+          >
             Fee Information
           </label>
           <textarea
@@ -191,7 +230,10 @@ export function AdmissionRequirementForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="prospectusUrl" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="prospectusUrl"
+            className="block text-sm font-medium text-slate-900"
+          >
             Prospectus URL
           </label>
           <input
@@ -204,21 +246,29 @@ export function AdmissionRequirementForm({
           />
         </div>
         <div>
-          <label htmlFor="contactInformation" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="contactInformation"
+            className="block text-sm font-medium text-slate-900"
+          >
             Contact Information
           </label>
           <input
             id="contactInformation"
             type="text"
             value={form.contactInformation}
-            onChange={(event) => setField("contactInformation", event.target.value)}
+            onChange={(event) =>
+              setField("contactInformation", event.target.value)
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="instructions" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="instructions"
+          className="block text-sm font-medium text-slate-900"
+        >
           Instructions
         </label>
         <textarea
@@ -233,7 +283,7 @@ export function AdmissionRequirementForm({
       <div className="flex items-center justify-end gap-3 border-t border-slate-100 pt-5">
         <Link
           href={`/admin/admissions/requirements?periodId=${encodeURIComponent(
-            form.admissionPeriodId
+            form.admissionPeriodId,
           )}`}
           className="rounded-md px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
         >
@@ -244,7 +294,7 @@ export function AdmissionRequirementForm({
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Requirement"}
+          {getSubmitButtonText()}
         </button>
       </div>
     </form>

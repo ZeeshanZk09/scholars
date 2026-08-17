@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus, Star } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus, Star } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { TestimonialService } from "@/services/testimonials";
-import { DeleteButton } from "../../_components/school/delete-button";
 
 export const metadata: Metadata = {
   title: "Testimonials",
@@ -14,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminTestimonialsListPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

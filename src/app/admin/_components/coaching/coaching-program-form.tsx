@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type CoachingFormData = {
@@ -27,7 +27,10 @@ type CoachingProgramFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramFormProps>) {
+export function CoachingProgramForm({
+  mode,
+  initial,
+}: Readonly<CoachingProgramFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<CoachingFormData>({
@@ -45,7 +48,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
     displayOrder: initial?.displayOrder ?? 0,
   });
 
-  function setField<K extends keyof CoachingFormData>(key: K, value: CoachingFormData[K]) {
+  function setField<K extends keyof CoachingFormData>(
+    key: K,
+    value: CoachingFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -75,13 +81,15 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/coaching/${initial?.id}` : "/api/v1/admin/coaching",
+        mode === "edit"
+          ? `/api/v1/admin/coaching/${initial?.id}`
+          : "/api/v1/admin/coaching",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -94,7 +102,11 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
       router.push("/admin/coaching/programs");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save coaching program");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to save coaching program",
+      );
     } finally {
       setSaving(false);
     }
@@ -112,7 +124,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-slate-900"
+        >
           Name <span className="text-red-600">*</span>
         </label>
         <input
@@ -127,7 +142,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="slug" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="slug"
+            className="block text-sm font-medium text-slate-900"
+          >
             Slug
           </label>
           <input
@@ -140,7 +158,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
           />
         </div>
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-slate-900"
+          >
             Category
           </label>
           <input
@@ -155,7 +176,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-slate-900"
+        >
           Description
         </label>
         <textarea
@@ -168,7 +192,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
       </div>
 
       <div>
-        <label htmlFor="subjects" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="subjects"
+          className="block text-sm font-medium text-slate-900"
+        >
           Subjects / Classes
         </label>
         <input
@@ -183,7 +210,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="targetStudents" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="targetStudents"
+            className="block text-sm font-medium text-slate-900"
+          >
             Target Students
           </label>
           <input
@@ -196,7 +226,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
           />
         </div>
         <div>
-          <label htmlFor="duration" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="duration"
+            className="block text-sm font-medium text-slate-900"
+          >
             Duration
           </label>
           <input
@@ -212,7 +245,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="timing" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="timing"
+            className="block text-sm font-medium text-slate-900"
+          >
             Timing / Batches
           </label>
           <input
@@ -225,14 +261,19 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
           />
         </div>
         <div>
-          <label htmlFor="admissionStatus" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="admissionStatus"
+            className="block text-sm font-medium text-slate-900"
+          >
             Admission Status
           </label>
           <input
             id="admissionStatus"
             type="text"
             value={form.admissionStatus}
-            onChange={(event) => setField("admissionStatus", event.target.value)}
+            onChange={(event) =>
+              setField("admissionStatus", event.target.value)
+            }
             placeholder="e.g. Open / Limited Seats"
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
@@ -240,7 +281,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
       </div>
 
       <div>
-        <label htmlFor="feeInformation" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="feeInformation"
+          className="block text-sm font-medium text-slate-900"
+        >
           Fee Information
         </label>
         <input
@@ -255,14 +299,20 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
             onChange={(event) =>
-              setField("status", event.target.value as CoachingFormData["status"])
+              setField(
+                "status",
+                event.target.value as CoachingFormData["status"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -275,7 +325,10 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
         </div>
 
         <div>
-          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="displayOrder"
+            className="block text-sm font-medium text-slate-900"
+          >
             Display Order
           </label>
           <input
@@ -283,7 +336,9 @@ export function CoachingProgramForm({ mode, initial }: Readonly<CoachingProgramF
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) => setField("displayOrder", Number(event.target.value))}
+            onChange={(event) =>
+              setField("displayOrder", Number(event.target.value))
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

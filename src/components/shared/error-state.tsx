@@ -1,4 +1,5 @@
 import { AlertCircle } from "lucide-react";
+
 import type { ReactNode } from "react";
 
 type ErrorStateProps = {
@@ -13,7 +14,7 @@ export function ErrorState({
   description = "We couldn't load this content right now. Please try again in a moment.",
   action,
   className,
-}: ErrorStateProps) {
+}: Readonly<ErrorStateProps>) {
   return (
     <div
       role="alert"

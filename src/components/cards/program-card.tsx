@@ -1,6 +1,10 @@
-import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
+import Link from "next/link";
 
+import type { ProgramPublic } from "@/repositories/programs/program.repository";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,9 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import type { ProgramPublic } from "@/repositories/programs/program.repository";
 
 type ProgramCardProps = {
   program: ProgramPublic;

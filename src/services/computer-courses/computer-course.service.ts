@@ -1,3 +1,9 @@
+import type {
+  CreateComputerCourseInput,
+  UpdateComputerCourseInput,
+} from "@/schemas/computer-course/computer-course.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { slugify } from "@/lib/utils/slug";
 import {
@@ -5,11 +11,6 @@ import {
   type ComputerCourseAdmin,
   type ComputerCoursePublic,
 } from "@/repositories/computer-courses";
-import type {
-  CreateComputerCourseInput,
-  UpdateComputerCourseInput,
-} from "@/schemas/computer-course/computer-course.schema";
-import type { ApiUser } from "@/server/auth/route-guard";
 
 export class ComputerCourseService {
   private readonly computerCourseRepository: ComputerCourseRepository;

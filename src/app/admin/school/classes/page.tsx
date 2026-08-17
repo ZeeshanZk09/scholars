@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { SchoolService } from "@/services/academics";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Classes",
@@ -36,7 +38,9 @@ export default async function AdminSchoolClassesPage() {
     service.listLevelsForAdmin({ skip: 0, take: 100 }),
   ]);
 
-  const levelNames = new Map(levelsResult.items.map((level) => [level.id, level.name]));
+  const levelNames = new Map(
+    levelsResult.items.map((level) => [level.id, level.name]),
+  );
   const classes = classesResult.items;
 
   return (
@@ -80,7 +84,10 @@ export default async function AdminSchoolClassesPage() {
           <tbody className="divide-y divide-slate-100">
             {classes.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No classes yet.
                 </td>
               </tr>

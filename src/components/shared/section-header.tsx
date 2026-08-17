@@ -18,7 +18,7 @@ export function SectionHeader({
   align = "center",
   as: Heading = "h2",
   className,
-}: SectionHeaderProps) {
+}: Readonly<SectionHeaderProps>) {
   return (
     <div
       className={cn(
@@ -28,17 +28,11 @@ export function SectionHeader({
       )}
     >
       {eyebrow ? (
-        <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-          {eyebrow}
-        </p>
+        <p className="text-sm font-semibold uppercase tracking-wider text-primary">{eyebrow}</p>
       ) : null}
-      <Heading className="text-3xl font-bold tracking-tight text-navy sm:text-4xl">
-        {title}
-      </Heading>
+      <Heading className="text-3xl font-bold tracking-tight text-navy sm:text-4xl">{title}</Heading>
       {description ? (
-        <p className="text-base leading-relaxed text-muted-foreground">
-          {description}
-        </p>
+        <p className="text-base leading-relaxed text-muted-foreground">{description}</p>
       ) : null}
     </div>
   );

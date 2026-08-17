@@ -1,11 +1,8 @@
 import { Quote, Star } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
 import type { TestimonialPublic } from "@/repositories/testimonials/testimonial.repository";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 type TestimonialCardProps = {
   testimonial: TestimonialPublic;
@@ -33,7 +30,7 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
                     className="h-4 w-4 fill-amber-400 text-amber-400"
                     aria-hidden="true"
                   />
-                )
+                ),
               )}
             </div>
           ) : null}

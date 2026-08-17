@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { BannerForm } from "../../_components/banners/banner-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BannerService } from "@/services/banners";
-import { BannerForm } from "../../_components/banners/banner-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Banner",
@@ -62,8 +64,12 @@ export default async function EditBannerPage({
           imageUrl: banner.imageUrl,
           linkUrl: banner.linkUrl ?? "",
           ctaLabel: banner.ctaLabel ?? "",
-          startDate: banner.startDate ? banner.startDate.toISOString().slice(0, 16) : "",
-          endDate: banner.endDate ? banner.endDate.toISOString().slice(0, 16) : "",
+          startDate: banner.startDate
+            ? banner.startDate.toISOString().slice(0, 16)
+            : "",
+          endDate: banner.endDate
+            ? banner.endDate.toISOString().slice(0, 16)
+            : "",
           status: banner.status,
           displayOrder: banner.displayOrder,
         }}

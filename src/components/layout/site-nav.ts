@@ -12,10 +12,24 @@ export type NavItem = {
 
 export const siteNav: NavItem[] = [
   { label: "About", href: "/about" },
-  { label: "School", href: "/school" },
-  { label: "College", href: "/college" },
-  { label: "Coaching", href: "/coaching" },
-  { label: "Computer Courses", href: "/computer-courses" },
+  {
+    label: "Academics",
+    href: "/academics",
+    children: [
+      { label: "School", href: "/school", description: "Nursery to Matric" },
+      {
+        label: "College",
+        href: "/college",
+        description: "Intermediate programs",
+      },
+      { label: "Coaching", href: "/coaching", description: "Exam preparation" },
+      {
+        label: "Computer Courses",
+        href: "/computer-courses",
+        description: "Professional training",
+      },
+    ],
+  },
   {
     label: "Explore",
     href: "/programs",

@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { PageForm } from "../../_components/pages/page-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { PageForm } from "../../_components/pages/page-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Page",
@@ -37,7 +39,9 @@ export default async function NewPageForm() {
           Back to Pages
         </Link>
         <h1 className="text-lg font-semibold text-slate-900">New Page</h1>
-        <p className="mt-1 text-sm text-slate-600">Create a page with content and SEO metadata.</p>
+        <p className="mt-1 text-sm text-slate-600">
+          Create a page with content and SEO metadata.
+        </p>
       </div>
 
       <PageForm mode="create" />

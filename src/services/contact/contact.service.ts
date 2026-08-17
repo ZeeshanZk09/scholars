@@ -1,6 +1,7 @@
+import type { CreateContactMessageInput } from "@/schemas/contact/contact.schema";
+
 import { NotFoundError } from "@/lib/errors";
 import { ContactRepository, type ContactMessageRecord } from "@/repositories/contact";
-import type { CreateContactMessageInput } from "@/schemas/contact/contact.schema";
 
 export class ContactService {
   private readonly contactRepository: ContactRepository;

@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { Building2, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Building2, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { FacultyService } from "@/services/faculty";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Faculty",
@@ -33,9 +34,12 @@ export default async function AdminFacultyPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Faculty Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Faculty Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage the campus faculty, labs and amenities shown on the public Faculty page.
+            Manage the campus faculty, labs and amenities shown on the public
+            Faculty page.
           </p>
         </div>
         {canCreate ? (

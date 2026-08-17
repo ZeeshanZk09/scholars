@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type PageFormData = {
@@ -39,7 +39,7 @@ function toDateTimeLocal(value?: string): string {
   }
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(
-    date.getHours()
+    date.getHours(),
   )}:${pad(date.getMinutes())}`;
 }
 
@@ -63,7 +63,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
     robots: initial?.robots ?? "",
   });
 
-  function setField<K extends keyof PageFormData>(key: K, value: PageFormData[K]) {
+  function setField<K extends keyof PageFormData>(
+    key: K,
+    value: PageFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -84,7 +87,9 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
       featuredImage: form.featuredImage.trim() || undefined,
       layout: form.layout.trim() || undefined,
       status: form.status,
-      publishedAt: form.publishedAt ? new Date(form.publishedAt).toISOString() : undefined,
+      publishedAt: form.publishedAt
+        ? new Date(form.publishedAt).toISOString()
+        : undefined,
       seo: {
         seoTitle: form.seoTitle.trim() || undefined,
         metaDescription: form.metaDescription.trim() || undefined,
@@ -98,13 +103,15 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/pages/${initial?.id}` : "/api/v1/admin/pages",
+        mode === "edit"
+          ? `/api/v1/admin/pages/${initial?.id}`
+          : "/api/v1/admin/pages",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -117,7 +124,9 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
       router.push("/admin/pages");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save page");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save page",
+      );
     } finally {
       setSaving(false);
     }
@@ -134,7 +143,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
       <div className="space-y-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-slate-900"
+            >
               Title <span className="text-red-600">*</span>
             </label>
             <input
@@ -147,7 +159,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
             />
           </div>
           <div>
-            <label htmlFor="slug" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="slug"
+              className="block text-sm font-medium text-slate-900"
+            >
               Slug
             </label>
             <input
@@ -162,7 +177,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="content" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-slate-900"
+          >
             Content
           </label>
           <textarea
@@ -176,20 +194,28 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="featuredImage" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="featuredImage"
+              className="block text-sm font-medium text-slate-900"
+            >
               Featured Image URL
             </label>
             <input
               id="featuredImage"
               type="text"
               value={form.featuredImage}
-              onChange={(event) => setField("featuredImage", event.target.value)}
+              onChange={(event) =>
+                setField("featuredImage", event.target.value)
+              }
               placeholder="https://..."
               className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
             />
           </div>
           <div>
-            <label htmlFor="layout" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="layout"
+              className="block text-sm font-medium text-slate-900"
+            >
               Layout
             </label>
             <input
@@ -205,13 +231,18 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="status"
+              className="block text-sm font-medium text-slate-900"
+            >
               Status
             </label>
             <select
               id="status"
               value={form.status}
-              onChange={(event) => setField("status", event.target.value as PageFormData["status"])}
+              onChange={(event) =>
+                setField("status", event.target.value as PageFormData["status"])
+              }
               className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
             >
               {STATUS_OPTIONS.map((status) => (
@@ -222,7 +253,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
             </select>
           </div>
           <div>
-            <label htmlFor="publishedAt" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="publishedAt"
+              className="block text-sm font-medium text-slate-900"
+            >
               Publish Date
             </label>
             <input
@@ -246,7 +280,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="seoTitle" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="seoTitle"
+              className="block text-sm font-medium text-slate-900"
+            >
               SEO Title
             </label>
             <input
@@ -258,7 +295,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
             />
           </div>
           <div>
-            <label htmlFor="robots" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="robots"
+              className="block text-sm font-medium text-slate-900"
+            >
               Robots
             </label>
             <input
@@ -273,20 +313,28 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="metaDescription" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="metaDescription"
+            className="block text-sm font-medium text-slate-900"
+          >
             Meta Description
           </label>
           <textarea
             id="metaDescription"
             value={form.metaDescription}
-            onChange={(event) => setField("metaDescription", event.target.value)}
+            onChange={(event) =>
+              setField("metaDescription", event.target.value)
+            }
             rows={3}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>
 
         <div>
-          <label htmlFor="canonicalUrl" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="canonicalUrl"
+            className="block text-sm font-medium text-slate-900"
+          >
             Canonical URL
           </label>
           <input
@@ -301,7 +349,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="ogTitle" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="ogTitle"
+              className="block text-sm font-medium text-slate-900"
+            >
               Open Graph Title
             </label>
             <input
@@ -313,7 +364,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
             />
           </div>
           <div>
-            <label htmlFor="ogImage" className="block text-sm font-medium text-slate-900">
+            <label
+              htmlFor="ogImage"
+              className="block text-sm font-medium text-slate-900"
+            >
               Open Graph Image URL
             </label>
             <input
@@ -328,7 +382,10 @@ export function PageForm({ mode, initial }: Readonly<PageFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="ogDescription" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="ogDescription"
+            className="block text-sm font-medium text-slate-900"
+          >
             Open Graph Description
           </label>
           <textarea

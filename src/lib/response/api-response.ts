@@ -1,4 +1,3 @@
-import { HTTP_STATUS, type HttpStatus } from "@/lib/constants/http-status.constants";
 import type {
   ApiErrorBody,
   ApiErrorResponse,
@@ -7,6 +6,8 @@ import type {
   PaginatedResponse,
   PaginationMeta,
 } from "@/types/api/api-response.types";
+
+import { HTTP_STATUS, type HttpStatus } from "@/lib/constants/http-status.constants";
 
 export function successResponse<T>(
   data: T,

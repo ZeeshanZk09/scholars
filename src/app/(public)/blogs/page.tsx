@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
-import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
-import { Container } from "@/components/layout/container";
-import { PageHeader } from "@/components/shared/page-header";
+import type { Metadata } from "next";
+
 import { BlogCard } from "@/components/cards/blog-card";
+import { Container } from "@/components/layout/container";
 import { EmptyState } from "@/components/shared/empty-state";
+import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
 import { BlogService } from "@/services/blogs";
 
@@ -24,7 +25,9 @@ type BlogsPageProps = {
   searchParams: Promise<{ page?: string }>;
 };
 
-export default async function BlogsPage({ searchParams }: Readonly<BlogsPageProps>) {
+export default async function BlogsPage({
+  searchParams,
+}: Readonly<BlogsPageProps>) {
   const { page } = await searchParams;
   const currentPage = Math.max(1, Number(page) || 1);
   const skip = (currentPage - 1) * PAGE_SIZE;

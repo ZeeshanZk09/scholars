@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { ComputerCourseForm } from "../../../_components/computer-courses/computer-course-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ComputerCourseService } from "@/services/computer-courses";
-import { ComputerCourseForm } from "../../../_components/computer-courses/computer-course-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Computer Course",

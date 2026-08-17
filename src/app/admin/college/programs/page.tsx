@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ProgramService } from "@/services/programs";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "College Programs",
@@ -29,7 +31,10 @@ export default async function AdminCollegeProgramsPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.CMS_CREATE);
   const canDelete = hasPermission(user.role, PERMISSIONS.CMS_DELETE);
-  const { items: programs } = await new ProgramService().listForAdmin({ skip: 0, take: 100 });
+  const { items: programs } = await new ProgramService().listForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -44,7 +49,8 @@ export default async function AdminCollegeProgramsPage() {
           </Link>
           <h1 className="text-lg font-semibold text-slate-900">Programs</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Intermediate programs with academic streams, subjects and eligibility.
+            Intermediate programs with academic streams, subjects and
+            eligibility.
           </p>
         </div>
         {canCreate ? (
@@ -72,7 +78,10 @@ export default async function AdminCollegeProgramsPage() {
           <tbody className="divide-y divide-slate-100">
             {programs.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No programs yet.
                 </td>
               </tr>

@@ -1,7 +1,15 @@
+import {
+  ArrowRight,
+  BookOpen,
+  GraduationCap,
+  Laptop,
+  School,
+} from "lucide-react";
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
-import { ArrowRight, BookOpen, GraduationCap, Laptop, School } from "lucide-react";
 
+import type { LucideIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,7 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 const ICONS: Record<string, LucideIcon> = {
   school: School,

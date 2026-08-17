@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import { Plus, Settings2 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Plus, Settings2 } from "lucide-react";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
@@ -38,10 +39,12 @@ export default async function AdminSettingsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Site Settings</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Site Settings
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Global key-value settings for the website — site name, tagline, contact details and
-            more.
+            Global key-value settings for the website — site name, tagline,
+            contact details and more.
           </p>
         </div>
         {canManage ? (
@@ -63,9 +66,13 @@ export default async function AdminSettingsPage() {
           <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-white">
             <Settings2 className="h-5 w-5" aria-hidden="true" />
           </span>
-          <span className="text-2xl font-bold text-slate-900">{settings.length}</span>
+          <span className="text-2xl font-bold text-slate-900">
+            {settings.length}
+          </span>
         </div>
-        <h2 className="mt-4 text-sm font-semibold text-slate-900">All Settings</h2>
+        <h2 className="mt-4 text-sm font-semibold text-slate-900">
+          All Settings
+        </h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
           {Object.entries(groups)
             .map(([group, count]) => `${group} (${count})`)

@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { InquiryStatusButton } from "../../../_components/admissions/inquiry-status-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
-import { InquiryStatusButton } from "../../../_components/admissions/inquiry-status-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Application Details",
@@ -78,8 +80,12 @@ export default async function AdminAdmissionInquiryDetailPage({
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to Applications
           </Link>
-          <h1 className="text-lg font-semibold text-slate-900">Application Details</h1>
-          <p className="mt-1 text-sm text-slate-600">Submitted by {inquiry.studentName}</p>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Application Details
+          </h1>
+          <p className="mt-1 text-sm text-slate-600">
+            Submitted by {inquiry.studentName}
+          </p>
         </div>
         {hasPermission(user.role, PERMISSIONS.ADMISSION_MANAGE) ? (
           <div className="flex items-center gap-2">
@@ -99,11 +105,16 @@ export default async function AdminAdmissionInquiryDetailPage({
 
       <div className="grid gap-4 sm:grid-cols-2">
         {rows.map((row) => (
-          <div key={row.label} className="rounded-lg border border-slate-200 bg-white p-4">
+          <div
+            key={row.label}
+            className="rounded-lg border border-slate-200 bg-white p-4"
+          >
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               {row.label}
             </p>
-            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">{row.value ?? "—"}</p>
+            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">
+              {row.value ?? "—"}
+            </p>
           </div>
         ))}
       </div>

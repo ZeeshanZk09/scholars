@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type ProgramFormData = {
@@ -41,7 +41,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
     displayOrder: initial?.displayOrder ?? 0,
   });
 
-  function setField<K extends keyof ProgramFormData>(key: K, value: ProgramFormData[K]) {
+  function setField<K extends keyof ProgramFormData>(
+    key: K,
+    value: ProgramFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -69,13 +72,15 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/programs/${initial?.id}` : "/api/v1/admin/programs",
+        mode === "edit"
+          ? `/api/v1/admin/programs/${initial?.id}`
+          : "/api/v1/admin/programs",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -88,7 +93,9 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
       router.push("/admin/college/programs");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save program");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save program",
+      );
     } finally {
       setSaving(false);
     }
@@ -107,7 +114,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-slate-900"
+        >
           Name <span className="text-red-600">*</span>
         </label>
         <input
@@ -122,7 +132,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="slug" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="slug"
+            className="block text-sm font-medium text-slate-900"
+          >
             Slug
           </label>
           <input
@@ -135,7 +148,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
           />
         </div>
         <div>
-          <label htmlFor="groupName" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="groupName"
+            className="block text-sm font-medium text-slate-900"
+          >
             Academic Stream / Group
           </label>
           <input
@@ -151,7 +167,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="duration" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="duration"
+            className="block text-sm font-medium text-slate-900"
+          >
             Duration
           </label>
           <input
@@ -164,7 +183,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
           />
         </div>
         <div>
-          <label htmlFor="eligibility" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="eligibility"
+            className="block text-sm font-medium text-slate-900"
+          >
             Eligibility
           </label>
           <input
@@ -179,7 +201,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-slate-900"
+        >
           Description
         </label>
         <textarea
@@ -192,7 +217,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="subjects" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="subjects"
+          className="block text-sm font-medium text-slate-900"
+        >
           Subjects
         </label>
         <input
@@ -206,13 +234,18 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="admissionRequirements" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="admissionRequirements"
+          className="block text-sm font-medium text-slate-900"
+        >
           Admission Requirements
         </label>
         <textarea
           id="admissionRequirements"
           value={form.admissionRequirements}
-          onChange={(event) => setField("admissionRequirements", event.target.value)}
+          onChange={(event) =>
+            setField("admissionRequirements", event.target.value)
+          }
           rows={3}
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
         />
@@ -220,14 +253,20 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
             onChange={(event) =>
-              setField("status", event.target.value as ProgramFormData["status"])
+              setField(
+                "status",
+                event.target.value as ProgramFormData["status"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -240,7 +279,10 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="displayOrder"
+            className="block text-sm font-medium text-slate-900"
+          >
             Display Order
           </label>
           <input
@@ -248,7 +290,9 @@ export function ProgramForm({ mode, initial }: Readonly<ProgramFormProps>) {
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) => setField("displayOrder", Number(event.target.value))}
+            onChange={(event) =>
+              setField("displayOrder", Number(event.target.value))
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

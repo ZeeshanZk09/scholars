@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
-import { Container } from "@/components/layout/container";
-import { PageHeader } from "@/components/shared/page-header";
-import { CtaSection } from "@/components/shared/cta-section";
 import { FacilityCard } from "@/components/cards/facility-card";
+import { Container } from "@/components/layout/container";
+import { CtaSection } from "@/components/shared/cta-section";
 import { EmptyState } from "@/components/shared/empty-state";
+import { PageHeader } from "@/components/shared/page-header";
 import { FacilityService } from "@/services/facilities";
 
 export const metadata: Metadata = {

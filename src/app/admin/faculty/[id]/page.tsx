@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
 
+import type { Metadata } from "next";
+
+import { FacultyForm } from "@/features/faculty/components/faculty-form";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { FacultyService } from "@/services/faculty";
-import { FacultyForm } from "@/features/faculty/components/faculty-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Faculty",

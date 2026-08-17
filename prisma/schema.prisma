@@ -604,6 +604,41 @@ model Testimonial {
   @@map("testimonials")
 }
 
+model PrincipalMessage {
+  id              String        @id @default(cuid())
+  name            String
+  designation     String?
+  profileImageUrl String?
+  message         String        @db.Text
+  biography       String?       @db.Text
+  status          ContentStatus @default(PUBLISHED)
+  displayOrder    Int           @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status])
+  @@index([displayOrder])
+  @@index([status, displayOrder])
+  @@map("principal_messages")
+}
+
+model ManagementMember {
+  id          String        @id @default(cuid())
+  name        String
+  designation String?
+  imageUrl    String?
+  biography   String?       @db.Text
+  status      ContentStatus @default(PUBLISHED)
+  displayOrder Int          @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@index([displayOrder])
+  @@index([status, displayOrder])
+  @@map("management_members")
+}
+
 // ============================================================
 // BLOG
 // ============================================================

@@ -1,10 +1,11 @@
-import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
+import Link from "next/link";
+
+import type { HomeAdmissionSummary } from "@/lib/admissions-status";
 
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/format";
-import type { HomeAdmissionSummary } from "@/lib/admissions-status";
 
 type AdmissionsHighlightProps = {
   admission: HomeAdmissionSummary;
@@ -37,7 +38,7 @@ const COPY: Record<
   },
 };
 
-export function AdmissionsHighlight({ admission }: AdmissionsHighlightProps) {
+export function AdmissionsHighlight({ admission }: Readonly<AdmissionsHighlightProps>) {
   const copy = COPY[admission.status];
 
   return (

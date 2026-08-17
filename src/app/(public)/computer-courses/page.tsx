@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
+import { ComputerCourseCard } from "@/components/cards/computer-course-card";
 import { Container } from "@/components/layout/container";
+import { CtaSection } from "@/components/shared/cta-section";
+import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionHeader } from "@/components/shared/section-header";
-import { CtaSection } from "@/components/shared/cta-section";
-import { ComputerCourseCard } from "@/components/cards/computer-course-card";
-import { EmptyState } from "@/components/shared/empty-state";
 import { ComputerCourseService } from "@/services/computer-courses";
 
 export const metadata: Metadata = {
@@ -48,7 +48,9 @@ export default async function ComputerCoursesPage() {
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {courses.length > 0 ? (
-              courses.map((course) => <ComputerCourseCard key={course.id} course={course} />)
+              courses.map((course) => (
+                <ComputerCourseCard key={course.id} course={course} />
+              ))
             ) : (
               <EmptyState
                 className="col-span-full"
@@ -71,10 +73,15 @@ export default async function ComputerCoursesPage() {
             />
             <div className="mt-12 space-y-6">
               {courses.map((course) => (
-                <article key={course.id} className="overflow-hidden rounded-xl border bg-white">
+                <article
+                  key={course.id}
+                  className="overflow-hidden rounded-xl border bg-white"
+                >
                   <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
                     <div>
-                      <h2 className="text-lg font-semibold text-navy">{course.name}</h2>
+                      <h2 className="text-lg font-semibold text-navy">
+                        {course.name}
+                      </h2>
                       {course.instructor ? (
                         <p className="mt-0.5 text-sm text-muted-foreground">
                           Instructor: {course.instructor}
@@ -116,7 +123,9 @@ export default async function ComputerCoursesPage() {
                           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                             Eligibility
                           </p>
-                          <p className="mt-1 text-slate-700">{course.eligibility}</p>
+                          <p className="mt-1 text-slate-700">
+                            {course.eligibility}
+                          </p>
                         </div>
                       ) : null}
                       {course.timing ? (

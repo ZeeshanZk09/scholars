@@ -175,8 +175,15 @@ export class AdmissionsRepository {
 
   async findSessionById(sessionId: string) {
     return prisma.academicSession.findFirst({
-      select: SESSION_LITE_SELECT,
       where: { id: sessionId },
+      select: SESSION_LITE_SELECT,
+    });
+  }
+
+  async listSessions() {
+    return prisma.academicSession.findMany({
+      select: SESSION_LITE_SELECT,
+      orderBy: { name: "desc" },
     });
   }
 

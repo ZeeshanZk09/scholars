@@ -5,10 +5,20 @@ import { contentStatusSchema, urlField } from "@/schemas/common/content.schema";
 export const pageSeoSchema = z.object({
   seoTitle: z.string().trim().max(200, "SEO title is too long").optional(),
   metaDescription: z.string().trim().max(500, "Meta description is too long").optional(),
-  canonicalUrl: z.string().trim().max(2048, "Canonical URL is too long").optional().or(z.literal("")),
+  canonicalUrl: z
+    .string()
+    .trim()
+    .max(2048, "Canonical URL is too long")
+    .optional()
+    .or(z.literal("")),
   ogTitle: z.string().trim().max(200, "Open Graph title is too long").optional(),
   ogDescription: z.string().trim().max(500, "Open Graph description is too long").optional(),
-  ogImage: z.string().trim().max(2048, "Open Graph image URL is too long").optional().or(z.literal("")),
+  ogImage: z
+    .string()
+    .trim()
+    .max(2048, "Open Graph image URL is too long")
+    .optional()
+    .or(z.literal("")),
   robots: z.string().trim().max(200, "Robots is too long").optional(),
 });
 

@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { AdmissionPeriodForm } from "../../../_components/admissions/admission-period-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { prisma } from "@/server/db";
-import { AdmissionPeriodForm } from "../../../_components/admissions/admission-period-form";
-import { User } from "next-auth";
+import { AdmissionsService } from "@/services/admissions";
 
 export const metadata: Metadata = {
   title: "New Admission Period",
@@ -27,10 +29,7 @@ export default async function NewAdmissionPeriodPage() {
     redirect("/admin/unauthorized");
   }
 
-  const sessions = await prisma.academicSession.findMany({
-    select: { id: true, name: true },
-    orderBy: { name: "desc" },
-  });
+  const sessions = await new AdmissionsService().listSessions();
 
   return (
     <div className="space-y-6">
@@ -42,7 +41,9 @@ export default async function NewAdmissionPeriodPage() {
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Admission Periods
         </Link>
-        <h1 className="text-lg font-semibold text-slate-900">New Admission Period</h1>
+        <h1 className="text-lg font-semibold text-slate-900">
+          New Admission Period
+        </h1>
         <p className="mt-1 text-sm text-slate-600">
           Create an admission period and set its status for the public website.
         </p>

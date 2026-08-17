@@ -1,24 +1,19 @@
+import { ArrowRight, CalendarDays, GraduationCap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, GraduationCap } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { formatDateShort } from "@/lib/format";
 import type { BlogSafe } from "@/repositories/blogs/blog.repository";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDateShort } from "@/lib/format";
 
 type BlogCardProps = {
   blog: BlogSafe;
   category?: string;
 };
 
-export function BlogCard({ blog, category }: BlogCardProps) {
+export function BlogCard({ blog, category }: Readonly<BlogCardProps>) {
   return (
     <Card className="group flex h-full flex-col overflow-hidden transition-shadow hover:shadow-md">
       <Link

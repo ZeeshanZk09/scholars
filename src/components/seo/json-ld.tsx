@@ -3,14 +3,9 @@ type JsonLdProps = {
 };
 
 function toJson(data: Record<string, unknown>): string {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
+  return JSON.stringify(data).replaceAll(/</g, "\\u003c");
 }
 
-export function JsonLd({ data }: JsonLdProps) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: toJson(data) }}
-    />
-  );
+export function JsonLd({ data }: Readonly<JsonLdProps>) {
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJson(data) }} />;
 }

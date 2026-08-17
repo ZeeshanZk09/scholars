@@ -1,10 +1,3 @@
-import { ConflictError, NotFoundError } from "@/lib/errors";
-import {
-  AdmissionsRepository,
-  type AdmissionInquiryRecord,
-  type AdmissionPeriodRecord,
-  type AdmissionRequirementRecord,
-} from "@/repositories/admissions";
 import type {
   CreateAdmissionInquiryInput,
   CreateAdmissionPeriodInput,
@@ -13,6 +6,14 @@ import type {
   UpdateAdmissionRequirementInput,
 } from "@/schemas/admission/admission.schema";
 import type { ApiUser } from "@/server/auth/route-guard";
+
+import { ConflictError, NotFoundError } from "@/lib/errors";
+import {
+  AdmissionsRepository,
+  type AdmissionInquiryRecord,
+  type AdmissionPeriodRecord,
+  type AdmissionRequirementRecord,
+} from "@/repositories/admissions";
 
 export class AdmissionsService {
   private readonly admissionsRepository: AdmissionsRepository;
@@ -50,6 +51,10 @@ export class AdmissionsService {
     }
 
     return period;
+  }
+
+  async listSessions() {
+    return this.admissionsRepository.listSessions();
   }
 
   async createPeriod(input: CreateAdmissionPeriodInput, actor: ApiUser): Promise<{ id: string }> {

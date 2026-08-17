@@ -4,9 +4,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
 });
 
-export function formatDate(
-  date: Date | string | null | undefined
-): string | null {
+export function formatDate(date: Date | string | null | undefined): string | null {
   if (!date) {
     return null;
   }
@@ -17,9 +15,7 @@ export function formatDate(
   return dateFormatter.format(parsed);
 }
 
-export function formatDateShort(
-  date: Date | string | null | undefined
-): string | null {
+export function formatDateShort(date: Date | string | null | undefined): string | null {
   if (!date) {
     return null;
   }

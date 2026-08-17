@@ -1,9 +1,10 @@
 "use client";
 
-import { SyntheticEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { type SyntheticEvent, useState } from "react";
 import { toast } from "sonner";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -43,7 +44,7 @@ function toDateTimeLocal(value?: string): string {
   }
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(
-    date.getHours()
+    date.getHours(),
   )}:${pad(date.getMinutes())}`;
 }
 
@@ -67,7 +68,7 @@ export function AdmissionPeriodForm({
 
   function setField<K extends keyof AdmissionPeriodFormData>(
     key: K,
-    value: AdmissionPeriodFormData[K]
+    value: AdmissionPeriodFormData[K],
   ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
@@ -87,8 +88,12 @@ export function AdmissionPeriodForm({
       category: form.category,
       title: form.title.trim(),
       description: form.description.trim() || undefined,
-      openingDate: form.openingDate ? new Date(form.openingDate).toISOString() : undefined,
-      closingDate: form.closingDate ? new Date(form.closingDate).toISOString() : undefined,
+      openingDate: form.openingDate
+        ? new Date(form.openingDate).toISOString()
+        : undefined,
+      closingDate: form.closingDate
+        ? new Date(form.closingDate).toISOString()
+        : undefined,
       status: form.status,
       isActive: form.isActive,
     };
@@ -103,7 +108,7 @@ export function AdmissionPeriodForm({
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -112,11 +117,19 @@ export function AdmissionPeriodForm({
         throw new Error(result?.message ?? "Failed to save admission period");
       }
 
-      toast.success(mode === "edit" ? "Admission period updated" : "Admission period created");
+      toast.success(
+        mode === "edit"
+          ? "Admission period updated"
+          : "Admission period created",
+      );
       router.push("/admin/admissions/periods");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save admission period");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to save admission period",
+      );
     } finally {
       setSaving(false);
     }
@@ -131,14 +144,20 @@ export function AdmissionPeriodForm({
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-slate-900"
+          >
             Category
           </label>
           <select
             id="category"
             value={form.category}
             onChange={(event) =>
-              setField("category", event.target.value as AdmissionPeriodFormData["category"])
+              setField(
+                "category",
+                event.target.value as AdmissionPeriodFormData["category"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -151,7 +170,10 @@ export function AdmissionPeriodForm({
         </div>
 
         <div>
-          <label htmlFor="session" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="session"
+            className="block text-sm font-medium text-slate-900"
+          >
             Academic Session
           </label>
           <select
@@ -170,7 +192,10 @@ export function AdmissionPeriodForm({
       </div>
 
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="title"
+          className="block text-sm font-medium text-slate-900"
+        >
           Title <span className="text-red-600">*</span>
         </label>
         <input
@@ -184,7 +209,10 @@ export function AdmissionPeriodForm({
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-slate-900"
+        >
           Description
         </label>
         <textarea
@@ -198,7 +226,10 @@ export function AdmissionPeriodForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="openingDate" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="openingDate"
+            className="block text-sm font-medium text-slate-900"
+          >
             Opening Date & Time
           </label>
           <input
@@ -210,7 +241,10 @@ export function AdmissionPeriodForm({
           />
         </div>
         <div>
-          <label htmlFor="closingDate" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="closingDate"
+            className="block text-sm font-medium text-slate-900"
+          >
             Closing Date & Time
           </label>
           <input
@@ -225,14 +259,20 @@ export function AdmissionPeriodForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Admission Status
           </label>
           <select
             id="status"
             value={form.status}
             onChange={(event) =>
-              setField("status", event.target.value as AdmissionPeriodFormData["status"])
+              setField(
+                "status",
+                event.target.value as AdmissionPeriodFormData["status"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -243,7 +283,8 @@ export function AdmissionPeriodForm({
             ))}
           </select>
           <p className="mt-1 text-xs text-slate-500">
-            OPEN periods accept applications; COMING_SOON and CLOSED periods do not.
+            OPEN periods accept applications; COMING_SOON and CLOSED periods do
+            not.
           </p>
         </div>
 

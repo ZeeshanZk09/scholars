@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { ImageIcon, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ImageIcon, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BannerService } from "@/services/banners";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Banners",
@@ -27,16 +28,21 @@ export default async function AdminBannersPage() {
   }
 
   const canCreate = hasPermission(user.role, PERMISSIONS.BANNER_CREATE);
-  const { total } = await new BannerService().listForAdmin({ skip: 0, take: 1 });
+  const { total } = await new BannerService().listForAdmin({
+    skip: 0,
+    take: 1,
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Banners Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Banners Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage the banners shown on the public website, including images, links and display
-            order.
+            Manage the banners shown on the public website, including images,
+            links and display order.
           </p>
         </div>
         {canCreate ? (

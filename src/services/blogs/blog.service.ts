@@ -1,9 +1,15 @@
+import type { CreateBlogInput, UpdateBlogInput } from "@/schemas/blog/blog.schema";
+import type {
+  CreateBlogCategoryInput,
+  UpdateBlogCategoryInput,
+} from "@/schemas/blog/category.schema";
+import type { CreateBlogTagInput, UpdateBlogTagInput } from "@/schemas/blog/tag.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { sanitizeRichHtml } from "@/lib/security/sanitize-html";
 import { slugify } from "@/lib/utils/slug";
 import { BlogRepository, type BlogPublicDetail, type BlogSafe } from "@/repositories/blogs";
-import type { CreateBlogInput, UpdateBlogInput } from "@/schemas/blog/blog.schema";
-import type { ApiUser } from "@/server/auth/route-guard";
 
 export class BlogService {
   private readonly blogRepository: BlogRepository;
@@ -22,6 +28,86 @@ export class BlogService {
 
   async listCategories() {
     return this.blogRepository.listCategories();
+  }
+
+  async listTags() {
+    return this.blogRepository.listTags();
+  }
+
+  async listAllCategories() {
+    return this.blogRepository.listAllCategories();
+  }
+
+  async listAllTags() {
+    return this.blogRepository.listAllTags();
+  }
+
+  async createCategory(input: CreateBlogCategoryInput, actor: ApiUser): Promise<{ id: string }> {
+    const slug = slugify(input.name);
+
+    const existing = await this.blogRepository.findCategoryBySlug(slug);
+    if (existing) {
+      throw new ConflictError("A category with this name already exists.");
+    }
+
+    return this.blogRepository.createCategory({
+      name: input.name,
+      slug,
+      description: input.description || null,
+      status: input.status,
+      createdById: actor.id,
+    });
+  }
+
+  async updateCategory(id: string, input: UpdateBlogCategoryInput): Promise<void> {
+    const updated = await this.blogRepository.updateCategory(id, input);
+
+    if (!updated) {
+      throw new NotFoundError("Blog category not found.");
+    }
+  }
+
+  async deleteCategory(id: string): Promise<void> {
+    const deleted = await this.blogRepository.deleteCategory(id);
+
+    if (!deleted) {
+      throw new NotFoundError("Blog category not found.");
+    }
+  }
+
+  async createTag(input: CreateBlogTagInput, actor: ApiUser): Promise<{ id: string }> {
+    const slug = slugify(input.name);
+
+    const existing = await this.blogRepository.findTagBySlug(slug);
+    if (existing) {
+      throw new ConflictError("A tag with this name already exists.");
+    }
+
+    return this.blogRepository.createTag({
+      name: input.name,
+      slug,
+      createdById: actor.id,
+    });
+  }
+
+  async updateTag(id: string, input: UpdateBlogTagInput): Promise<void> {
+    const existing = await this.blogRepository.findTagById(id);
+    if (!existing) {
+      throw new NotFoundError("Blog tag not found.");
+    }
+
+    const updated = await this.blogRepository.updateTag(id, input.name);
+    if (!updated) {
+      throw new NotFoundError("Blog tag not found.");
+    }
+  }
+
+  async deleteTag(id: string): Promise<void> {
+    const deleted = await this.blogRepository.deleteTag(id);
+
+    if (!deleted) {
+      throw new NotFoundError("Blog tag not found.");
+    }
   }
 
   async getPublishedBySlug(slug: string): Promise<BlogPublicDetail> {
@@ -60,6 +146,7 @@ export class BlogService {
       featuredImage: input.featuredImage || null,
       status: input.status,
       categoryName: input.categoryName || null,
+      tagIds: input.tags,
       authorId: actor.id,
       createdById: actor.id,
       publishedAt: input.publishedAt ?? null,
@@ -86,6 +173,7 @@ export class BlogService {
       featuredImage: input.featuredImage === undefined ? undefined : input.featuredImage || null,
       status: input.status,
       publishedAt: input.publishedAt === undefined ? undefined : input.publishedAt,
+      tagIds: input.tags,
       seo: input.seo === undefined ? undefined : input.seo,
       updatedById: actor.id,
     });

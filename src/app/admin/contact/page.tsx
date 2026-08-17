@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Mail } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ContactService } from "@/services/contact";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Contact Inquiries",
@@ -26,7 +27,10 @@ export default async function AdminContactPage() {
     redirect("/admin/unauthorized");
   }
 
-  const { total } = await new ContactService().listForAdmin({ skip: 0, take: 1 });
+  const { total } = await new ContactService().listForAdmin({
+    skip: 0,
+    take: 1,
+  });
   const { total: newTotal } = await new ContactService().listForAdmin({
     skip: 0,
     take: 1,
@@ -36,7 +40,9 @@ export default async function AdminContactPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Contact Inquiries Module</h1>
+        <h1 className="text-lg font-semibold text-slate-900">
+          Contact Inquiries Module
+        </h1>
         <p className="mt-1 text-sm text-slate-600">
           Messages submitted from the contact form on the public Contact page.
         </p>

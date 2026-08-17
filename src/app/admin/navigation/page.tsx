@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { Menu, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Menu, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { NavigationService } from "@/services/navigation";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Navigation",
@@ -28,13 +29,17 @@ export default async function AdminNavigationPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.CMS_CREATE);
   const items = await new NavigationService().listForAdmin();
-  const publishedCount = items.filter((item) => item.status === "PUBLISHED").length;
+  const publishedCount = items.filter(
+    (item) => item.status === "PUBLISHED",
+  ).length;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Navigation Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Navigation Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
             Manage main and footer navigation items — labels, URLs and ordering.
           </p>
@@ -58,13 +63,20 @@ export default async function AdminNavigationPage() {
           <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-white">
             <Menu className="h-5 w-5" aria-hidden="true" />
           </span>
-          <span className="text-2xl font-bold text-slate-900">{items.length}</span>
+          <span className="text-2xl font-bold text-slate-900">
+            {items.length}
+          </span>
         </div>
-        <h2 className="mt-4 text-sm font-semibold text-slate-900">Navigation Items</h2>
+        <h2 className="mt-4 text-sm font-semibold text-slate-900">
+          Navigation Items
+        </h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
-          {publishedCount} published · {items.length - publishedCount} draft/archived
+          {publishedCount} published · {items.length - publishedCount}{" "}
+          draft/archived
         </p>
-        <span className="mt-3 inline-block text-sm font-medium text-slate-700">Manage Items →</span>
+        <span className="mt-3 inline-block text-sm font-medium text-slate-700">
+          Manage Items →
+        </span>
       </Link>
     </div>
   );

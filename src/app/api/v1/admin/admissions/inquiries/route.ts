@@ -10,9 +10,21 @@ export const GET = withApiHandler(async (_ctx, request) => {
 
   const url = new URL(request.url);
   const { page, limit, skip, take } = parsePagination(url);
-  const status = parseEnumFilter(url, "status", ["PENDING", "CONTACTED", "CLOSED"] as const);
+  const status = parseEnumFilter(url, "status", [
+    "PENDING",
+    "CONTACTED",
+    "CLOSED",
+  ] as const);
 
-  const { items, total } = await new AdmissionsService().listInquiries({ skip, take, status });
+  const { items, total } = await new AdmissionsService().listInquiries({
+    skip,
+    take,
+    status,
+  });
 
-  return jsonSuccessPaged(items, paginationMeta(page, limit, total), "Admission inquiries retrieved successfully");
+  return jsonSuccessPaged(
+    items,
+    paginationMeta(page, limit, total),
+    "Admission inquiries retrieved successfully",
+  );
 });

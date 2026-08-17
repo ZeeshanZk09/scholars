@@ -1,19 +1,23 @@
-import Image from "next/image";
 import { type Faculty } from "@prisma/client";
-import { cn } from "@/lib/utils";
 import { UserIcon } from "lucide-react";
+import Image from "next/image";
+
+import { cn } from "@/lib/utils";
 
 interface FacultyCardProps {
   faculty: Faculty;
   className?: string;
 }
 
-export function FacultyCard({ faculty, className }: Readonly<FacultyCardProps>) {
+export function FacultyCard({
+  faculty,
+  className,
+}: Readonly<FacultyCardProps>) {
   return (
     <div
       className={cn(
         "group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md",
-        className
+        className,
       )}
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
@@ -38,10 +42,14 @@ export function FacultyCard({ faculty, className }: Readonly<FacultyCardProps>) 
         </h3>
 
         {faculty.designation && (
-          <p className="mt-1 font-medium text-primary text-sm">{faculty.designation}</p>
+          <p className="mt-1 font-medium text-primary text-sm">
+            {faculty.designation}
+          </p>
         )}
 
-        {faculty.department && <p className="mt-2 text-sm text-slate-500">{faculty.department}</p>}
+        {faculty.department && (
+          <p className="mt-2 text-sm text-slate-500">{faculty.department}</p>
+        )}
 
         {faculty.biography && (
           <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-slate-600">

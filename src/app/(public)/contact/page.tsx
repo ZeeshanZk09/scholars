@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import { Clock, Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Clock, Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
+
+import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/shared/page-header";
@@ -9,12 +10,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { siteConfig } from "@/lib/site-config";
 
 const ContactForm = dynamic(() =>
-  import("@/components/forms/contact-form").then((mod) => mod.ContactForm)
+  import("@/components/forms/contact-form").then((mod) => mod.ContactForm),
 );
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Get in touch with Scholar — admissions, campus visits, fees and general enquiries.",
+  description:
+    "Get in touch with Scholar — admissions, campus visits, fees and general enquiries.",
   alternates: {
     canonical: "/contact",
   },
@@ -28,7 +30,7 @@ const officeHours = [
 
 export default function ContactPage() {
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    siteConfig.address
+    siteConfig.address,
   )}`;
 
   return (
@@ -47,7 +49,9 @@ export default function ContactPage() {
             <div className="space-y-6 lg:col-span-2">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg text-navy">Get in Touch</CardTitle>
+                  <CardTitle className="text-lg text-navy">
+                    Get in Touch
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-5 text-sm">
                   <div className="flex items-start gap-3">
@@ -56,7 +60,9 @@ export default function ContactPage() {
                     </span>
                     <div>
                       <p className="font-medium text-foreground">Address</p>
-                      <p className="mt-0.5 text-muted-foreground">{siteConfig.address}</p>
+                      <p className="mt-0.5 text-muted-foreground">
+                        {siteConfig.address}
+                      </p>
                       <a
                         href={mapsUrl}
                         target="_blank"
@@ -64,7 +70,10 @@ export default function ContactPage() {
                         className="mt-1 inline-flex items-center gap-1 font-medium text-primary hover:underline"
                       >
                         Get Directions
-                        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        <ArrowUpRight
+                          className="h-3.5 w-3.5"
+                          aria-hidden="true"
+                        />
                       </a>
                     </div>
                   </div>
@@ -103,7 +112,9 @@ export default function ContactPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg text-navy">Office Hours</CardTitle>
+                  <CardTitle className="text-lg text-navy">
+                    Office Hours
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   {officeHours.map((slot) => (
@@ -115,7 +126,9 @@ export default function ContactPage() {
                         <Clock className="h-4 w-4" aria-hidden="true" />
                         {slot.days}
                       </span>
-                      <span className="font-medium text-foreground">{slot.hours}</span>
+                      <span className="font-medium text-foreground">
+                        {slot.hours}
+                      </span>
                     </div>
                   ))}
                 </CardContent>
@@ -123,7 +136,10 @@ export default function ContactPage() {
 
               <p className="text-sm leading-relaxed text-muted-foreground">
                 Prefer visiting before you apply?{" "}
-                <Link href="/admissions" className="font-medium text-primary hover:underline">
+                <Link
+                  href="/admissions"
+                  className="font-medium text-primary hover:underline"
+                >
                   Check our admission dates
                 </Link>{" "}
                 and plan a campus tour.
@@ -134,7 +150,9 @@ export default function ContactPage() {
             <div className="lg:col-span-3">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg text-navy">Send us a Message</CardTitle>
+                  <CardTitle className="text-lg text-navy">
+                    Send us a Message
+                  </CardTitle>
                   <p className="text-sm text-muted-foreground">
                     We typically respond within one working day.
                   </p>

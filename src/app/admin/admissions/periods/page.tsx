@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Admission Periods",
@@ -24,7 +26,11 @@ function formatDate(value: Date | null): string {
   if (!value) {
     return "—";
   }
-  return value.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  return value.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 export default async function AdminAdmissionPeriodsPage() {
@@ -42,7 +48,10 @@ export default async function AdminAdmissionPeriodsPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.ADMISSION_MANAGE);
   const canDelete = hasPermission(user.role, PERMISSIONS.ADMISSION_MANAGE);
-  const { items: periods } = await new AdmissionsService().listPeriods({ skip: 0, take: 100 });
+  const { items: periods } = await new AdmissionsService().listPeriods({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -55,9 +64,12 @@ export default async function AdminAdmissionPeriodsPage() {
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to Admissions
           </Link>
-          <h1 className="text-lg font-semibold text-slate-900">Admission Periods</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Admission Periods
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Set opening/closing dates and control the admission status shown on the public site.
+            Set opening/closing dates and control the admission status shown on
+            the public site.
           </p>
         </div>
         {canCreate ? (
@@ -85,7 +97,10 @@ export default async function AdminAdmissionPeriodsPage() {
           <tbody className="divide-y divide-slate-100">
             {periods.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No admission periods yet.
                 </td>
               </tr>
@@ -102,12 +117,14 @@ export default async function AdminAdmissionPeriodsPage() {
                     {period.category.replace("_", " ")}
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 lg:table-cell">
-                    {formatDate(period.openingDate)} → {formatDate(period.closingDate)}
+                    {formatDate(period.openingDate)} →{" "}
+                    {formatDate(period.closingDate)}
                   </td>
                   <td className="hidden px-4 py-3 md:table-cell">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        STATUS_STYLES[period.status] ?? "bg-slate-100 text-slate-600"
+                        STATUS_STYLES[period.status] ??
+                        "bg-slate-100 text-slate-600"
                       }`}
                     >
                       {period.status}
@@ -121,7 +138,10 @@ export default async function AdminAdmissionPeriodsPage() {
                       >
                         Requirements
                       </Link>
-                      {hasPermission(user.role, PERMISSIONS.ADMISSION_MANAGE) ? (
+                      {hasPermission(
+                        user.role,
+                        PERMISSIONS.ADMISSION_MANAGE,
+                      ) ? (
                         <Link
                           href={`/admin/admissions/periods/${period.id}`}
                           className="rounded-md px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100"

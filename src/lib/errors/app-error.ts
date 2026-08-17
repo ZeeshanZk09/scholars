@@ -1,4 +1,5 @@
 import { ERROR_CODES, type ErrorCode } from "./error-codes";
+
 import { HTTP_STATUS, type HttpStatus } from "@/lib/constants/http-status.constants";
 
 export class AppError extends Error {

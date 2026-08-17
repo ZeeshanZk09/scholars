@@ -1,7 +1,11 @@
 import { withApiHandler } from "@/lib/api/api-handler";
-import { parseJsonBody } from "@/lib/api/parse-body";
 import { parsePagination } from "@/lib/api/pagination";
-import { jsonCreated, jsonSuccessPaged, paginationMeta } from "@/lib/response/api-response";
+import { parseJsonBody } from "@/lib/api/parse-body";
+import {
+  jsonCreated,
+  jsonSuccessPaged,
+  paginationMeta,
+} from "@/lib/response/api-response";
 import { PERMISSIONS } from "@/lib/security/permissions";
 import { createFacultySchema } from "@/schemas/faculty/faculty.schema";
 import { requireApiPermission } from "@/server/auth";
@@ -15,7 +19,11 @@ export const GET = withApiHandler(async (_ctx, request) => {
 
   const { items, total } = await new FacultyService().list({ skip, take });
 
-  return jsonSuccessPaged(items, paginationMeta(page, limit, total), "Faculty retrieved successfully");
+  return jsonSuccessPaged(
+    items,
+    paginationMeta(page, limit, total),
+    "Faculty retrieved successfully",
+  );
 });
 
 export const POST = withApiHandler(async (_ctx, request) => {

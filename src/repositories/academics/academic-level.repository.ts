@@ -1,8 +1,9 @@
+import { SCHOOL_CLASS_PUBLIC_SELECT } from "./school-class.repository";
+
+import type { SchoolClassPublic } from "./school-class.repository";
 import type { ContentStatus } from "@prisma/client";
 
 import { prisma } from "@/server/db";
-import type { SchoolClassPublic } from "./school-class.repository";
-import { SCHOOL_CLASS_PUBLIC_SELECT } from "./school-class.repository";
 
 export const ACADEMIC_LEVEL_PUBLIC_SELECT = {
   id: true,
@@ -71,9 +72,7 @@ export class AcademicLevelRepository {
       orderBy: [{ displayOrder: "asc" }, { name: "asc" }],
     });
 
-    return levels as unknown as Array<
-      AcademicLevelPublic & { classes: SchoolClassPublic[] }
-    >;
+    return levels as unknown as Array<AcademicLevelPublic & { classes: SchoolClassPublic[] }>;
   }
 
   async listAll(options: { skip: number; take: number; status?: ContentStatus }) {
@@ -126,10 +125,7 @@ export class AcademicLevelRepository {
     });
   }
 
-  async update(
-    id: string,
-    record: UpdateAcademicLevelRecord
-  ): Promise<AcademicLevelAdmin | null> {
+  async update(id: string, record: UpdateAcademicLevelRecord): Promise<AcademicLevelAdmin | null> {
     const result = await prisma.academicLevel.updateMany({
       where: { id, deletedAt: null },
       data: record,

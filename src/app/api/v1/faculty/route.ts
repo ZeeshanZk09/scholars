@@ -8,7 +8,15 @@ export const GET = withApiHandler(async (_ctx, request) => {
   const { page, limit, skip, take } = parsePagination(url);
   const department = url.searchParams.get("department") || undefined;
 
-  const { items, total } = await new FacultyService().listPublished({ skip, take, department });
+  const { items, total } = await new FacultyService().listPublished({
+    skip,
+    take,
+    department,
+  });
 
-  return jsonSuccessPaged(items, paginationMeta(page, limit, total), "Faculty retrieved successfully");
+  return jsonSuccessPaged(
+    items,
+    paginationMeta(page, limit, total),
+    "Faculty retrieved successfully",
+  );
 });

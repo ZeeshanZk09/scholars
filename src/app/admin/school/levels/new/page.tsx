@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { LevelForm } from "../../../_components/school/level-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { LevelForm } from "../../../_components/school/level-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Academic Level",
@@ -36,7 +38,9 @@ export default async function NewAcademicLevelPage() {
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Levels
         </Link>
-        <h1 className="text-lg font-semibold text-slate-900">New Academic Level</h1>
+        <h1 className="text-lg font-semibold text-slate-900">
+          New Academic Level
+        </h1>
         <p className="mt-1 text-sm text-slate-600">
           Create a stage that groups school classes, e.g. Primary.
         </p>

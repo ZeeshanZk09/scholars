@@ -14,5 +14,8 @@ export const PATCH = withApiHandler(async (_ctx, request, routeContext) => {
 
   await new ContactService().updateStatus(id, input.status);
 
-  return jsonSuccess({ id, status: input.status }, "Contact message updated successfully");
+  return jsonSuccess(
+    { id, status: input.status },
+    "Contact message updated successfully",
+  );
 });

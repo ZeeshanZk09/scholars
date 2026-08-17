@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { BookOpenCheck } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { BookOpenCheck } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ProgramService } from "@/services/programs";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Programs Module",
@@ -26,13 +27,18 @@ export default async function AdminProgramsPage() {
     redirect("/admin/unauthorized");
   }
 
-  const { total } = await new ProgramService().listForAdmin({ skip: 0, take: 1 });
+  const { total } = await new ProgramService().listForAdmin({
+    skip: 0,
+    take: 1,
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Programs Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Programs Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
             Manage college intermediate programs, streams and eligibility.
           </p>
@@ -49,7 +55,9 @@ export default async function AdminProgramsPage() {
           </span>
           <span className="text-2xl font-bold text-slate-900">{total}</span>
         </div>
-        <h2 className="mt-4 text-sm font-semibold text-slate-900">College Programs</h2>
+        <h2 className="mt-4 text-sm font-semibold text-slate-900">
+          College Programs
+        </h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
           Intermediate programs with academic streams, subjects and eligibility.
         </p>

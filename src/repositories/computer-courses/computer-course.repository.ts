@@ -88,7 +88,9 @@ export type UpdateComputerCourseRecord = Partial<
 > & { updatedById: string | null };
 
 export class ComputerCourseRepository {
-  async listPublished(options: { take?: number } = {}): Promise<ComputerCoursePublic[]> {
+  async listPublished(
+    options: { take?: number } = {},
+  ): Promise<ComputerCoursePublic[]> {
     const courses = await prisma.computerCourse.findMany({
       select: COMPUTER_COURSE_PUBLIC_SELECT,
       where: { deletedAt: null, status: "PUBLISHED" },
@@ -99,7 +101,11 @@ export class ComputerCourseRepository {
     return courses as unknown as ComputerCoursePublic[];
   }
 
-  async listAll(options: { skip: number; take: number; status?: ContentStatus }) {
+  async listAll(options: {
+    skip: number;
+    take: number;
+    status?: ContentStatus;
+  }) {
     const where = {
       deletedAt: null,
       ...(options.status ? { status: options.status } : {}),
@@ -160,7 +166,7 @@ export class ComputerCourseRepository {
 
   async update(
     id: string,
-    record: UpdateComputerCourseRecord
+    record: UpdateComputerCourseRecord,
   ): Promise<ComputerCourseAdmin | null> {
     const result = await prisma.computerCourse.updateMany({
       where: { id, deletedAt: null },

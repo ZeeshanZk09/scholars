@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+
+import { TestimonialForm } from "../../_components/testimonials/testimonial-form";
+
+import type { Metadata } from "next";
+import type { User } from "next-auth";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { TestimonialService } from "@/services/testimonials";
-import { TestimonialForm } from "../../_components/testimonials/testimonial-form";
 
 export const metadata: Metadata = {
   title: "Edit Testimonial",
@@ -15,10 +18,8 @@ export const metadata: Metadata = {
 
 export default async function EditTestimonialPage({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  let user;
+}: Readonly<{ params: Promise<{ id: string }> }>) {
+  let user: User;
 
   try {
     user = await requireUser();

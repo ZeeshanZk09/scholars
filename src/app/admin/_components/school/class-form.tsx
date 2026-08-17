@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type ClassFormData = {
@@ -38,7 +38,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
     displayOrder: initial?.displayOrder ?? 0,
   });
 
-  function setField<K extends keyof ClassFormData>(key: K, value: ClassFormData[K]) {
+  function setField<K extends keyof ClassFormData>(
+    key: K,
+    value: ClassFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -76,7 +79,7 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -89,7 +92,9 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
       router.push("/admin/school/classes");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save school class");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save school class",
+      );
     } finally {
       setSaving(false);
     }
@@ -108,7 +113,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-slate-900"
+        >
           Name <span className="text-red-600">*</span>
         </label>
         <input
@@ -122,7 +130,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="slug" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="slug"
+          className="block text-sm font-medium text-slate-900"
+        >
           Slug
         </label>
         <input
@@ -139,7 +150,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="levelId" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="levelId"
+          className="block text-sm font-medium text-slate-900"
+        >
           Academic Level <span className="text-red-600">*</span>
         </label>
         <select
@@ -161,7 +175,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-slate-900"
+        >
           Description
         </label>
         <textarea
@@ -174,7 +191,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="eligibility" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="eligibility"
+          className="block text-sm font-medium text-slate-900"
+        >
           Eligibility
         </label>
         <input
@@ -188,7 +208,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="learningOutcomes" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="learningOutcomes"
+          className="block text-sm font-medium text-slate-900"
+        >
           Learning Outcomes
         </label>
         <textarea
@@ -202,13 +225,18 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
-            onChange={(event) => setField("status", event.target.value as ClassFormData["status"])}
+            onChange={(event) =>
+              setField("status", event.target.value as ClassFormData["status"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {STATUS_OPTIONS.map((status) => (
@@ -220,7 +248,10 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="displayOrder"
+            className="block text-sm font-medium text-slate-900"
+          >
             Display Order
           </label>
           <input
@@ -228,7 +259,9 @@ export function ClassForm({ mode, initial, levels }: Readonly<ClassFormProps>) {
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) => setField("displayOrder", Number(event.target.value))}
+            onChange={(event) =>
+              setField("displayOrder", Number(event.target.value))
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

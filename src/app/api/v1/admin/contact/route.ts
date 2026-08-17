@@ -13,11 +13,15 @@ export const GET = withApiHandler(async (_ctx, request) => {
   const { page, limit, skip, take } = parsePagination(url);
   const status = parseEnumFilter(url, "status", contactMessageStatusValues);
 
-  const { items, total } = await new ContactService().listForAdmin({ skip, take, status });
+  const { items, total } = await new ContactService().listForAdmin({
+    skip,
+    take,
+    status,
+  });
 
   return jsonSuccessPaged(
     items,
     paginationMeta(page, limit, total),
-    "Contact messages retrieved successfully"
+    "Contact messages retrieved successfully",
   );
 });

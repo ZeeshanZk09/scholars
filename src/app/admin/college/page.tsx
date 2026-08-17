@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { BookOpen, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { BookOpen, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ProgramService } from "@/services/programs";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "College",
@@ -26,16 +27,21 @@ export default async function AdminCollegePage() {
     redirect("/admin/unauthorized");
   }
 
-  const { total } = await new ProgramService().listForAdmin({ skip: 0, take: 1 });
+  const { total } = await new ProgramService().listForAdmin({
+    skip: 0,
+    take: 1,
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">College Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            College Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage intermediate programs, academic streams and eligibility shown on the public
-            College page.
+            Manage intermediate programs, academic streams and eligibility shown
+            on the public College page.
           </p>
         </div>
         <Link
@@ -59,7 +65,8 @@ export default async function AdminCollegePage() {
         </div>
         <h2 className="mt-4 text-sm font-semibold text-slate-900">Programs</h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
-          Intermediate programs with streams, subjects, duration and eligibility.
+          Intermediate programs with streams, subjects, duration and
+          eligibility.
         </p>
         <span className="mt-3 inline-block text-sm font-medium text-slate-700">
           Manage Programs →

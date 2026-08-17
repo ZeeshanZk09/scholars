@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
-import { hasPermission, type Permission } from "@/lib/security/permissions";
 import { AuthenticationError, AuthorizationError } from "@/lib/errors";
+import { hasPermission, type Permission } from "@/lib/security/permissions";
+import { prisma } from "@/server/db/prisma";
 
 type SessionUser = {
   id: string;
@@ -13,7 +14,18 @@ type SessionUser = {
 export async function getCurrentUser(): Promise<SessionUser | null> {
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session?.user?.id) {
+    return null;
+  }
+
+  // Verify the user actually exists in the database.
+  // This prevents issues where the database was reset but the browser cookie remains.
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { id: true },
+  });
+
+  if (!dbUser) {
     return null;
   }
 

@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import { MessageSquareQuote, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { MessageSquareQuote, Plus } from "lucide-react";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
@@ -26,16 +27,21 @@ export default async function AdminTestimonialsPage() {
   }
 
   const canCreate = hasPermission(user.role, PERMISSIONS.TESTIMONIAL_CREATE);
-  const { total } = await new TestimonialService().listForAdmin({ skip: 0, take: 1 });
+  const { total } = await new TestimonialService().listForAdmin({
+    skip: 0,
+    take: 1,
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Testimonials Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Testimonials Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage reviews and feedback from students, parents and alumni shown on the public
-            website.
+            Manage reviews and feedback from students, parents and alumni shown
+            on the public website.
           </p>
         </div>
         {canCreate ? (
@@ -59,7 +65,9 @@ export default async function AdminTestimonialsPage() {
           </span>
           <span className="text-2xl font-bold text-slate-900">{total}</span>
         </div>
-        <h2 className="mt-4 text-sm font-semibold text-slate-900">Testimonials</h2>
+        <h2 className="mt-4 text-sm font-semibold text-slate-900">
+          Testimonials
+        </h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
           Testimonials with author, type, message, rating and display order.
         </p>

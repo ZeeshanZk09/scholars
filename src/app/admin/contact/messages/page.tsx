@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Eye } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Eye } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ContactService } from "@/services/contact";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Messages",
@@ -21,7 +22,11 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 function formatDate(value: Date): string {
-  return value.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  return value.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 export default async function AdminContactMessagesPage() {
@@ -37,7 +42,10 @@ export default async function AdminContactMessagesPage() {
     redirect("/admin/unauthorized");
   }
 
-  const { items: messages } = await new ContactService().listForAdmin({ skip: 0, take: 100 });
+  const { items: messages } = await new ContactService().listForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -69,7 +77,10 @@ export default async function AdminContactMessagesPage() {
           <tbody className="divide-y divide-slate-100">
             {messages.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No messages yet.
                 </td>
               </tr>
@@ -88,7 +99,8 @@ export default async function AdminContactMessagesPage() {
                   <td className="px-4 py-3">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        STATUS_STYLES[message.status] ?? "bg-slate-100 text-slate-600"
+                        STATUS_STYLES[message.status] ??
+                        "bg-slate-100 text-slate-600"
                       }`}
                     >
                       {message.status}

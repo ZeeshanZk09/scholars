@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { Building2, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Building2, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { FacilityService } from "@/services/facilities";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Facilities",
@@ -27,15 +28,21 @@ export default async function AdminFacilitiesPage() {
   }
 
   const canCreate = hasPermission(user.role, PERMISSIONS.CMS_CREATE);
-  const { total } = await new FacilityService().listForAdmin({ skip: 0, take: 1 });
+  const { total } = await new FacilityService().listForAdmin({
+    skip: 0,
+    take: 1,
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Facilities Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Facilities Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage the campus facilities, labs and amenities shown on the public Facilities page.
+            Manage the campus facilities, labs and amenities shown on the public
+            Facilities page.
           </p>
         </div>
         {canCreate ? (
@@ -59,7 +66,9 @@ export default async function AdminFacilitiesPage() {
           </span>
           <span className="text-2xl font-bold text-slate-900">{total}</span>
         </div>
-        <h2 className="mt-4 text-sm font-semibold text-slate-900">Facilities</h2>
+        <h2 className="mt-4 text-sm font-semibold text-slate-900">
+          Facilities
+        </h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
           Campus facilities with descriptions, images, icons and display order.
         </p>

@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Eye } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Eye } from "lucide-react";
+import { type User } from "next-auth";
+
+import { InquiryStatusButton } from "../../_components/admissions/inquiry-status-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
-import { InquiryStatusButton } from "../../_components/admissions/inquiry-status-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Applications",
@@ -21,7 +23,11 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 function formatDate(value: Date): string {
-  return value.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  return value.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 export default async function AdminAdmissionInquiriesPage() {
@@ -38,7 +44,10 @@ export default async function AdminAdmissionInquiriesPage() {
   }
 
   const canUpdate = hasPermission(user.role, PERMISSIONS.ADMISSION_MANAGE);
-  const { items: inquiries } = await new AdmissionsService().listInquiries({ skip: 0, take: 100 });
+  const { items: inquiries } = await new AdmissionsService().listInquiries({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -71,7 +80,10 @@ export default async function AdminAdmissionInquiriesPage() {
           <tbody className="divide-y divide-slate-100">
             {inquiries.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={6}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No applications yet.
                 </td>
               </tr>
@@ -88,7 +100,9 @@ export default async function AdminAdmissionInquiriesPage() {
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
                     {inquiry.phone}
-                    {inquiry.email ? <span className="block text-xs">{inquiry.email}</span> : null}
+                    {inquiry.email ? (
+                      <span className="block text-xs">{inquiry.email}</span>
+                    ) : null}
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 lg:table-cell">
                     {inquiry.interestedProgram ?? inquiry.classOrCourse ?? "—"}
@@ -99,7 +113,8 @@ export default async function AdminAdmissionInquiriesPage() {
                   <td className="px-4 py-3">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        STATUS_STYLES[inquiry.status] ?? "bg-slate-100 text-slate-600"
+                        STATUS_STYLES[inquiry.status] ??
+                        "bg-slate-100 text-slate-600"
                       }`}
                     >
                       {inquiry.status}
@@ -108,7 +123,10 @@ export default async function AdminAdmissionInquiriesPage() {
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-2">
                       {canUpdate ? (
-                        <InquiryStatusButton id={inquiry.id} current={inquiry.status} />
+                        <InquiryStatusButton
+                          id={inquiry.id}
+                          current={inquiry.status}
+                        />
                       ) : null}
                       <Link
                         href={`/admin/admissions/inquiries/${inquiry.id}`}

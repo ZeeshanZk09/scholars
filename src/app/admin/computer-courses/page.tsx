@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { Monitor, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Monitor, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ComputerCourseService } from "@/services/computer-courses";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Computer Courses",
@@ -26,16 +27,21 @@ export default async function AdminComputerCoursesPage() {
     redirect("/admin/unauthorized");
   }
 
-  const { total } = await new ComputerCourseService().listForAdmin({ skip: 0, take: 1 });
+  const { total } = await new ComputerCourseService().listForAdmin({
+    skip: 0,
+    take: 1,
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Computer Courses Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Computer Courses Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage computer education courses, outlines, schedules and admission status shown on the
-            public Computer Courses page.
+            Manage computer education courses, outlines, schedules and admission
+            status shown on the public Computer Courses page.
           </p>
         </div>
         <Link
@@ -59,7 +65,8 @@ export default async function AdminComputerCoursesPage() {
         </div>
         <h2 className="mt-4 text-sm font-semibold text-slate-900">Courses</h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
-          Computer courses with titles, outlines, durations, schedules, fees and admission status.
+          Computer courses with titles, outlines, durations, schedules, fees and
+          admission status.
         </p>
         <span className="mt-3 inline-block text-sm font-medium text-slate-700">
           Manage Courses →

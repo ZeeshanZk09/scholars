@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { CoachingProgramService } from "@/services/coaching";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Coaching Programs",
@@ -75,7 +77,10 @@ export default async function AdminCoachingProgramsPage() {
           <tbody className="divide-y divide-slate-100">
             {programs.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No coaching programs yet.
                 </td>
               </tr>

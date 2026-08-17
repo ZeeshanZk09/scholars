@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
-import SidebarPostTab from "../../_components/editor/SidebarPost";
 import EditorMain from "../../_components/editor/EditorMain";
+import SidebarPostTab from "../../_components/editor/SidebarPost";
+
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -20,7 +21,7 @@ type PostForm = {
   category: string;
   serviceId: string;
   author: string;
-  tags: number[];
+  tags: string[];
   featuredImageUrl: string;
   coverImage: string;
   excerpt: string;
@@ -35,6 +36,7 @@ type BlogEditorFormProps = {
   readonly authorName: string;
   readonly categories: string[];
   readonly services: { serviceId: string; title: string }[];
+  readonly tags?: { id: string; name: string }[];
   readonly mode?: "create" | "edit";
   readonly id?: string;
   readonly initial?: {
@@ -55,6 +57,7 @@ export function BlogEditorForm({
   authorName,
   categories,
   services,
+  tags,
   mode = "create",
   id,
   initial,
@@ -82,12 +85,15 @@ export function BlogEditorForm({
 
   function setField(
     key: string,
-    value: string | number | number[] | string[] | Record<string, string>
+    value: string | number | number[] | string[] | Record<string, string>,
   ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  function handleFeaturedImageChange(_file: File | null, previewUrl: string | null) {
+  function handleFeaturedImageChange(
+    _file: File | null,
+    previewUrl: string | null,
+  ) {
     setField("featuredImageUrl", previewUrl ?? "");
   }
 
@@ -113,20 +119,24 @@ export function BlogEditorForm({
     };
 
     try {
-      const response = await fetch(isEdit ? `/api/v1/admin/blogs/${id}` : "/api/v1/admin/blogs", {
-        method: isEdit ? "PATCH" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          slug: form.slug || undefined,
-          excerpt: form.excerpt || undefined,
-          content,
-          featuredImage: form.featuredImageUrl || undefined,
-          status,
-          categoryName: form.category || undefined,
-          seo,
-        }),
-      });
+      const response = await fetch(
+        isEdit ? `/api/v1/admin/blogs/${id}` : "/api/v1/admin/blogs",
+        {
+          method: isEdit ? "PATCH" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            slug: form.slug || undefined,
+            excerpt: form.excerpt || undefined,
+            content,
+            featuredImage: form.featuredImageUrl || undefined,
+            status,
+            categoryName: form.category || undefined,
+            tags: form.tags,
+            seo,
+          }),
+        },
+      );
 
       if (response.status === 401) {
         router.push("/auth/login?callbackUrl=/admin/blogs");
@@ -141,12 +151,15 @@ export function BlogEditorForm({
       const body = await response.json().catch(() => null);
 
       if (!response.ok) {
-        const message = body?.error?.message ?? body?.message ?? "Failed to save the post.";
+        const message =
+          body?.error?.message ?? body?.message ?? "Failed to save the post.";
         toast.error(message);
         return;
       }
 
-      toast.success(isEdit ? "Post updated successfully." : "Post saved as a draft.");
+      toast.success(
+        isEdit ? "Post updated successfully." : "Post saved as a draft.",
+      );
       router.push("/admin/blogs");
       router.refresh();
     } catch {
@@ -170,13 +183,15 @@ export function BlogEditorForm({
           <h1 className="text-lg font-semibold text-slate-900">
             {mode === "edit" ? "Edit Blog Post" : "New Blog Post"}
           </h1>
-          <p className="mt-1 text-sm text-slate-600">Draft content using the rich text editor.</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Draft content using the rich text editor.
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 text-sm text-slate-600">
             Status
             <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger className="w-[140px] bg-white">
+              <SelectTrigger className="w-35 bg-white">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -209,6 +224,7 @@ export function BlogEditorForm({
             setField={setField}
             categories={categories}
             services={services}
+            tags={tags}
             onFeaturedImageChange={handleFeaturedImageChange}
           />
         </div>

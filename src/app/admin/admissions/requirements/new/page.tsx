@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { AdmissionRequirementForm } from "../../../_components/admissions/admission-requirement-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
-import { AdmissionRequirementForm } from "../../../_components/admissions/admission-requirement-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Admission Requirement",
@@ -32,9 +34,14 @@ export default async function NewAdmissionRequirementPage({
   }
 
   const { periodId } = await searchParams;
-  const { items: periods } = await new AdmissionsService().listPeriods({ skip: 0, take: 100 });
+  const { items: periods } = await new AdmissionsService().listPeriods({
+    skip: 0,
+    take: 100,
+  });
   const preSelected =
-    periodId && periods.some((period) => period.id === periodId) ? periodId : undefined;
+    periodId && periods.some((period) => period.id === periodId)
+      ? periodId
+      : undefined;
 
   return (
     <div className="space-y-6">
@@ -46,9 +53,12 @@ export default async function NewAdmissionRequirementPage({
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Requirements
         </Link>
-        <h1 className="text-lg font-semibold text-slate-900">New Requirement</h1>
+        <h1 className="text-lg font-semibold text-slate-900">
+          New Requirement
+        </h1>
         <p className="mt-1 text-sm text-slate-600">
-          Add eligibility, documents, process, dates and instructions for an admission period.
+          Add eligibility, documents, process, dates and instructions for an
+          admission period.
         </p>
       </div>
 

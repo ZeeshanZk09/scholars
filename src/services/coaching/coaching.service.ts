@@ -1,3 +1,9 @@
+import type {
+  CreateCoachingProgramInput,
+  UpdateCoachingProgramInput,
+} from "@/schemas/coaching/coaching.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { slugify } from "@/lib/utils/slug";
 import {
@@ -5,11 +11,6 @@ import {
   type CoachingProgramAdmin,
   type CoachingProgramPublic,
 } from "@/repositories/coaching";
-import type {
-  CreateCoachingProgramInput,
-  UpdateCoachingProgramInput,
-} from "@/schemas/coaching/coaching.schema";
-import type { ApiUser } from "@/server/auth/route-guard";
 
 export class CoachingProgramService {
   private readonly coachingRepository: CoachingProgramRepository;

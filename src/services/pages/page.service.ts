@@ -1,13 +1,10 @@
+import type { CreatePageInput, UpdatePageInput } from "@/schemas/pages/page.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { sanitizeRichHtml } from "@/lib/security/sanitize-html";
 import { slugify } from "@/lib/utils/slug";
-import {
-  PageRepository,
-  type PageAdminRecord,
-  type PagePublicRecord,
-} from "@/repositories/pages";
-import type { CreatePageInput, UpdatePageInput } from "@/schemas/pages/page.schema";
-import type { ApiUser } from "@/server/auth/route-guard";
+import { PageRepository, type PageAdminRecord, type PagePublicRecord } from "@/repositories/pages";
 
 function toSeoRecord(seo: CreatePageInput["seo"] | undefined) {
   if (!seo) {
@@ -68,7 +65,11 @@ export class PageService {
       featuredImage: input.featuredImage || null,
       layout: input.layout || null,
       status: input.status,
-      publishedAt: input.publishedAt ? new Date(input.publishedAt) : input.status === "PUBLISHED" ? new Date() : null,
+      publishedAt: input.publishedAt
+        ? new Date(input.publishedAt)
+        : input.status === "PUBLISHED"
+          ? new Date()
+          : null,
       createdById: actor.id,
       seo: toSeoRecord(input.seo),
     });
@@ -88,8 +89,7 @@ export class PageService {
           : input.content
             ? sanitizeRichHtml(input.content)
             : null,
-      featuredImage:
-        input.featuredImage === undefined ? undefined : input.featuredImage || null,
+      featuredImage: input.featuredImage === undefined ? undefined : input.featuredImage || null,
       layout: input.layout === undefined ? undefined : input.layout || null,
       status: input.status,
       publishedAt:
@@ -98,7 +98,7 @@ export class PageService {
           : input.publishedAt
             ? new Date(input.publishedAt)
             : null,
-      seo: input.seo === undefined ? undefined : toSeoRecord(input.seo ?? undefined) ?? null,
+      seo: input.seo === undefined ? undefined : (toSeoRecord(input.seo ?? undefined) ?? null),
       updatedById: actor.id,
     });
 

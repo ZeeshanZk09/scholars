@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { NavigationService } from "@/services/navigation";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Navigation Items",
@@ -48,7 +50,9 @@ export default async function AdminNavigationItemsPage() {
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to Navigation
           </Link>
-          <h1 className="text-lg font-semibold text-slate-900">Navigation Items</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Navigation Items
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
             Main and footer navigation links shown on the public website.
           </p>
@@ -79,7 +83,10 @@ export default async function AdminNavigationItemsPage() {
           <tbody className="divide-y divide-slate-100">
             {items.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={6}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No navigation items yet.
                 </td>
               </tr>
@@ -92,7 +99,9 @@ export default async function AdminNavigationItemsPage() {
                       Order {item.displayOrder}
                     </span>
                   </td>
-                  <td className="hidden px-4 py-3 text-slate-500 md:table-cell">{item.url}</td>
+                  <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
+                    {item.url}
+                  </td>
                   <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
                     {item.position ?? "main"}
                   </td>
@@ -102,7 +111,8 @@ export default async function AdminNavigationItemsPage() {
                   <td className="hidden px-4 py-3 md:table-cell">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        STATUS_STYLES[item.status] ?? "bg-slate-100 text-slate-600"
+                        STATUS_STYLES[item.status] ??
+                        "bg-slate-100 text-slate-600"
                       }`}
                     >
                       {item.status}

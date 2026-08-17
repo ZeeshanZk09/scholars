@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+
+import { SiteSettingForm } from "../../../_components/settings/site-setting-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { SiteSettingForm } from "../../../_components/settings/site-setting-form";
 
 export const metadata: Metadata = {
   title: "New Site Setting",

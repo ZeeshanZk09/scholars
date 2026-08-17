@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type LevelFormData = {
@@ -31,7 +31,10 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
     displayOrder: initial?.displayOrder ?? 0,
   });
 
-  function setField<K extends keyof LevelFormData>(key: K, value: LevelFormData[K]) {
+  function setField<K extends keyof LevelFormData>(
+    key: K,
+    value: LevelFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -62,7 +65,7 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -75,7 +78,11 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
       router.push("/admin/school/levels");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save academic level");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to save academic level",
+      );
     } finally {
       setSaving(false);
     }
@@ -89,7 +96,10 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-slate-900"
+        >
           Name <span className="text-red-600">*</span>
         </label>
         <input
@@ -103,7 +113,10 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="slug" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="slug"
+          className="block text-sm font-medium text-slate-900"
+        >
           Slug
         </label>
         <input
@@ -120,7 +133,10 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-slate-900"
+        >
           Description
         </label>
         <textarea
@@ -134,13 +150,18 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
-            onChange={(event) => setField("status", event.target.value as LevelFormData["status"])}
+            onChange={(event) =>
+              setField("status", event.target.value as LevelFormData["status"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {STATUS_OPTIONS.map((status) => (
@@ -152,7 +173,10 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="displayOrder"
+            className="block text-sm font-medium text-slate-900"
+          >
             Display Order
           </label>
           <input
@@ -160,7 +184,9 @@ export function LevelForm({ mode, initial }: Readonly<LevelFormProps>) {
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) => setField("displayOrder", Number(event.target.value))}
+            onChange={(event) =>
+              setField("displayOrder", Number(event.target.value))
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

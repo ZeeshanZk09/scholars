@@ -17,7 +17,13 @@ import { TextSelection } from "@tiptap/pm/state";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import DOMPurify from "dompurify";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "sonner";
 
 import { EditorToolbar, type LinkFormData } from "./EditorToolbar";
@@ -29,7 +35,11 @@ import {
   LetterSpacingExtension,
 } from "./extensions";
 
-import { MAX_IMAGE_SIZE, calculateWordCount, slugify } from "@/lib/utilities/editor-utils";
+import {
+  MAX_IMAGE_SIZE,
+  calculateWordCount,
+  slugify,
+} from "@/lib/utilities/editor-utils";
 
 type Props = {
   value: string;
@@ -38,7 +48,12 @@ type Props = {
   onTextChange?: (text: string) => void;
 };
 
-export default function RichTextEditor({ value, onChange, onTextChange, id }: Readonly<Props>) {
+export default function RichTextEditor({
+  value,
+  onChange,
+  onTextChange,
+  id,
+}: Readonly<Props>) {
   const [wordCount, setWordCount] = useState(0);
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkForm, setLinkForm] = useState<LinkFormData>({ text: "", url: "" });
@@ -92,7 +107,9 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
         openOnClick: true,
         autolink: true,
         linkOnPaste: true,
-        HTMLAttributes: { class: "text-primary underline cursor-pointer font-medium" },
+        HTMLAttributes: {
+          class: "text-primary underline cursor-pointer font-medium",
+        },
       }),
       CustomImage,
       Table.configure({
@@ -106,7 +123,8 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
       }),
       TableHeader.configure({
         HTMLAttributes: {
-          class: "border border-border bg-muted/50 px-4 py-2 text-left font-bold text-foreground",
+          class:
+            "border border-border bg-muted/50 px-4 py-2 text-left font-bold text-foreground",
         },
       }),
       TableCell.configure({
@@ -117,7 +135,7 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
       ParagraphFormattingExtension,
       LetterSpacingExtension,
     ],
-    []
+    [],
   );
 
   const editor = useEditor({
@@ -190,7 +208,8 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
           "mark",
         ],
         FORBID_TAGS: ["script", "object", "embed"],
-        ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel|data):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
+        ALLOWED_URI_REGEXP:
+          /^(?:(?:https?|mailto|tel|data):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
       });
 
       previousValueRef.current = cleanHtml;
@@ -273,7 +292,11 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
 
     if (nodeType === "heading" || nodeType === "paragraph") {
       const currentIsToc = node.attrs.isTocHeading || false;
-      editor.chain().focus().updateAttributes(nodeType, { isTocHeading: !currentIsToc }).run();
+      editor
+        .chain()
+        .focus()
+        .updateAttributes(nodeType, { isTocHeading: !currentIsToc })
+        .run();
       if (!currentIsToc && node.textContent) {
         editor
           .chain()
@@ -303,13 +326,16 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
             editor
               .chain()
               .focus()
-              .updateAttributes("heading", { isTocHeading: true, id: slugify(node.textContent) })
+              .updateAttributes("heading", {
+                isTocHeading: true,
+                id: slugify(node.textContent),
+              })
               .run();
           }
         }, 0);
       }
     },
-    [editor]
+    [editor],
   );
 
   const handleHeadingClick = useCallback(
@@ -338,7 +364,11 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
                 const finalPos = tr.mapping.map(from, 1);
                 const $fp = tr.doc.resolve(finalPos);
                 tr.setSelection(
-                  TextSelection.create(tr.doc, $fp.start($fp.depth), $fp.end($fp.depth))
+                  TextSelection.create(
+                    tr.doc,
+                    $fp.start($fp.depth),
+                    $fp.end($fp.depth),
+                  ),
                 );
                 return true;
               })
@@ -347,7 +377,9 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
 
             if (level === 1) {
               setTimeout(() => {
-                const node = editor.state.doc.nodeAt(editor.state.selection.from);
+                const node = editor.state.doc.nodeAt(
+                  editor.state.selection.from,
+                );
                 if (node?.textContent) {
                   editor
                     .chain()
@@ -371,12 +403,16 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
         editor.chain().focus().toggleHeading({ level }).run();
       }
     },
-    [editor, setHeadingWithToc]
+    [editor, setHeadingWithToc],
   );
 
   const handleInsertTable = useCallback(() => {
     if (!editor) return;
-    editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+    editor
+      .chain()
+      .focus()
+      .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+      .run();
   }, [editor]);
 
   const handleInsertLink = useCallback(
@@ -391,14 +427,18 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
             .chain()
             .focus()
             .insertContent(
-              `<a href="${formData.url}" target="_blank" rel="noopener noreferrer">${formData.text}</a> `
+              `<a href="${formData.url}" target="_blank" rel="noopener noreferrer">${formData.text}</a> `,
             )
             .run();
         } else if (hasSelection) {
           editor
             .chain()
             .focus()
-            .setLink({ href: formData.url, target: "_blank", rel: "noopener noreferrer" })
+            .setLink({
+              href: formData.url,
+              target: "_blank",
+              rel: "noopener noreferrer",
+            })
             .run();
         } else {
           toast.error("Please select text or enter link text");
@@ -411,7 +451,7 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
         return false;
       }
     },
-    [editor]
+    [editor],
   );
 
   if (!editor) {
@@ -419,7 +459,9 @@ export default function RichTextEditor({ value, onChange, onTextChange, id }: Re
       <div className="flex items-center justify-center min-h-100 rounded-2xl border border-border bg-card">
         <div className="flex flex-col items-center gap-3">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary/20 border-t-primary" />
-          <span className="text-xs font-medium text-muted-foreground">Loading editor...</span>
+          <span className="text-xs font-medium text-muted-foreground">
+            Loading editor...
+          </span>
         </div>
       </div>
     );

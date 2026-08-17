@@ -1,10 +1,11 @@
-import Link from "next/link";
 import { ArrowRight, BookOpen, ClipboardList, GraduationCap, Laptop } from "lucide-react";
+import Link from "next/link";
+
+import type { HomeAdmissionSummary } from "@/lib/admissions-status";
 
 import { Container } from "@/components/layout/container";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/shared/status-badge";
-import type { HomeAdmissionSummary } from "@/lib/admissions-status";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type QuickLink = {
   href: string;
@@ -42,15 +43,13 @@ export function QuickLinksBar({ admission }: QuickLinksBarProps) {
     {
       href: "/coaching",
       title: "Coaching",
-      description:
-        "Board exam preparation and entry test coaching with regular assessments.",
+      description: "Board exam preparation and entry test coaching with regular assessments.",
       icon: GraduationCap,
     },
     {
       href: "/computer-courses",
       title: "Computer Courses",
-      description:
-        "Practical, career-focused courses in modern digital skills.",
+      description: "Practical, career-focused courses in modern digital skills.",
       icon: Laptop,
     },
   ];
@@ -70,12 +69,8 @@ export function QuickLinksBar({ admission }: QuickLinksBarProps) {
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-navy/10 text-navy">
                     <link.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <CardTitle className="flex-1 text-base text-navy">
-                    {link.title}
-                  </CardTitle>
-                  {link.badge ? (
-                    <StatusBadge status={link.badge} />
-                  ) : null}
+                  <CardTitle className="flex-1 text-base text-navy">{link.title}</CardTitle>
+                  {link.badge ? <StatusBadge status={link.badge} /> : null}
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col pb-4">
                   <p className="text-sm leading-relaxed text-muted-foreground">

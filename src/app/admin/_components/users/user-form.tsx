@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type UserFormData = {
@@ -32,7 +32,10 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
     status: initial?.status ?? "ACTIVE",
   });
 
-  function setField<K extends keyof UserFormData>(key: K, value: UserFormData[K]) {
+  function setField<K extends keyof UserFormData>(
+    key: K,
+    value: UserFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -69,13 +72,15 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/users/${initial?.id}` : "/api/v1/admin/users",
+        mode === "edit"
+          ? `/api/v1/admin/users/${initial?.id}`
+          : "/api/v1/admin/users",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -88,7 +93,9 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
       router.push("/admin/users");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save user");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save user",
+      );
     } finally {
       setSaving(false);
     }
@@ -103,7 +110,10 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-slate-900"
+        >
           Name <span className="text-red-600">*</span>
         </label>
         <input
@@ -117,7 +127,10 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-slate-900"
+        >
           Email <span className="text-red-600">*</span>
         </label>
         <input
@@ -131,7 +144,10 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-slate-900"
+        >
           {mode === "create" ? "Password" : "New Password"}
           {mode === "create" ? <span className="text-red-600"> *</span> : null}
         </label>
@@ -141,7 +157,9 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
           value={form.password}
           onChange={(event) => setField("password", event.target.value)}
           placeholder={
-            mode === "create" ? "At least 8 characters" : "Leave blank to keep current password"
+            mode === "create"
+              ? "At least 8 characters"
+              : "Leave blank to keep current password"
           }
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
         />
@@ -149,13 +167,18 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="role" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="role"
+            className="block text-sm font-medium text-slate-900"
+          >
             Role
           </label>
           <select
             id="role"
             value={form.role}
-            onChange={(event) => setField("role", event.target.value as UserFormData["role"])}
+            onChange={(event) =>
+              setField("role", event.target.value as UserFormData["role"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {ROLE_OPTIONS.map((role) => (
@@ -167,13 +190,18 @@ export function UserForm({ mode, initial }: Readonly<UserFormProps>) {
         </div>
 
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
-            onChange={(event) => setField("status", event.target.value as UserFormData["status"])}
+            onChange={(event) =>
+              setField("status", event.target.value as UserFormData["status"])
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {STATUS_OPTIONS.map((status) => (

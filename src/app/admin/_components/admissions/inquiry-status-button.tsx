@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type InquiryStatus = "PENDING" | "CONTACTED" | "CLOSED";
@@ -17,7 +17,10 @@ const STATUS_OPTIONS: { value: InquiryStatus; label: string }[] = [
   { value: "CLOSED", label: "Closed" },
 ];
 
-export function InquiryStatusButton({ id, current }: Readonly<InquiryStatusButtonProps>) {
+export function InquiryStatusButton({
+  id,
+  current,
+}: Readonly<InquiryStatusButtonProps>) {
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
 
@@ -41,13 +44,19 @@ export function InquiryStatusButton({ id, current }: Readonly<InquiryStatusButto
       const result = await response.json().catch(() => null);
 
       if (!response.ok) {
-        throw new Error(result?.message ?? "Failed to update application status");
+        throw new Error(
+          result?.message ?? "Failed to update application status",
+        );
       }
 
       toast.success("Application status updated");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to update application status");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to update application status",
+      );
     } finally {
       setUpdating(false);
     }

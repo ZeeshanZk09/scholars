@@ -12,7 +12,10 @@ export const PATCH = withApiHandler(async (_ctx, request, routeContext) => {
   const id = await getRouteParam(routeContext, "id");
   const input = await parseJsonBody(request, updateAdmissionRequirementSchema);
 
-  const requirement = await new AdmissionsService().updateRequirement(id, input);
+  const requirement = await new AdmissionsService().updateRequirement(
+    id,
+    input,
+  );
 
   return jsonSuccess(requirement, "Admission requirement updated successfully");
 });

@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
-import { XIcon } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { XIcon } from "lucide-react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -51,8 +51,7 @@ function SheetContent({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> &
-  VariantProps<typeof sheetVariants>) {
+}: React.ComponentProps<typeof SheetPrimitive.Content> & VariantProps<typeof sheetVariants>) {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -91,10 +90,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function SheetTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Title>) {
+function SheetTitle({ className, ...props }: React.ComponentProps<typeof SheetPrimitive.Title>) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"

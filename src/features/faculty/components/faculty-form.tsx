@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
+
 import type { Faculty } from "@prisma/client";
 
 type FacultyFormData = {
@@ -25,7 +26,7 @@ type FacultyFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function FacultyForm({ initialData }: FacultyFormProps) {
+export function FacultyForm({ initialData }: Readonly<FacultyFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const mode = initialData ? "edit" : "create";
@@ -47,7 +48,7 @@ export function FacultyForm({ initialData }: FacultyFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.name.trim()) {
@@ -94,6 +95,13 @@ export function FacultyForm({ initialData }: FacultyFormProps) {
     } finally {
       setSaving(false);
     }
+  }
+
+  let submitButtonText = "Create Faculty Member";
+  if (saving) {
+    submitButtonText = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonText = "Save Changes";
   }
 
   return (
@@ -256,7 +264,7 @@ export function FacultyForm({ initialData }: FacultyFormProps) {
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Faculty Member"}
+          {submitButtonText}
         </button>
       </div>
     </form>

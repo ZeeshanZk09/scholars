@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type SiteSettingFormData = {
@@ -17,7 +17,10 @@ type SiteSettingFormProps = {
   initial?: Partial<SiteSettingFormData> & { id?: string };
 };
 
-export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps>) {
+export function SiteSettingForm({
+  mode,
+  initial,
+}: Readonly<SiteSettingFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<SiteSettingFormData>({
@@ -27,7 +30,10 @@ export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps
     description: initial?.description ?? "",
   });
 
-  function setField<K extends keyof SiteSettingFormData>(key: K, value: SiteSettingFormData[K]) {
+  function setField<K extends keyof SiteSettingFormData>(
+    key: K,
+    value: SiteSettingFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -58,7 +64,7 @@ export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -67,11 +73,15 @@ export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps
         throw new Error(result?.message ?? "Failed to save site setting");
       }
 
-      toast.success(mode === "edit" ? "Site setting updated" : "Site setting created");
+      toast.success(
+        mode === "edit" ? "Site setting updated" : "Site setting created",
+      );
       router.push("/admin/settings");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save site setting");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save site setting",
+      );
     } finally {
       setSaving(false);
     }
@@ -91,7 +101,10 @@ export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="key" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="key"
+            className="block text-sm font-medium text-slate-900"
+          >
             Key <span className="text-red-600">*</span>
           </label>
           <input
@@ -109,7 +122,10 @@ export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps
         </div>
 
         <div>
-          <label htmlFor="group" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="group"
+            className="block text-sm font-medium text-slate-900"
+          >
             Group
           </label>
           <input
@@ -124,7 +140,10 @@ export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps
       </div>
 
       <div>
-        <label htmlFor="value" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="value"
+          className="block text-sm font-medium text-slate-900"
+        >
           Value
         </label>
         <textarea
@@ -137,7 +156,10 @@ export function SiteSettingForm({ mode, initial }: Readonly<SiteSettingFormProps
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-slate-900"
+        >
           Description
         </label>
         <input

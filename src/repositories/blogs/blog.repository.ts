@@ -1,7 +1,7 @@
-import type { BlogStatus } from "@prisma/client";
+import type { BlogStatus, ContentStatus } from "@prisma/client";
 
-import { prisma } from "@/server/db";
 import { slugify } from "@/lib/utils/slug";
+import { prisma } from "@/server/db";
 
 export const BLOG_SAFE_SELECT = {
   id: true,
@@ -35,8 +35,29 @@ export type CreateBlogRecord = {
   authorId: string;
   createdById: string | null;
   categoryName?: string | null;
+  tagIds?: string[];
   publishedAt?: Date | null;
   seo?: BlogSeoRecord | null;
+};
+
+export type CreateBlogCategoryRecord = {
+  name: string;
+  slug: string;
+  description?: string | null;
+  status: string;
+  createdById: string | null;
+};
+
+export type UpdateBlogCategoryRecord = {
+  name?: string;
+  description?: string | null;
+  status?: ContentStatus;
+};
+
+export type CreateBlogTagRecord = {
+  name: string;
+  slug: string;
+  createdById: string | null;
 };
 
 export type BlogPublicDetail = {
@@ -125,6 +146,124 @@ export class BlogRepository {
     });
   }
 
+  async listTags(): Promise<{ id: string; name: string; slug: string }[]> {
+    return prisma.blogTag.findMany({
+      select: { id: true, name: true, slug: true },
+      where: { deletedAt: null },
+      orderBy: { name: "asc" },
+    });
+  }
+
+  async findCategoryBySlug(slug: string) {
+    return prisma.blogCategory.findUnique({ where: { slug, deletedAt: null } });
+  }
+
+  async findTagBySlug(slug: string) {
+    return prisma.blogTag.findUnique({ where: { slug, deletedAt: null } });
+  }
+
+  async findTagById(id: string) {
+    return prisma.blogTag.findUnique({ where: { id, deletedAt: null } });
+  }
+
+  async listAllCategories(): Promise<
+    {
+      id: string;
+      name: string;
+      slug: string;
+      description: string | null;
+      status: string;
+      displayOrder: number;
+    }[]
+  > {
+    return prisma.blogCategory.findMany({
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        status: true,
+        displayOrder: true,
+      },
+      where: { deletedAt: null },
+      orderBy: { displayOrder: "asc" },
+    });
+  }
+
+  async listAllTags(): Promise<{ id: string; name: string; slug: string }[]> {
+    return prisma.blogTag.findMany({
+      select: { id: true, name: true, slug: true },
+      where: { deletedAt: null },
+      orderBy: { name: "asc" },
+    });
+  }
+
+  async createCategory(record: CreateBlogCategoryRecord): Promise<{ id: string }> {
+    return prisma.blogCategory.create({
+      data: {
+        name: record.name,
+        slug: record.slug,
+        description: record.description ?? null,
+        status: record.status as never,
+        createdById: record.createdById,
+      },
+      select: { id: true },
+    });
+  }
+
+  async updateCategory(id: string, record: UpdateBlogCategoryRecord): Promise<boolean> {
+    const result = await prisma.blogCategory.updateMany({
+      where: { id, deletedAt: null },
+      data: record,
+    });
+
+    return result.count > 0;
+  }
+
+  async deleteCategory(id: string): Promise<boolean> {
+    try {
+      await prisma.blogCategory.update({
+        where: { id },
+        data: { deletedAt: new Date() },
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async createTag(record: CreateBlogTagRecord): Promise<{ id: string }> {
+    return prisma.blogTag.create({
+      data: {
+        name: record.name,
+        slug: record.slug,
+        createdById: record.createdById,
+      },
+      select: { id: true },
+    });
+  }
+
+  async updateTag(id: string, name: string): Promise<boolean> {
+    const result = await prisma.blogTag.updateMany({
+      where: { id, deletedAt: null },
+      data: { name },
+    });
+
+    return result.count > 0;
+  }
+
+  async deleteTag(id: string): Promise<boolean> {
+    try {
+      await prisma.blogTag.update({
+        where: { id },
+        data: { deletedAt: new Date() },
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async findPostBySlug(slug: string) {
     return prisma.blogPost.findUnique({ where: { slug } });
   }
@@ -171,13 +310,23 @@ export class BlogRepository {
           authorId: record.authorId,
           createdById: record.createdById,
           categories: categoryId === null ? undefined : { create: [{ categoryId }] },
+          tags:
+            record.tagIds && record.tagIds.length > 0
+              ? {
+                  create: record.tagIds.map((tagId) => ({
+                    tagId,
+                  })),
+                }
+              : undefined,
         },
         select: { id: true },
       });
 
       if (record.seo) {
         const seoFields = normalizeSeo(record.seo);
-        await tx.seoMeta.create({ data: { blogPostId: post.id, ...seoFields } });
+        await tx.seoMeta.create({
+          data: { blogPostId: post.id, ...seoFields },
+        });
       }
 
       return post;
@@ -243,14 +392,17 @@ export class BlogRepository {
       featuredImage?: string | null;
       status?: BlogStatus;
       publishedAt?: Date | null;
+      tagIds?: string[];
       seo?: BlogSeoRecord | null;
       updatedById: string | null;
     }
   ): Promise<BlogPublicDetail | null> {
+    const { tagIds, ...rest } = record;
+
     const result = await prisma.blogPost.updateMany({
       where: { id, deletedAt: null },
       data: {
-        ...record,
+        ...rest,
         publishedAt:
           record.status === "PUBLISHED"
             ? (record.publishedAt ?? new Date())
@@ -262,6 +414,18 @@ export class BlogRepository {
 
     if (result.count === 0) {
       return null;
+    }
+
+    if (tagIds !== undefined) {
+      await prisma.blogPost.update({
+        where: { id },
+        data: {
+          tags: {
+            deleteMany: {},
+            create: tagIds.map((tagId) => ({ tagId })),
+          },
+        },
+      });
     }
 
     if (record.seo) {
@@ -289,13 +453,11 @@ export class BlogRepository {
 function normalizeSeo(seo: BlogSeoRecord) {
   return {
     seoTitle: seo.seoTitle === undefined ? null : seo.seoTitle || null,
-    metaDescription:
-      seo.metaDescription === undefined ? null : seo.metaDescription || null,
+    metaDescription: seo.metaDescription === undefined ? null : seo.metaDescription || null,
     keywords: seo.keywords === undefined ? null : seo.keywords || null,
     canonicalUrl: seo.canonicalUrl === undefined ? null : seo.canonicalUrl || null,
     ogTitle: seo.ogTitle === undefined ? null : seo.ogTitle || null,
-    ogDescription:
-      seo.ogDescription === undefined ? null : seo.ogDescription || null,
+    ogDescription: seo.ogDescription === undefined ? null : seo.ogDescription || null,
     ogImage: seo.ogImage === undefined ? null : seo.ogImage || null,
     robots: seo.robots === undefined ? null : seo.robots || null,
   };

@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { UserService } from "@/services/users";
-import { DeleteButton } from "../../_components/school/delete-button";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -33,7 +36,7 @@ function formatDate(value: Date | null): string {
 }
 
 export default async function AdminUsersListPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();
@@ -47,7 +50,10 @@ export default async function AdminUsersListPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.USER_CREATE);
   const canDelete = hasPermission(user.role, PERMISSIONS.USER_DELETE);
-  const { items: users } = await new UserService().listForAdmin({ skip: 0, take: 100 });
+  const { items: users } = await new UserService().listForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -90,7 +96,10 @@ export default async function AdminUsersListPage() {
           <tbody className="divide-y divide-slate-100">
             {users.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No users yet.
                 </td>
               </tr>
@@ -109,7 +118,8 @@ export default async function AdminUsersListPage() {
                   <td className="hidden px-4 py-3 md:table-cell">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        STATUS_STYLES[userItem.status] ?? "bg-slate-100 text-slate-600"
+                        STATUS_STYLES[userItem.status] ??
+                        "bg-slate-100 text-slate-600"
                       }`}
                     >
                       {userItem.status}

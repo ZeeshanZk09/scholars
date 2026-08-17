@@ -25,11 +25,15 @@ export class SiteSettingRepository {
   }
 
   async findById(id: string): Promise<SiteSettingRecord | null> {
-    return prisma.siteSetting.findFirst({ where: { id } }) as unknown as SiteSettingRecord | null;
+    return prisma.siteSetting.findFirst({
+      where: { id },
+    }) as unknown as SiteSettingRecord | null;
   }
 
   async findByKey(key: string): Promise<SiteSettingRecord | null> {
-    return prisma.siteSetting.findFirst({ where: { key } }) as unknown as SiteSettingRecord | null;
+    return prisma.siteSetting.findFirst({
+      where: { key },
+    }) as unknown as SiteSettingRecord | null;
   }
 
   async create(record: CreateSiteSettingRecord): Promise<{ id: string }> {

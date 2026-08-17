@@ -37,6 +37,7 @@ export const createBlogSchema = z.object({
     .min(1, "Category is required")
     .max(100, "Category name is too long")
     .optional(),
+  tags: z.array(z.string()).optional(),
   publishedAt: blogPublishedAtField,
   seo: blogSeoSchema.optional(),
 });
@@ -60,6 +61,7 @@ export const updateBlogSchema = z
     featuredImage: z.string().trim().max(2048).optional().or(z.literal("")),
     status: z.enum(blogStatusValues),
     categoryName: z.string().trim().min(1).max(100).optional(),
+    tags: z.array(z.string()).optional(),
     publishedAt: blogPublishedAtField,
     seo: blogSeoSchema.optional(),
   })

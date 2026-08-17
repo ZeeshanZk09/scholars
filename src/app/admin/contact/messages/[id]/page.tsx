@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { MessageStatusButton } from "../../../_components/contact/message-status-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ContactService } from "@/services/contact";
-import { MessageStatusButton } from "../../../_components/contact/message-status-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Message Details",
@@ -83,7 +85,9 @@ export default async function AdminContactMessageDetailPage({
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to Messages
           </Link>
-          <h1 className="text-lg font-semibold text-slate-900">Message Details</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Message Details
+          </h1>
           <p className="mt-1 text-sm text-slate-600">From {message.name}</p>
         </div>
         {hasPermission(user.role, PERMISSIONS.CMS_UPDATE) ? (
@@ -113,7 +117,9 @@ export default async function AdminContactMessageDetailPage({
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               {row.label}
             </p>
-            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">{row.value ?? "—"}</p>
+            <p className="mt-1 whitespace-pre-line text-sm text-slate-900">
+              {row.value ?? "—"}
+            </p>
           </div>
         ))}
       </div>

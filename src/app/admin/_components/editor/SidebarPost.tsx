@@ -4,6 +4,7 @@ import { Link2, Image as ImageIcon, FileText, Search, Plus, X } from "lucide-rea
 import CustomImage from "next/image";
 import React from "react";
 
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -18,7 +19,7 @@ interface SidebarPostTabProps {
     category: string;
     serviceId: string;
     author: string;
-    tags?: number[];
+    tags?: string[];
     featuredImageUrl: string;
     excerpt: string;
     metaTitle: string;
@@ -37,6 +38,7 @@ interface SidebarPostTabProps {
     serviceId: string;
     title: string;
   }[];
+  readonly tags?: { id: string; name: string }[];
   readonly onAddCategory?: (name: string) => void;
 }
 
@@ -45,6 +47,7 @@ export default function SidebarPostTab({
   setField,
   categories,
   services,
+  tags,
   onFeaturedImageChange,
   onAddCategory,
 }: SidebarPostTabProps) {
@@ -212,6 +215,49 @@ export default function SidebarPostTab({
           </SelectContent>
         </Select>
       </div>
+
+      {/* Tags */}
+      {tags && tags.length > 0 ? (
+        <div className="space-y-2">
+          <Label
+            htmlFor="tags"
+            className="block text-xs font-bold text-slate-500 uppercase tracking-wider"
+          >
+            Tags
+          </Label>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => {
+              const checked = (form.tags ?? []).includes(tag.id);
+              return (
+                <label
+                  key={tag.id}
+                  className={`cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                    checked
+                      ? "border-slate-600 bg-slate-600 text-white"
+                      : "border-slate-300 bg-white text-slate-600 hover:border-slate-400"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={checked}
+                    onChange={(event) => {
+                      const current = form.tags ?? [];
+                      setField(
+                        "tags",
+                        event.target.checked
+                          ? [...current, tag.id]
+                          : current.filter((id) => id !== tag.id)
+                      );
+                    }}
+                  />
+                  {tag.name}
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
 
       {/* Author (Text Field) */}
       <div className="space-y-2">

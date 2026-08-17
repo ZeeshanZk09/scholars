@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { type User } from "next-auth";
 
-import { getPermissionsForRole, hasPermission, PERMISSIONS } from "@/lib/security/permissions";
+import type { Metadata } from "next";
+
+import {
+  getPermissionsForRole,
+  hasPermission,
+  PERMISSIONS,
+} from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { USER_ROLES, type Role } from "@/types/auth/roles.types";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Roles & Permissions",
@@ -39,7 +44,9 @@ export default async function AdminRolesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Roles & Permissions</h1>
+        <h1 className="text-lg font-semibold text-slate-900">
+          Roles & Permissions
+        </h1>
         <p className="mt-1 text-sm text-slate-600">
           Permissions granted to each role across the admin system.
         </p>
@@ -47,9 +54,14 @@ export default async function AdminRolesPage() {
 
       <div className="grid gap-3 sm:grid-cols-3">
         {roles.map((role) => (
-          <div key={role} className="rounded-lg border border-slate-200 bg-white p-4">
+          <div
+            key={role}
+            className="rounded-lg border border-slate-200 bg-white p-4"
+          >
             <h2 className="text-sm font-semibold text-slate-900">{role}</h2>
-            <p className="mt-1 text-xs leading-relaxed text-slate-500">{ROLE_DESCRIPTIONS[role]}</p>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500">
+              {ROLE_DESCRIPTIONS[role]}
+            </p>
           </div>
         ))}
       </div>
@@ -71,7 +83,9 @@ export default async function AdminRolesPage() {
               <tr key={permission}>
                 <td className="px-4 py-3 font-medium text-slate-900">
                   {key.replaceAll("_", " ")}
-                  <span className="block text-xs font-normal text-slate-500">{permission}</span>
+                  <span className="block text-xs font-normal text-slate-500">
+                    {permission}
+                  </span>
                 </td>
                 {roles.map((role) => (
                   <td key={role} className="px-4 py-3 text-center">

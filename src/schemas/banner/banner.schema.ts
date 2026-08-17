@@ -28,14 +28,10 @@ export const createBannerSchema = z
     status: contentStatusSchema.default("DRAFT"),
     displayOrder: displayOrderSchema,
   })
-  .refine(
-    (value) =>
-      !value.startDate || !value.endDate || value.endDate >= value.startDate,
-    {
-      message: "End date must be on or after the start date",
-      path: ["endDate"],
-    },
-  );
+  .refine((value) => !value.startDate || !value.endDate || value.endDate >= value.startDate, {
+    message: "End date must be on or after the start date",
+    path: ["endDate"],
+  });
 
 export const updateBannerSchema = z
   .object({
@@ -68,7 +64,7 @@ export const updateBannerSchema = z
     {
       message: "End date must be on or after the start date",
       path: ["endDate"],
-    },
+    }
   );
 
 export type CreateBannerInput = z.infer<typeof createBannerSchema>;

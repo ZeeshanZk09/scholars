@@ -1,3 +1,11 @@
+import type {
+  CreateAcademicLevelInput,
+  CreateSchoolClassInput,
+  UpdateAcademicLevelInput,
+  UpdateSchoolClassInput,
+} from "@/schemas/academics/school.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { slugify } from "@/lib/utils/slug";
 import {
@@ -6,13 +14,6 @@ import {
   type AcademicLevelAdmin,
   type SchoolClassAdmin,
 } from "@/repositories/academics";
-import type {
-  CreateAcademicLevelInput,
-  CreateSchoolClassInput,
-  UpdateAcademicLevelInput,
-  UpdateSchoolClassInput,
-} from "@/schemas/academics/school.schema";
-import type { ApiUser } from "@/server/auth/route-guard";
 
 export class SchoolService {
   private readonly levelRepository: AcademicLevelRepository;

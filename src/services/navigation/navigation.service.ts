@@ -1,12 +1,13 @@
+import type {
+  CreateNavigationItemInput,
+  UpdateNavigationItemInput,
+} from "@/schemas/navigation/navigation.schema";
+
 import { NotFoundError } from "@/lib/errors";
 import {
   NavigationRepository,
   type NavigationItemRecord,
 } from "@/repositories/navigation/navigation.repository";
-import type {
-  CreateNavigationItemInput,
-  UpdateNavigationItemInput,
-} from "@/schemas/navigation/navigation.schema";
 
 export class NavigationService {
   private readonly navigationRepository: NavigationRepository;

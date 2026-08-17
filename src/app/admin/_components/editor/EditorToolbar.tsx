@@ -217,7 +217,10 @@ export function EditorToolbar({
           >
             <Palette className="h-4 w-4" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="p-3 w-auto bg-card border-border">
+          <DropdownMenuContent
+            align="start"
+            className="p-3 w-auto bg-card border-border"
+          >
             <DropdownMenuLabel className="text-xs text-muted-foreground mb-2">
               Text Color
             </DropdownMenuLabel>
@@ -269,7 +272,9 @@ export function EditorToolbar({
         />
         <ToolbarButton
           icon={Eraser}
-          onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}
+          onClick={() =>
+            editor.chain().focus().unsetAllMarks().clearNodes().run()
+          }
           tooltip="Clear Formatting"
         />
 
@@ -353,7 +358,11 @@ export function EditorToolbar({
                   <Check className="h-4 w-4" />
                 ) : null}
               </div>
-              <span className={editor.isActive({ lineHeight: "1" }) ? "font-medium" : ""}>
+              <span
+                className={
+                  editor.isActive({ lineHeight: "1" }) ? "font-medium" : ""
+                }
+              >
                 Single
               </span>
             </DropdownMenuItem>
@@ -363,9 +372,15 @@ export function EditorToolbar({
               onClick={() => editor.chain().focus().setLineHeight("1.15").run()}
             >
               <div className="w-4 flex justify-center text-foreground">
-                {editor.isActive({ lineHeight: "1.15" }) && <Check className="h-4 w-4" />}
+                {editor.isActive({ lineHeight: "1.15" }) && (
+                  <Check className="h-4 w-4" />
+                )}
               </div>
-              <span className={editor.isActive({ lineHeight: "1.15" }) ? "font-medium" : ""}>
+              <span
+                className={
+                  editor.isActive({ lineHeight: "1.15" }) ? "font-medium" : ""
+                }
+              >
                 1.15
               </span>
             </DropdownMenuItem>
@@ -375,9 +390,15 @@ export function EditorToolbar({
               onClick={() => editor.chain().focus().setLineHeight("1.5").run()}
             >
               <div className="w-4 flex justify-center text-foreground">
-                {editor.isActive({ lineHeight: "1.5" }) && <Check className="h-4 w-4" />}
+                {editor.isActive({ lineHeight: "1.5" }) && (
+                  <Check className="h-4 w-4" />
+                )}
               </div>
-              <span className={editor.isActive({ lineHeight: "1.5" }) ? "font-medium" : ""}>
+              <span
+                className={
+                  editor.isActive({ lineHeight: "1.5" }) ? "font-medium" : ""
+                }
+              >
                 1.5
               </span>
             </DropdownMenuItem>
@@ -387,9 +408,15 @@ export function EditorToolbar({
               onClick={() => editor.chain().focus().setLineHeight("2").run()}
             >
               <div className="w-4 flex justify-center text-foreground">
-                {editor.isActive({ lineHeight: "2" }) && <Check className="h-4 w-4" />}
+                {editor.isActive({ lineHeight: "2" }) && (
+                  <Check className="h-4 w-4" />
+                )}
               </div>
-              <span className={editor.isActive({ lineHeight: "2" }) ? "font-medium" : ""}>
+              <span
+                className={
+                  editor.isActive({ lineHeight: "2" }) ? "font-medium" : ""
+                }
+              >
                 Double
               </span>
             </DropdownMenuItem>
@@ -435,7 +462,10 @@ export function EditorToolbar({
             <DropdownMenuItem
               className="flex items-center gap-2 cursor-pointer hover:bg-muted rounded px-3 py-2 text-sm text-foreground focus:bg-muted"
               onClick={() => {
-                const space = prompt("Enter custom spacing (e.g., 1.5rem, 24px):", "1.5rem");
+                const space = prompt(
+                  "Enter custom spacing (e.g., 1.5rem, 24px):",
+                  "1.5rem",
+                );
                 if (space) {
                   editor.chain().focus().setSpaceAfter(space).run();
                 }
@@ -452,37 +482,51 @@ export function EditorToolbar({
               onClick={() => editor.chain().focus().toggleKeepWithNext().run()}
             >
               <div className="w-4 flex justify-center text-foreground">
-                {editor.isActive({ keepWithNext: true }) && <Check className="h-4 w-4" />}
+                {editor.isActive({ keepWithNext: true }) && (
+                  <Check className="h-4 w-4" />
+                )}
               </div>
               <span>Keep with next</span>
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className="flex items-center gap-2 cursor-pointer hover:bg-muted rounded px-3 py-2 text-sm text-foreground focus:bg-muted"
-              onClick={() => editor.chain().focus().toggleKeepLinesTogether().run()}
+              onClick={() =>
+                editor.chain().focus().toggleKeepLinesTogether().run()
+              }
             >
               <div className="w-4 flex justify-center text-foreground">
-                {editor.isActive({ keepLinesTogether: true }) && <Check className="h-4 w-4" />}
+                {editor.isActive({ keepLinesTogether: true }) && (
+                  <Check className="h-4 w-4" />
+                )}
               </div>
               <span>Keep lines together</span>
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className="flex items-center gap-2 cursor-pointer hover:bg-muted rounded px-3 py-2 text-sm text-foreground focus:bg-muted"
-              onClick={() => editor.chain().focus().togglePreventSingleLines().run()}
+              onClick={() =>
+                editor.chain().focus().togglePreventSingleLines().run()
+              }
             >
               <div className="w-4 flex justify-center text-foreground">
-                {editor.isActive({ preventSingleLines: true }) && <Check className="h-4 w-4" />}
+                {editor.isActive({ preventSingleLines: true }) && (
+                  <Check className="h-4 w-4" />
+                )}
               </div>
               <span>Prevent single lines</span>
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className="flex items-center gap-2 cursor-pointer hover:bg-muted rounded px-3 py-2 text-sm text-foreground focus:bg-muted"
-              onClick={() => editor.chain().focus().togglePageBreakBefore().run()}
+              onClick={() =>
+                editor.chain().focus().togglePageBreakBefore().run()
+              }
             >
               <div className="w-4 flex justify-center text-foreground">
-                {editor.isActive({ pageBreakBefore: true }) && <Check className="h-4 w-4" />}
+                {editor.isActive({ pageBreakBefore: true }) && (
+                  <Check className="h-4 w-4" />
+                )}
               </div>
               <span>Add page break before</span>
             </DropdownMenuItem>
@@ -508,8 +552,16 @@ export function EditorToolbar({
           }}
           tooltip="Insert Link"
         />
-        <ToolbarButton icon={ImageIcon} onClick={handleUploadImage} tooltip="Insert Image" />
-        <ToolbarButton icon={TableIcon} onClick={handleInsertTable} tooltip="Insert Table" />
+        <ToolbarButton
+          icon={ImageIcon}
+          onClick={handleUploadImage}
+          tooltip="Insert Image"
+        />
+        <ToolbarButton
+          icon={TableIcon}
+          onClick={handleInsertTable}
+          tooltip="Insert Table"
+        />
       </div>
 
       {showLinkModal && (
@@ -520,7 +572,9 @@ export function EditorToolbar({
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted">
                   <LinkIcon className="h-5 w-5 text-muted-foreground" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground">Insert Link</h3>
+                <h3 className="text-lg font-bold text-foreground">
+                  Insert Link
+                </h3>
               </div>
               <button
                 type="button"
@@ -556,7 +610,9 @@ export function EditorToolbar({
                   type="text"
                   id="linkText"
                   value={linkForm.text}
-                  onChange={(e) => setLinkForm({ ...linkForm, text: e.target.value })}
+                  onChange={(e) =>
+                    setLinkForm({ ...linkForm, text: e.target.value })
+                  }
                   placeholder="e.g., Click here"
                   className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                   required
@@ -574,7 +630,9 @@ export function EditorToolbar({
                   type="url"
                   id="linkUrl"
                   value={linkForm.url}
-                  onChange={(e) => setLinkForm({ ...linkForm, url: e.target.value })}
+                  onChange={(e) =>
+                    setLinkForm({ ...linkForm, url: e.target.value })
+                  }
                   placeholder="https://example.com"
                   className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                   required

@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { FacilityForm } from "../../_components/facilities/facility-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { FacilityForm } from "../../_components/facilities/facility-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Facility",

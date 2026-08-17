@@ -1,9 +1,10 @@
-import Link from "next/link";
 import { GraduationCap, Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
 
-import { siteConfig, institutions } from "@/lib/site-config";
 import { Container } from "./container";
 import { siteNav } from "./site-nav";
+
+import { siteConfig, institutions } from "@/lib/site-config";
 
 const quickLinks = siteNav.map((item) => ({
   label: item.label,
@@ -18,10 +19,10 @@ const academicLinks = institutions.map((institution) => ({
 function FooterLink({
   href,
   children,
-}: {
+}: Readonly<{
   href: string;
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <Link
       href={href}
@@ -45,8 +46,8 @@ export function SiteFooter() {
               <span className="text-lg font-bold">Scholar</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-300">
-              {siteConfig.tagline} A single campus family — school, college,
-              coaching and computer courses.
+              {siteConfig.tagline} A single campus family — school, college, coaching and computer
+              courses.
             </p>
           </div>
 
@@ -117,20 +118,13 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-slate-400 sm:flex-row">
           <p>
-            &copy; {new Date().getFullYear()} {siteConfig.fullName}. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} {siteConfig.fullName}. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
-            <Link
-              href={siteConfig.applyUrl}
-              className="transition-colors hover:text-white"
-            >
+            <Link href={siteConfig.applyUrl} className="transition-colors hover:text-white">
               Apply Now
             </Link>
-            <Link
-              href="/admissions"
-              className="transition-colors hover:text-white"
-            >
+            <Link href="/admissions" className="transition-colors hover:text-white">
               Admissions
             </Link>
           </div>

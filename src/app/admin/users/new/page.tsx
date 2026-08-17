@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { UserForm } from "../../_components/users/user-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { UserForm } from "../../_components/users/user-form";
 
 export const metadata: Metadata = {
   title: "New User",
@@ -13,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewUserPage() {
-  let user;
+  let user: User;
 
   try {
     user = await requireUser();

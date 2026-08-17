@@ -1,6 +1,6 @@
 import { withApiHandler } from "@/lib/api/api-handler";
-import { jsonSuccess } from "@/lib/response/api-response";
 import { auth } from "@/lib/auth";
+import { jsonSuccess } from "@/lib/response/api-response";
 
 export const GET = withApiHandler(async () => {
   const session = await auth();

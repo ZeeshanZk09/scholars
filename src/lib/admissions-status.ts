@@ -7,9 +7,7 @@ export type HomeAdmissionSummary = {
   period: AdmissionPeriodRecord | null;
 };
 
-export function getHomeAdmissionSummary(
-  periods: AdmissionPeriodRecord[]
-): HomeAdmissionSummary {
+export function getHomeAdmissionSummary(periods: AdmissionPeriodRecord[]): HomeAdmissionSummary {
   const open = periods.find((period) => period.status === "OPEN");
   if (open) {
     return { status: "OPEN", period: open };

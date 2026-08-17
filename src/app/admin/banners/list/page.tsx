@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { BannerService } from "@/services/banners";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Banners List",
@@ -29,7 +31,10 @@ export default async function AdminBannersListPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.BANNER_CREATE);
   const canDelete = hasPermission(user.role, PERMISSIONS.BANNER_DELETE);
-  const { items: banners } = await new BannerService().listForAdmin({ skip: 0, take: 100 });
+  const { items: banners } = await new BannerService().listForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -44,7 +49,8 @@ export default async function AdminBannersListPage() {
           </Link>
           <h1 className="text-lg font-semibold text-slate-900">Banners</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Banners with images, links and display order shown on the public website.
+            Banners with images, links and display order shown on the public
+            website.
           </p>
         </div>
         {canCreate ? (
@@ -73,7 +79,10 @@ export default async function AdminBannersListPage() {
           <tbody className="divide-y divide-slate-100">
             {banners.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={6}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No banners yet.
                 </td>
               </tr>
@@ -96,9 +105,13 @@ export default async function AdminBannersListPage() {
                   <td className="hidden px-4 py-3 text-xs text-slate-500 lg:table-cell">
                     {banner.startDate || banner.endDate ? (
                       <>
-                        {banner.startDate ? banner.startDate.toISOString().slice(0, 10) : "…"}
+                        {banner.startDate
+                          ? banner.startDate.toISOString().slice(0, 10)
+                          : "…"}
                         {" → "}
-                        {banner.endDate ? banner.endDate.toISOString().slice(0, 10) : "∞"}
+                        {banner.endDate
+                          ? banner.endDate.toISOString().slice(0, 10)
+                          : "∞"}
                       </>
                     ) : (
                       <span className="text-slate-400">Always</span>

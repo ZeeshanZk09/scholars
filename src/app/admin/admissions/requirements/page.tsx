@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { PeriodSelect } from "../../_components/admissions/period-select";
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { PeriodSelect } from "../../_components/admissions/period-select";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Admission Requirements",
@@ -37,9 +39,15 @@ export default async function AdminAdmissionRequirementsPage({
   const admissions = new AdmissionsService();
   const { periodId } = await searchParams;
 
-  const { items: periods } = await admissions.listPeriods({ skip: 0, take: 100 });
-  const selectedPeriod = periods.find((period) => period.id === periodId) ?? periods[0] ?? null;
-  const requirements = selectedPeriod ? await admissions.listRequirements(selectedPeriod.id) : [];
+  const { items: periods } = await admissions.listPeriods({
+    skip: 0,
+    take: 100,
+  });
+  const selectedPeriod =
+    periods.find((period) => period.id === periodId) ?? periods[0] ?? null;
+  const requirements = selectedPeriod
+    ? await admissions.listRequirements(selectedPeriod.id)
+    : [];
 
   return (
     <div className="space-y-6">
@@ -54,7 +62,8 @@ export default async function AdminAdmissionRequirementsPage({
           </Link>
           <h1 className="text-lg font-semibold text-slate-900">Requirements</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Eligibility, required documents, process, dates, fees and instructions per period.
+            Eligibility, required documents, process, dates, fees and
+            instructions per period.
           </p>
         </div>
         {canCreate && selectedPeriod ? (
@@ -69,7 +78,10 @@ export default async function AdminAdmissionRequirementsPage({
       </div>
 
       <div>
-        <label htmlFor="period-filter" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="period-filter"
+          className="block text-sm font-medium text-slate-900"
+        >
           Admission Period
         </label>
         <PeriodSelect
@@ -88,15 +100,22 @@ export default async function AdminAdmissionRequirementsPage({
             <thead className="bg-slate-50">
               <tr className="text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
                 <th className="px-4 py-3">Eligibility</th>
-                <th className="hidden px-4 py-3 lg:table-cell">Application Process</th>
-                <th className="hidden px-4 py-3 md:table-cell">Important Dates</th>
+                <th className="hidden px-4 py-3 lg:table-cell">
+                  Application Process
+                </th>
+                <th className="hidden px-4 py-3 md:table-cell">
+                  Important Dates
+                </th>
                 <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {requirements.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                  <td
+                    colSpan={4}
+                    className="px-4 py-8 text-center text-slate-500"
+                  >
                     No requirements for this period yet.
                   </td>
                 </tr>
@@ -114,7 +133,10 @@ export default async function AdminAdmissionRequirementsPage({
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
-                        {hasPermission(user.role, PERMISSIONS.ADMISSION_MANAGE) ? (
+                        {hasPermission(
+                          user.role,
+                          PERMISSIONS.ADMISSION_MANAGE,
+                        ) ? (
                           <Link
                             href={`/admin/admissions/requirements/${requirement.id}`}
                             className="rounded-md px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100"

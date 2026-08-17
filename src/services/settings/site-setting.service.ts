@@ -1,12 +1,13 @@
+import type {
+  CreateSiteSettingInput,
+  UpdateSiteSettingInput,
+} from "@/schemas/settings/site-setting.schema";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import {
   SiteSettingRepository,
   type SiteSettingRecord,
 } from "@/repositories/settings/site-setting.repository";
-import type {
-  CreateSiteSettingInput,
-  UpdateSiteSettingInput,
-} from "@/schemas/settings/site-setting.schema";
 
 export class SiteSettingService {
   private readonly siteSettingRepository: SiteSettingRepository;

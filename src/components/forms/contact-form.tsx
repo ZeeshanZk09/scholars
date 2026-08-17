@@ -1,8 +1,8 @@
 "use client";
 
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,7 +43,9 @@ export function ContactForm() {
 
       if (!response.ok) {
         const message =
-          body?.error?.message ?? body?.message ?? "Failed to send your message.";
+          body?.error?.message ??
+          body?.message ??
+          "Failed to send your message.";
         toast.error(message);
         return;
       }

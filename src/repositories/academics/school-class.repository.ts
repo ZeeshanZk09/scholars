@@ -127,10 +127,7 @@ export class SchoolClassRepository {
     });
   }
 
-  async update(
-    id: string,
-    record: UpdateSchoolClassRecord
-  ): Promise<SchoolClassAdmin | null> {
+  async update(id: string, record: UpdateSchoolClassRecord): Promise<SchoolClassAdmin | null> {
     const result = await prisma.schoolClass.updateMany({
       where: { id, deletedAt: null },
       data: record,

@@ -1,9 +1,10 @@
 import { randomUUID } from "node:crypto";
 
-import { jsonError } from "@/lib/response/api-response";
+import type { HttpStatus } from "@/lib/constants/http-status.constants";
+
 import { toSafeError, BadRequestError } from "@/lib/errors";
 import { logger } from "@/lib/logger/logger";
-import type { HttpStatus } from "@/lib/constants/http-status.constants";
+import { jsonError } from "@/lib/response/api-response";
 import { idParamsSchema, slugParamsSchema } from "@/schemas/common/params.schema";
 
 export type ApiContext = { requestId: string };
@@ -17,7 +18,7 @@ export interface ApiRouteContext {
 export type ApiRouteHandler = (
   ctx: ApiContext,
   request: Request,
-  routeContext?: ApiRouteContext,
+  routeContext?: ApiRouteContext
 ) => Promise<Response>;
 
 /**
@@ -29,7 +30,7 @@ export type ApiRouteHandler = (
 export function withApiHandler(handler: ApiRouteHandler) {
   return async function wrapped(
     request: Request,
-    routeContext?: ApiRouteContext,
+    routeContext?: ApiRouteContext
   ): Promise<Response> {
     const requestId = randomUUID();
     const startedAt = performance.now();
@@ -46,10 +47,14 @@ export function withApiHandler(handler: ApiRouteHandler) {
       const safe = toSafeError(error, requestId);
 
       const response = jsonError(
-        { code: safe.code, message: safe.message, details: safe.details ?? null },
+        {
+          code: safe.code,
+          message: safe.message,
+          details: safe.details ?? null,
+        },
         safe.message,
         safe.statusCode as HttpStatus,
-        { requestId },
+        { requestId }
       );
 
       response.headers.set("X-Request-Id", requestId);
@@ -61,12 +66,7 @@ export function withApiHandler(handler: ApiRouteHandler) {
   };
 }
 
-function logRequest(
-  request: Request,
-  requestId: string,
-  status: number,
-  startedAt: number,
-): void {
+function logRequest(request: Request, requestId: string, status: number, startedAt: number): void {
   const durationMs = Math.round(performance.now() - startedAt);
   const url = new URL(request.url);
 
@@ -85,7 +85,7 @@ function logRequest(
  */
 export async function getRouteParam(
   routeContext: ApiRouteContext | undefined,
-  name: string,
+  name: string
 ): Promise<string> {
   const params = await routeContext?.params;
   const value = params?.[name];
@@ -98,8 +98,7 @@ export async function getRouteParam(
   const result = schema.safeParse({ [name]: value });
 
   if (!result.success) {
-    const message =
-      result.error.issues[0]?.message ?? `Invalid route parameter '${name}'.`;
+    const message = result.error.issues[0]?.message ?? `Invalid route parameter '${name}'.`;
     throw new BadRequestError(message);
   }
 

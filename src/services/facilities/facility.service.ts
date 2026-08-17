@@ -1,3 +1,6 @@
+import type { CreateFacilityInput, UpdateFacilityInput } from "@/schemas/facility/facility.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { slugify } from "@/lib/utils/slug";
 import {
@@ -5,8 +8,6 @@ import {
   type FacilityAdmin,
   type FacilityPublic,
 } from "@/repositories/facilities";
-import type { CreateFacilityInput, UpdateFacilityInput } from "@/schemas/facility/facility.schema";
-import type { ApiUser } from "@/server/auth/route-guard";
 
 export class FacilityService {
   private readonly facilityRepository: FacilityRepository;

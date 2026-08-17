@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { FacilityService } from "@/services/facilities";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Facilities",
@@ -29,7 +31,10 @@ export default async function AdminFacilitiesListPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.CMS_CREATE);
   const canDelete = hasPermission(user.role, PERMISSIONS.CMS_DELETE);
-  const { items: facilities } = await new FacilityService().listForAdmin({ skip: 0, take: 100 });
+  const { items: facilities } = await new FacilityService().listForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -71,7 +76,10 @@ export default async function AdminFacilitiesListPage() {
           <tbody className="divide-y divide-slate-100">
             {facilities.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={4}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No facilities yet.
                 </td>
               </tr>

@@ -1,13 +1,9 @@
 import { BookOpen, Clock, Users, Wallet } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import type { CoachingProgramPublic } from "@/repositories/coaching/coaching.repository";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type CoachingCardProps = {
   program: CoachingProgramPublic;
@@ -47,7 +43,10 @@ export function CoachingCard({ program }: CoachingCardProps) {
           ) : null}
           {program.subjects ? (
             <p className="flex items-start gap-2">
-              <BookOpen className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+              <BookOpen
+                className="mt-0.5 h-4 w-4 shrink-0"
+                aria-hidden="true"
+              />
               <span>
                 <span className="font-medium text-slate-800">Subjects:</span>{" "}
                 {program.subjects}

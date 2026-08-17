@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
 
+import type { Metadata } from "next";
+
+import { FacultyForm } from "@/features/faculty/components/faculty-form";
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { FacultyForm } from "@/features/faculty/components/faculty-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Faculty",
@@ -37,7 +38,9 @@ export default async function NewFacultyPage() {
           Back to Faculty
         </Link>
         <h1 className="text-lg font-semibold text-slate-900">New Faculty</h1>
-        <p className="mt-1 text-sm text-slate-600">Add a new faculty member profile.</p>
+        <p className="mt-1 text-sm text-slate-600">
+          Add a new faculty member profile.
+        </p>
       </div>
 
       <FacultyForm />

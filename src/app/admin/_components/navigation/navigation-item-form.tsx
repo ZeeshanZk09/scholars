@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type NavigationItemFormData = {
@@ -42,12 +42,12 @@ export function NavigationItemForm({
 
   function setField<K extends keyof NavigationItemFormData>(
     key: K,
-    value: NavigationItemFormData[K]
+    value: NavigationItemFormData[K],
   ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
     if (!form.label.trim()) {
@@ -71,13 +71,15 @@ export function NavigationItemForm({
 
     try {
       const response = await fetch(
-        mode === "edit" ? `/api/v1/admin/navigation/${initial?.id}` : "/api/v1/admin/navigation",
+        mode === "edit"
+          ? `/api/v1/admin/navigation/${initial?.id}`
+          : "/api/v1/admin/navigation",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -86,17 +88,30 @@ export function NavigationItemForm({
         throw new Error(result?.message ?? "Failed to save navigation item");
       }
 
-      toast.success(mode === "edit" ? "Navigation item updated" : "Navigation item created");
+      toast.success(
+        mode === "edit" ? "Navigation item updated" : "Navigation item created",
+      );
       router.push("/admin/navigation");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save navigation item");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to save navigation item",
+      );
     } finally {
       setSaving(false);
     }
   }
 
   const availableParents = parents.filter((parent) => parent.id !== currentId);
+
+  let submitButtonLabel = "Create Item";
+  if (saving) {
+    submitButtonLabel = "Saving...";
+  } else if (mode === "edit") {
+    submitButtonLabel = "Save Changes";
+  }
 
   return (
     <form
@@ -105,7 +120,10 @@ export function NavigationItemForm({
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="label" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="label"
+            className="block text-sm font-medium text-slate-900"
+          >
             Label <span className="text-red-600">*</span>
           </label>
           <input
@@ -118,7 +136,10 @@ export function NavigationItemForm({
           />
         </div>
         <div>
-          <label htmlFor="url" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="url"
+            className="block text-sm font-medium text-slate-900"
+          >
             URL <span className="text-red-600">*</span>
           </label>
           <input
@@ -134,14 +155,20 @@ export function NavigationItemForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="position" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="position"
+            className="block text-sm font-medium text-slate-900"
+          >
             Position
           </label>
           <select
             id="position"
             value={form.position}
             onChange={(event) =>
-              setField("position", event.target.value as NavigationItemFormData["position"])
+              setField(
+                "position",
+                event.target.value as NavigationItemFormData["position"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -151,7 +178,10 @@ export function NavigationItemForm({
         </div>
 
         <div>
-          <label htmlFor="parent" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="parent"
+            className="block text-sm font-medium text-slate-900"
+          >
             Parent Item
           </label>
           <select
@@ -172,14 +202,20 @@ export function NavigationItemForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
             onChange={(event) =>
-              setField("status", event.target.value as NavigationItemFormData["status"])
+              setField(
+                "status",
+                event.target.value as NavigationItemFormData["status"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -192,7 +228,10 @@ export function NavigationItemForm({
         </div>
 
         <div>
-          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="displayOrder"
+            className="block text-sm font-medium text-slate-900"
+          >
             Display Order
           </label>
           <input
@@ -200,7 +239,9 @@ export function NavigationItemForm({
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) => setField("displayOrder", Number(event.target.value))}
+            onChange={(event) =>
+              setField("displayOrder", Number(event.target.value))
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>
@@ -218,7 +259,7 @@ export function NavigationItemForm({
           disabled={saving}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
         >
-          {saving ? "Saving..." : mode === "edit" ? "Save Changes" : "Create Item"}
+          {submitButtonLabel}
         </button>
       </div>
     </form>

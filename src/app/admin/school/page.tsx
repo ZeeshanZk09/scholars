@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { Layers, ListChecks, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Layers, ListChecks, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { SchoolService } from "@/services/academics";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "School",
@@ -57,9 +58,12 @@ export default async function AdminSchoolPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">School Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            School Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage school academic levels and classes shown on the public School page.
+            Manage school academic levels and classes shown on the public School
+            page.
           </p>
         </div>
         <Link
@@ -82,10 +86,16 @@ export default async function AdminSchoolPage() {
               <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-white">
                 <section.icon className="h-5 w-5" aria-hidden="true" />
               </span>
-              <span className="text-2xl font-bold text-slate-900">{section.count}</span>
+              <span className="text-2xl font-bold text-slate-900">
+                {section.count}
+              </span>
             </div>
-            <h2 className="mt-4 text-sm font-semibold text-slate-900">{section.title}</h2>
-            <p className="mt-1 text-xs leading-relaxed text-slate-500">{section.description}</p>
+            <h2 className="mt-4 text-sm font-semibold text-slate-900">
+              {section.title}
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500">
+              {section.description}
+            </p>
             <span className="mt-3 inline-block text-sm font-medium text-slate-700">
               {section.cta} →
             </span>

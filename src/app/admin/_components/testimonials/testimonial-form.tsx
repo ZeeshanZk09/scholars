@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type TestimonialFormData = {
@@ -24,7 +24,10 @@ type TestimonialFormProps = {
 const TYPE_OPTIONS = ["STUDENT", "PARENT", "ALUMNI"] as const;
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps>) {
+export function TestimonialForm({
+  mode,
+  initial,
+}: Readonly<TestimonialFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<TestimonialFormData>({
@@ -38,7 +41,10 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
     displayOrder: initial?.displayOrder ?? 0,
   });
 
-  function setField<K extends keyof TestimonialFormData>(key: K, value: TestimonialFormData[K]) {
+  function setField<K extends keyof TestimonialFormData>(
+    key: K,
+    value: TestimonialFormData[K],
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -80,7 +86,7 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        }
+        },
       );
 
       const result = await response.json().catch(() => null);
@@ -89,11 +95,15 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
         throw new Error(result?.message ?? "Failed to save testimonial");
       }
 
-      toast.success(mode === "edit" ? "Testimonial updated" : "Testimonial created");
+      toast.success(
+        mode === "edit" ? "Testimonial updated" : "Testimonial created",
+      );
       router.push("/admin/testimonials");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save testimonial");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save testimonial",
+      );
     } finally {
       setSaving(false);
     }
@@ -113,7 +123,10 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-slate-900"
+          >
             Name <span className="text-red-600">*</span>
           </label>
           <input
@@ -126,7 +139,10 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
           />
         </div>
         <div>
-          <label htmlFor="role" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="role"
+            className="block text-sm font-medium text-slate-900"
+          >
             Role
           </label>
           <input
@@ -142,14 +158,20 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="type" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="type"
+            className="block text-sm font-medium text-slate-900"
+          >
             Type
           </label>
           <select
             id="type"
             value={form.type}
             onChange={(event) =>
-              setField("type", event.target.value as TestimonialFormData["type"])
+              setField(
+                "type",
+                event.target.value as TestimonialFormData["type"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -161,7 +183,10 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
           </select>
         </div>
         <div>
-          <label htmlFor="rating" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="rating"
+            className="block text-sm font-medium text-slate-900"
+          >
             Rating
           </label>
           <input
@@ -177,7 +202,10 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="message"
+          className="block text-sm font-medium text-slate-900"
+        >
           Message <span className="text-red-600">*</span>
         </label>
         <textarea
@@ -191,7 +219,10 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
       </div>
 
       <div>
-        <label htmlFor="imageUrl" className="block text-sm font-medium text-slate-900">
+        <label
+          htmlFor="imageUrl"
+          className="block text-sm font-medium text-slate-900"
+        >
           Image URL
         </label>
         <input
@@ -206,14 +237,20 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-slate-900"
+          >
             Status
           </label>
           <select
             id="status"
             value={form.status}
             onChange={(event) =>
-              setField("status", event.target.value as TestimonialFormData["status"])
+              setField(
+                "status",
+                event.target.value as TestimonialFormData["status"],
+              )
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -226,7 +263,10 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
         </div>
 
         <div>
-          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="displayOrder"
+            className="block text-sm font-medium text-slate-900"
+          >
             Display Order
           </label>
           <input
@@ -234,7 +274,9 @@ export function TestimonialForm({ mode, initial }: Readonly<TestimonialFormProps
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) => setField("displayOrder", Number(event.target.value))}
+            onChange={(event) =>
+              setField("displayOrder", Number(event.target.value))
+            }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

@@ -31,8 +31,7 @@ export function parsePagination(url: URL): PaginationOptions {
   const result = paginationQuerySchema.safeParse(raw);
 
   if (!result.success) {
-    const message =
-      result.error.issues[0]?.message ?? "Invalid pagination parameters.";
+    const message = result.error.issues[0]?.message ?? "Invalid pagination parameters.";
     throw new BadRequestError(message);
   }
 
@@ -54,7 +53,7 @@ export function parsePagination(url: URL): PaginationOptions {
 export function parseEnumFilter<T extends string>(
   url: URL,
   key: string,
-  values: readonly T[],
+  values: readonly T[]
 ): T | undefined {
   const raw = url.searchParams.get(key);
   if (raw === null) {

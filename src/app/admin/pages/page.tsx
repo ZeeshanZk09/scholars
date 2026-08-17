@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { FileText, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FileText, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { PageService } from "@/services/pages";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Pages & SEO",
@@ -28,13 +29,17 @@ export default async function AdminPagesPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.CMS_CREATE);
   const pages = await new PageService().listForAdmin();
-  const publishedCount = pages.filter((page) => page.status === "PUBLISHED").length;
+  const publishedCount = pages.filter(
+    (page) => page.status === "PUBLISHED",
+  ).length;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Pages & SEO Module</h1>
+          <h1 className="text-lg font-semibold text-slate-900">
+            Pages & SEO Module
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
             Manage static pages, their content and search-engine metadata.
           </p>
@@ -58,13 +63,18 @@ export default async function AdminPagesPage() {
           <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-white">
             <FileText className="h-5 w-5" aria-hidden="true" />
           </span>
-          <span className="text-2xl font-bold text-slate-900">{pages.length}</span>
+          <span className="text-2xl font-bold text-slate-900">
+            {pages.length}
+          </span>
         </div>
         <h2 className="mt-4 text-sm font-semibold text-slate-900">Pages</h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-500">
-          {publishedCount} published · {pages.length - publishedCount} draft/archived
+          {publishedCount} published · {pages.length - publishedCount}{" "}
+          draft/archived
         </p>
-        <span className="mt-3 inline-block text-sm font-medium text-slate-700">Manage Pages →</span>
+        <span className="mt-3 inline-block text-sm font-medium text-slate-700">
+          Manage Pages →
+        </span>
       </Link>
     </div>
   );

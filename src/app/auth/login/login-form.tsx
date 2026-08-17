@@ -1,17 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { loginSchema, type LoginInput } from "@/schemas/auth/login.schema";
 
 type LoginFormProps = {
   callbackUrl?: string;
 };
 
-export function LoginForm({ callbackUrl = "/admin" }: Readonly<LoginFormProps>) {
+export function LoginForm({
+  callbackUrl = "/admin",
+}: Readonly<LoginFormProps>) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
@@ -50,18 +53,32 @@ export function LoginForm({ callbackUrl = "/admin" }: Readonly<LoginFormProps>) 
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm">
         <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-          <h1 className="text-xl font-semibold text-gray-900">Scholar School</h1>
-          <p className="mt-1 text-sm text-gray-500">Sign in to the administration panel.</p>
+          <h1 className="text-xl font-semibold text-gray-900">
+            Scholar School
+          </h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Sign in to the administration panel.
+          </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="mt-6 space-y-4"
+          >
             {error ? (
-              <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+              <p
+                role="alert"
+                className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700"
+              >
                 {error}
               </p>
             ) : null}
 
             <div>
-              <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -81,7 +98,10 @@ export function LoginForm({ callbackUrl = "/admin" }: Readonly<LoginFormProps>) 
             </div>
 
             <div>
-              <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input

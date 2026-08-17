@@ -5,7 +5,10 @@ type StatusBadgeProps = {
   className?: string;
 };
 
-const STATUS_VARIANTS: Record<string, "success" | "warning" | "info" | "secondary" | "destructive"> = {
+const STATUS_VARIANTS: Record<
+  string,
+  "success" | "warning" | "info" | "secondary" | "destructive"
+> = {
   OPEN: "success",
   PUBLISHED: "success",
   ACTIVE: "success",
@@ -26,10 +29,13 @@ const STATUS_VARIANTS: Record<string, "success" | "warning" | "info" | "secondar
 };
 
 function toLabel(status: string): string {
-  return status.replace(/_/g, " ").toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
+  return status
+    .replaceAll("_", " ")
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase());
 }
 
-export function StatusBadge({ status, className }: StatusBadgeProps) {
+export function StatusBadge({ status, className }: Readonly<StatusBadgeProps>) {
   const variant = STATUS_VARIANTS[status.toUpperCase()] ?? "secondary";
 
   return (

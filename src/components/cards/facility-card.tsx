@@ -1,5 +1,3 @@
-import { createElement } from "react";
-import Image from "next/image";
 import {
   BookOpen,
   Building2,
@@ -11,14 +9,12 @@ import {
   School,
   Stethoscope,
 } from "lucide-react";
+import Image from "next/image";
+import { createElement } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import type { FacilityPublic } from "@/repositories/facilities/facility.repository";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type FacilityCardProps = {
   facility: FacilityPublic;

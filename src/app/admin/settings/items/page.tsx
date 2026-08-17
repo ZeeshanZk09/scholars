@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { SiteSettingService } from "@/services/settings";
-import { DeleteButton } from "../../_components/school/delete-button";
 
 export const metadata: Metadata = {
   title: "Site Settings",
@@ -41,7 +43,9 @@ export default async function AdminSiteSettingsListPage() {
             Back to Settings
           </Link>
           <h1 className="text-lg font-semibold text-slate-900">Settings</h1>
-          <p className="mt-1 text-sm text-slate-600">Global site settings as key-value pairs.</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Global site settings as key-value pairs.
+          </p>
         </div>
         {canManage ? (
           <Link
@@ -67,7 +71,10 @@ export default async function AdminSiteSettingsListPage() {
           <tbody className="divide-y divide-slate-100">
             {settings.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={4}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No site settings yet.
                 </td>
               </tr>

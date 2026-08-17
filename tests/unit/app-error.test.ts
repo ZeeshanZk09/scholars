@@ -1,13 +1,23 @@
 import { describe, it, expect } from "vitest";
-import { AppError, ValidationError, NotFoundError, isAppError } from "@/lib/errors/app-error";
+
+import {
+  AppError,
+  ValidationError,
+  NotFoundError,
+  isAppError,
+} from "@/lib/errors/app-error";
 import { ERROR_CODES } from "@/lib/errors/error-codes";
 
 describe("AppError and subclasses", () => {
   it("should create a base AppError with correct properties", () => {
-    const error = new AppError(ERROR_CODES.INTERNAL_ERROR, "Something went wrong", {
-      statusCode: 500,
-      requestId: "123",
-    });
+    const error = new AppError(
+      ERROR_CODES.INTERNAL_ERROR,
+      "Something went wrong",
+      {
+        statusCode: 500,
+        requestId: "123",
+      },
+    );
 
     expect(error.message).toBe("Something went wrong");
     expect(error.code).toBe(ERROR_CODES.INTERNAL_ERROR);

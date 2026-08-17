@@ -15,7 +15,7 @@ export function SubmitButton({
   children,
   disabled,
   ...props
-}: SubmitButtonProps) {
+}: Readonly<SubmitButtonProps>) {
   return (
     <Button disabled={disabled || loading} {...props}>
       {loading ? (

@@ -1,9 +1,11 @@
-import type { NextAuthConfig } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/server/db";
+import bcrypt from "bcryptjs";
+import Credentials from "next-auth/providers/credentials";
+
+import type { NextAuthConfig } from "next-auth";
+
 import { loginSchema } from "@/schemas/auth/login.schema";
+import { prisma } from "@/server/db";
 
 const LOGIN_MAX_ATTEMPTS = 5;
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;

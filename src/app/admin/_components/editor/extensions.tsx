@@ -3,7 +3,11 @@
 import { Extension, mergeAttributes } from "@tiptap/core";
 import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
-import { NodeViewWrapper, type NodeViewProps, ReactNodeViewRenderer } from "@tiptap/react";
+import {
+  NodeViewWrapper,
+  type NodeViewProps,
+  ReactNodeViewRenderer,
+} from "@tiptap/react";
 import DOMPurify from "dompurify";
 import { AlignLeft, AlignCenter, AlignRight, Trash2 } from "lucide-react";
 import NextImage from "next/image";
@@ -42,7 +46,11 @@ function getImageAlignStyles(align: string | null | undefined): {
 }
 
 // Custom Image Node View
-function ImageNodeView({ node, updateAttributes, deleteNode }: Readonly<NodeViewProps>) {
+function ImageNodeView({
+  node,
+  updateAttributes,
+  deleteNode,
+}: Readonly<NodeViewProps>) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleDelete = useCallback(() => {
@@ -128,7 +136,11 @@ export const CustomImage = Image.extend({
     };
   },
   renderHTML({ HTMLAttributes }) {
-    const { "data-align": align, style: incomingStyle, ...rest } = HTMLAttributes;
+    const {
+      "data-align": align,
+      style: incomingStyle,
+      ...rest
+    } = HTMLAttributes;
 
     let style = incomingStyle || "";
     style += `width: 50%; `;
@@ -143,7 +155,10 @@ export const CustomImage = Image.extend({
 
     return [
       "img",
-      mergeAttributes(this.options.HTMLAttributes, rest, { style, "data-align": align }),
+      mergeAttributes(this.options.HTMLAttributes, rest, {
+        style,
+        "data-align": align,
+      }),
     ];
   },
   addNodeView() {
@@ -170,7 +185,9 @@ export const CustomHeading = Heading.extend({
         parseHTML: (element) => {
           const tagName = element.tagName.toLowerCase();
           // H1, H2, and H3 are always TOC headings, others only if they have id
-          if (tagName === "h1" || tagName === "h2" || tagName === "h3") return true;
+          if (tagName === "h1" || tagName === "h2" || tagName === "h3") {
+            return true;
+          }
           return element.hasAttribute("id") || false;
         },
         renderHTML: (attributes) => {
@@ -279,7 +296,9 @@ export const ParagraphFormattingExtension = Extension.create({
             parseHTML: (element) => element.style.breakInside === "avoid",
             renderHTML: (attributes) => {
               if (!attributes.keepLinesTogether) return {};
-              return { style: `break-inside: avoid; page-break-inside: avoid;` };
+              return {
+                style: `break-inside: avoid; page-break-inside: avoid;`,
+              };
             },
           },
           preventSingleLines: {
@@ -298,7 +317,9 @@ export const ParagraphFormattingExtension = Extension.create({
             parseHTML: (element) => element.style.breakBefore === "page",
             renderHTML: (attributes) => {
               if (!attributes.pageBreakBefore) return {};
-              return { style: `break-before: page; page-break-before: always;` };
+              return {
+                style: `break-before: page; page-break-before: always;`,
+              };
             },
           },
           id: {
@@ -313,7 +334,8 @@ export const ParagraphFormattingExtension = Extension.create({
           },
           isTocHeading: {
             default: false,
-            parseHTML: (element) => Object.hasOwn(element.dataset, "tocHeading"),
+            parseHTML: (element) =>
+              Object.hasOwn(element.dataset, "tocHeading"),
             renderHTML: (attributes) => {
               if (attributes.isTocHeading) {
                 return { "data-toc-heading": "true" };
@@ -343,7 +365,7 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
@@ -369,7 +391,7 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
@@ -395,7 +417,7 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
@@ -420,7 +442,7 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
@@ -445,7 +467,7 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
@@ -470,7 +492,7 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
@@ -499,13 +521,15 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
           const isActive = editor.isActive({ keepWithNext: true });
           return (
-            commands.updateAttributes("paragraph", { keepWithNext: !isActive }) ||
+            commands.updateAttributes("paragraph", {
+              keepWithNext: !isActive,
+            }) ||
             commands.updateAttributes("heading", { keepWithNext: !isActive })
           );
         },
@@ -529,14 +553,18 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
           const isActive = editor.isActive({ keepLinesTogether: true });
           return (
-            commands.updateAttributes("paragraph", { keepLinesTogether: !isActive }) ||
-            commands.updateAttributes("heading", { keepLinesTogether: !isActive })
+            commands.updateAttributes("paragraph", {
+              keepLinesTogether: !isActive,
+            }) ||
+            commands.updateAttributes("heading", {
+              keepLinesTogether: !isActive,
+            })
           );
         },
       togglePreventSingleLines:
@@ -560,14 +588,18 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines: boolean;
                 pageBreakBefore?: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
           const isActive = editor.isActive({ preventSingleLines: true });
           return (
-            commands.updateAttributes("paragraph", { preventSingleLines: !isActive }) ||
-            commands.updateAttributes("heading", { preventSingleLines: !isActive })
+            commands.updateAttributes("paragraph", {
+              preventSingleLines: !isActive,
+            }) ||
+            commands.updateAttributes("heading", {
+              preventSingleLines: !isActive,
+            })
           );
         },
       togglePageBreakBefore:
@@ -590,13 +622,15 @@ export const ParagraphFormattingExtension = Extension.create({
                 keepLinesTogether?: boolean;
                 preventSingleLines?: boolean;
                 pageBreakBefore: boolean;
-              }
+              },
             ) => boolean;
           };
         }) => {
           const isActive = editor.isActive({ pageBreakBefore: true });
           return (
-            commands.updateAttributes("paragraph", { pageBreakBefore: !isActive }) ||
+            commands.updateAttributes("paragraph", {
+              pageBreakBefore: !isActive,
+            }) ||
             commands.updateAttributes("heading", { pageBreakBefore: !isActive })
           );
         },
@@ -713,7 +747,9 @@ export function normalizeEmbedUrl(url: string): string | null {
 
     if (parsed.hostname === "youtu.be") {
       const videoId = parsed.pathname.replace(/^\//, "");
-      return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}` : null;
+      return videoId
+        ? `https://www.youtube-nocookie.com/embed/${videoId}`
+        : null;
     }
 
     if (parsed.hostname.endsWith("youtube.com")) {
@@ -726,7 +762,10 @@ export function normalizeEmbedUrl(url: string): string | null {
       }
     }
 
-    if (parsed.hostname === "player.vimeo.com" && parsed.pathname.startsWith("/video/")) {
+    if (
+      parsed.hostname === "player.vimeo.com" &&
+      parsed.pathname.startsWith("/video/")
+    ) {
       return parsed.href;
     }
 
@@ -748,7 +787,8 @@ function sanitizeRichHtml(html: string): string {
     ALLOWED_ATTR: [...SAFE_HTML_ALLOWED_ATTR],
     ALLOWED_TAGS: [...SAFE_HTML_ALLOWED_TAGS],
     FORBID_TAGS: ["script", "object", "embed", "iframe"],
-    ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel|data):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
+    ALLOWED_URI_REGEXP:
+      /^(?:(?:https?|mailto|tel|data):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
   });
 }
 
@@ -772,7 +812,7 @@ function mountTrustedEmbeds(container: HTMLElement): void {
     iframe.loading = "lazy";
     iframe.setAttribute(
       "sandbox",
-      "allow-scripts allow-same-origin allow-presentation allow-popups"
+      "allow-scripts allow-same-origin allow-presentation allow-popups",
     );
     iframe.setAttribute("allowfullscreen", "");
     iframe.className = "aspect-video w-full rounded-xl border border-white/10";
@@ -781,7 +821,10 @@ function mountTrustedEmbeds(container: HTMLElement): void {
   });
 }
 
-export function SafeHtml({ html, className }: Readonly<{ html: string; className?: string }>) {
+export function SafeHtml({
+  html,
+  className,
+}: Readonly<{ html: string; className?: string }>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const clean = useMemo(() => sanitizeRichHtml(html), [html]);
 
@@ -794,6 +837,10 @@ export function SafeHtml({ html, className }: Readonly<{ html: string; className
   }, [clean]);
 
   return (
-    <div ref={containerRef} className={className} dangerouslySetInnerHTML={{ __html: clean }} />
+    <div
+      ref={containerRef}
+      className={className}
+      dangerouslySetInnerHTML={{ __html: clean }}
+    />
   );
 }

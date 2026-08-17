@@ -23,6 +23,14 @@ export const PERMISSIONS = {
   TESTIMONIAL_CREATE: "testimonial:create",
   TESTIMONIAL_UPDATE: "testimonial:update",
   TESTIMONIAL_DELETE: "testimonial:delete",
+  PRINCIPAL_READ: "principal:read",
+  PRINCIPAL_CREATE: "principal:create",
+  PRINCIPAL_UPDATE: "principal:update",
+  PRINCIPAL_DELETE: "principal:delete",
+  MANAGEMENT_READ: "management:read",
+  MANAGEMENT_CREATE: "management:create",
+  MANAGEMENT_UPDATE: "management:update",
+  MANAGEMENT_DELETE: "management:delete",
   SETTINGS_READ: "settings:read",
   SETTINGS_UPDATE: "settings:update",
 } as const;
@@ -51,6 +59,14 @@ const ROLE_PERMISSIONS: Record<Role, readonly Permission[] | "ALL"> = {
     PERMISSIONS.BLOG_CREATE,
     PERMISSIONS.BLOG_UPDATE,
     PERMISSIONS.BLOG_DELETE,
+    PERMISSIONS.PRINCIPAL_READ,
+    PERMISSIONS.PRINCIPAL_CREATE,
+    PERMISSIONS.PRINCIPAL_UPDATE,
+    PERMISSIONS.PRINCIPAL_DELETE,
+    PERMISSIONS.MANAGEMENT_READ,
+    PERMISSIONS.MANAGEMENT_CREATE,
+    PERMISSIONS.MANAGEMENT_UPDATE,
+    PERMISSIONS.MANAGEMENT_DELETE,
   ],
   [USER_ROLES.EDITOR]: [
     PERMISSIONS.CMS_READ,
@@ -66,6 +82,14 @@ const ROLE_PERMISSIONS: Record<Role, readonly Permission[] | "ALL"> = {
     PERMISSIONS.TESTIMONIAL_CREATE,
     PERMISSIONS.TESTIMONIAL_UPDATE,
     PERMISSIONS.TESTIMONIAL_DELETE,
+    PERMISSIONS.PRINCIPAL_READ,
+    PERMISSIONS.PRINCIPAL_CREATE,
+    PERMISSIONS.PRINCIPAL_UPDATE,
+    PERMISSIONS.PRINCIPAL_DELETE,
+    PERMISSIONS.MANAGEMENT_READ,
+    PERMISSIONS.MANAGEMENT_CREATE,
+    PERMISSIONS.MANAGEMENT_UPDATE,
+    PERMISSIONS.MANAGEMENT_DELETE,
   ],
 };
 
@@ -189,6 +213,16 @@ export const ADMIN_MODULES = {
   blogs: {
     label: "Blogs",
     href: "/admin/blogs",
+    permission: PERMISSIONS.BLOG_READ,
+  },
+  "blog-categories": {
+    label: "Blog Categories",
+    href: "/admin/blogs/categories",
+    permission: PERMISSIONS.BLOG_READ,
+  },
+  "blog-tags": {
+    label: "Blog Tags",
+    href: "/admin/blogs/tags",
     permission: PERMISSIONS.BLOG_READ,
   },
   contact: {

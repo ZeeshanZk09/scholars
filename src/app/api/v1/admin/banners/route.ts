@@ -1,10 +1,14 @@
 import { withApiHandler } from "@/lib/api/api-handler";
-import { parseJsonBody } from "@/lib/api/parse-body";
 import { parseEnumFilter, parsePagination } from "@/lib/api/pagination";
-import { jsonCreated, jsonSuccessPaged, paginationMeta } from "@/lib/response/api-response";
+import { parseJsonBody } from "@/lib/api/parse-body";
+import {
+  jsonCreated,
+  jsonSuccessPaged,
+  paginationMeta,
+} from "@/lib/response/api-response";
 import { PERMISSIONS } from "@/lib/security/permissions";
-import { contentStatusValues } from "@/schemas/common/content.schema";
 import { createBannerSchema } from "@/schemas/banner/banner.schema";
+import { contentStatusValues } from "@/schemas/common/content.schema";
 import { requireApiPermission } from "@/server/auth";
 import { BannerService } from "@/services/banners";
 
@@ -15,12 +19,16 @@ export const GET = withApiHandler(async (_ctx, request) => {
   const { page, limit, skip, take } = parsePagination(url);
   const status = parseEnumFilter(url, "status", contentStatusValues);
 
-  const { items, total } = await new BannerService().listForAdmin({ skip, take, status });
+  const { items, total } = await new BannerService().listForAdmin({
+    skip,
+    take,
+    status,
+  });
 
   return jsonSuccessPaged(
     items,
     paginationMeta(page, limit, total),
-    "Banners retrieved successfully"
+    "Banners retrieved successfully",
   );
 });
 

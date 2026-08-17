@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { ClassForm } from "../../../_components/school/class-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { SchoolService } from "@/services/academics";
-import { ClassForm } from "../../../_components/school/class-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Class",
@@ -68,7 +70,10 @@ export default async function EditSchoolClassPage({
           status: schoolClass.status,
           displayOrder: schoolClass.displayOrder,
         }}
-        levels={levelsResult.items.map((level) => ({ id: level.id, name: level.name }))}
+        levels={levelsResult.items.map((level) => ({
+          id: level.id,
+          name: level.name,
+        }))}
       />
     </div>
   );

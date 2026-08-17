@@ -1,14 +1,17 @@
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+
+import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AdmissionsService } from "@/services/admissions";
 import { siteConfig } from "@/lib/site-config";
+import { AdmissionsService } from "@/services/admissions";
 
 const AdmissionApplyForm = dynamic(() =>
-  import("@/components/forms/admission-apply-form").then((mod) => mod.AdmissionApplyForm)
+  import("@/components/forms/admission-apply-form").then(
+    (mod) => mod.AdmissionApplyForm,
+  ),
 );
 
 export const metadata: Metadata = {
@@ -34,7 +37,10 @@ export default async function AdmissionApplyPage() {
         eyebrow="Admissions"
         title="Apply for Admission"
         description="Fill in the application form below and our admissions team will contact you with the next steps."
-        crumbs={[{ label: "Admissions", href: "/admissions" }, { label: "Apply" }]}
+        crumbs={[
+          { label: "Admissions", href: "/admissions" },
+          { label: "Apply" },
+        ]}
       />
 
       <section className="bg-white">
@@ -44,7 +50,9 @@ export default async function AdmissionApplyPage() {
               {openPeriod ? (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg text-navy">Application Form</CardTitle>
+                    <CardTitle className="text-lg text-navy">
+                      Application Form
+                    </CardTitle>
                     <p className="text-sm text-muted-foreground">
                       Fields marked with * are required.
                     </p>
@@ -64,9 +72,10 @@ export default async function AdmissionApplyPage() {
                         Admissions are currently closed
                       </h2>
                       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-                        We are not accepting applications right now. New admission periods will be
-                        announced here — check back soon or contact the admissions office for the
-                        upcoming schedule.
+                        We are not accepting applications right now. New
+                        admission periods will be announced here — check back
+                        soon or contact the admissions office for the upcoming
+                        schedule.
                       </p>
                     </div>
                   </CardContent>
@@ -96,7 +105,9 @@ export default async function AdmissionApplyPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg text-navy">Need Help?</CardTitle>
+                  <CardTitle className="text-lg text-navy">
+                    Need Help?
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm text-muted-foreground">
                   <p>Contact the admissions office:</p>

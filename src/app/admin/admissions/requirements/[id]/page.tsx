@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { AdmissionRequirementForm } from "../../../_components/admissions/admission-requirement-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
-import { AdmissionRequirementForm } from "../../../_components/admissions/admission-requirement-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Edit Admission Requirement",
@@ -42,21 +44,26 @@ export default async function EditAdmissionRequirementPage({
   }
 
   const period = await admissions.getPeriodById(requirement.admissionPeriodId);
-  const { items: periods } = await admissions.listPeriods({ skip: 0, take: 100 });
+  const { items: periods } = await admissions.listPeriods({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
       <div>
         <Link
           href={`/admin/admissions/requirements?periodId=${encodeURIComponent(
-            requirement.admissionPeriodId
+            requirement.admissionPeriodId,
           )}`}
           className="mb-2 inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-slate-700"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Requirements
         </Link>
-        <h1 className="text-lg font-semibold text-slate-900">Edit Requirement</h1>
+        <h1 className="text-lg font-semibold text-slate-900">
+          Edit Requirement
+        </h1>
         <p className="mt-1 text-sm text-slate-600">{period.title}</p>
       </div>
 

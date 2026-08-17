@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { NavigationItemForm } from "../../../_components/navigation/navigation-item-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { NavigationService } from "@/services/navigation";
-import { NavigationItemForm } from "../../../_components/navigation/navigation-item-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Navigation Item",
@@ -39,8 +41,12 @@ export default async function NewNavigationItemPage() {
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Navigation Items
         </Link>
-        <h1 className="text-lg font-semibold text-slate-900">New Navigation Item</h1>
-        <p className="mt-1 text-sm text-slate-600">Add a link to the main or footer navigation.</p>
+        <h1 className="text-lg font-semibold text-slate-900">
+          New Navigation Item
+        </h1>
+        <p className="mt-1 text-sm text-slate-600">
+          Add a link to the main or footer navigation.
+        </p>
       </div>
 
       <NavigationItemForm

@@ -4,16 +4,23 @@ export const siteConfig = {
   tagline: "Excellence in education, character, and opportunity.",
   description:
     "Scholar Higher Secondary School, Scholar College, Scholar Coaching and Scholar Computer Courses provide a complete, well-rounded educational journey for students at every stage.",
-  url: "https://scholarschool.edu.pk",
+  url: "https://scholars.zebotix.com",
   locale: "en_PK",
   email: "info@scholarschool.edu.pk",
   phone: "+92 300 0000000",
   phoneHref: "+923000000000",
-  address: "Main Boulevard, City, Pakistan",
+  address: "WX88+Q2P, Sector 5-J Sector 5 Saeedabad, Karachi, Pakistan",
   applyUrl: "/admissions/apply",
 } as const;
 
 export const institutions = [
+  {
+    title: "Academics at Scholar",
+    shortTitle: "All Academics",
+    href: "/academics",
+    description:
+      "Explore the full academic pathway — School, College, Coaching and Computer Courses under one roof.",
+  },
   {
     title: "Scholar Higher Secondary School",
     shortTitle: "School",

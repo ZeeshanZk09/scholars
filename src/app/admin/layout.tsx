@@ -1,6 +1,3 @@
-import type { ReactNode } from "react";
-import Link from "next/link";
-import { redirect } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
@@ -20,14 +17,20 @@ import {
   BookOpenCheck,
   Inbox,
   Menu,
-  UserIcon,
+  User as UserIcon,
+  Tags,
 } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { type User as AuthUser } from "next-auth";
 import { Toaster } from "sonner";
+
+import { LogoutButton } from "./logout-button";
+
+import type { ReactNode } from "react";
 
 import { ADMIN_MODULES, getAccessibleModules, type AdminModule } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { LogoutButton } from "./logout-button";
-import { User } from "next-auth";
 
 const MODULE_ICONS: Record<AdminModule, typeof LayoutDashboard> = {
   dashboard: LayoutDashboard,
@@ -47,13 +50,15 @@ const MODULE_ICONS: Record<AdminModule, typeof LayoutDashboard> = {
   "computer-courses": Monitor,
   facilities: Building,
   blogs: Newspaper,
+  "blog-categories": Tags,
+  "blog-tags": Tags,
   contact: Inbox,
   navigation: Menu,
   settings: Settings,
 };
 
 export default async function AdminLayout({ children }: Readonly<{ children: ReactNode }>) {
-  let user: User;
+  let user: AuthUser;
 
   try {
     user = await requireUser();

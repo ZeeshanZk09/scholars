@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { ComputerCourseService } from "@/services/computer-courses";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Computer Courses",
@@ -29,7 +31,10 @@ export default async function AdminComputerCoursesListPage() {
 
   const canCreate = hasPermission(user.role, PERMISSIONS.CMS_CREATE);
   const canDelete = hasPermission(user.role, PERMISSIONS.CMS_DELETE);
-  const { items: courses } = await new ComputerCourseService().listForAdmin({ skip: 0, take: 100 });
+  const { items: courses } = await new ComputerCourseService().listForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -72,7 +77,10 @@ export default async function AdminComputerCoursesListPage() {
           <tbody className="divide-y divide-slate-100">
             {courses.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No computer courses yet.
                 </td>
               </tr>
@@ -81,7 +89,9 @@ export default async function AdminComputerCoursesListPage() {
                 <tr key={course.id}>
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {course.name}
-                    <span className="block text-xs font-normal text-slate-500">/{course.slug}</span>
+                    <span className="block text-xs font-normal text-slate-500">
+                      /{course.slug}
+                    </span>
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
                     {course.duration ?? "—"}

@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { ClassForm } from "../../../_components/school/class-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { SchoolService } from "@/services/academics";
-import { ClassForm } from "../../../_components/school/class-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New Class",
@@ -27,7 +29,10 @@ export default async function NewSchoolClassPage() {
     redirect("/admin/unauthorized");
   }
 
-  const { items: levels } = await new SchoolService().listLevelsForAdmin({ skip: 0, take: 100 });
+  const { items: levels } = await new SchoolService().listLevelsForAdmin({
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <div className="space-y-6">
@@ -40,7 +45,9 @@ export default async function NewSchoolClassPage() {
           Back to Classes
         </Link>
         <h1 className="text-lg font-semibold text-slate-900">New Class</h1>
-        <p className="mt-1 text-sm text-slate-600">Add a class such as Nursery, KG or Grade 1.</p>
+        <p className="mt-1 text-sm text-slate-600">
+          Add a class such as Nursery, KG or Grade 1.
+        </p>
       </div>
 
       <ClassForm

@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import { Plus, ShieldCheck, Users } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Plus, ShieldCheck, Users } from "lucide-react";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
@@ -34,7 +35,8 @@ export default async function AdminUsersPage() {
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Users Module</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Manage admin users, their roles and the permissions granted to each role.
+            Manage admin users, their roles and the permissions granted to each
+            role.
           </p>
         </div>
         {canCreate ? (
@@ -77,9 +79,12 @@ export default async function AdminUsersPage() {
               <ShieldCheck className="h-5 w-5" aria-hidden="true" />
             </span>
           </div>
-          <h2 className="mt-4 text-sm font-semibold text-slate-900">Roles & Permissions</h2>
+          <h2 className="mt-4 text-sm font-semibold text-slate-900">
+            Roles & Permissions
+          </h2>
           <p className="mt-1 text-xs leading-relaxed text-slate-500">
-            Role-based access matrix showing what each role can do across the admin system.
+            Role-based access matrix showing what each role can do across the
+            admin system.
           </p>
           <span className="mt-3 inline-block text-sm font-medium text-slate-700">
             View Permissions →

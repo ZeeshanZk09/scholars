@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { type User } from "next-auth";
+
+import { ProgramForm } from "../../../_components/college/program-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { ProgramForm } from "../../../_components/college/program-form";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "New College Program",
@@ -38,7 +40,8 @@ export default async function NewCollegeProgramPage() {
         </Link>
         <h1 className="text-lg font-semibold text-slate-900">New Program</h1>
         <p className="mt-1 text-sm text-slate-600">
-          Add an intermediate program such as FSc Pre-Medical or ICS Computer Science.
+          Add an intermediate program such as FSc Pre-Medical or ICS Computer
+          Science.
         </p>
       </div>
 

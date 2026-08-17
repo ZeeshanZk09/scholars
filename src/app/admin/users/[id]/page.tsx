@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+
+import { UserForm } from "../../_components/users/user-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { UserService } from "@/services/users";
-import { UserForm } from "../../_components/users/user-form";
 
 export const metadata: Metadata = {
   title: "Edit User",
@@ -15,9 +17,7 @@ export const metadata: Metadata = {
 
 export default async function EditUserPage({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+}: Readonly<{ params: Promise<{ id: string }> }>) {
   let user;
 
   try {

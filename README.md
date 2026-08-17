@@ -26,9 +26,11 @@ Ensure you have Node.js (v20+) and PostgreSQL running on your machine.
 ## Environment Setup
 
 Create a `.env.local` file in the root directory by copying the example environment file:
+
 ```bash
 cp .env.example .env.local
 ```
+
 Fill in the necessary values, including your PostgreSQL `DATABASE_URL` and Auth.js `AUTH_SECRET`.
 
 ## Database Setup
@@ -49,9 +51,11 @@ npm run db:seed
 ## Development Commands
 
 Run the development server:
+
 ```bash
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 - Launch Prisma Studio to manage your database:
@@ -75,15 +79,18 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## Production Build
 
 To build the application for production, execute:
+
 ```bash
 npm run build
 ```
+
 This command ensures an optimized, compiled build ready for your server environment.
 
 ## Deployment
 
-The application is fully compatible with Vercel or any Node.js hosting platform (Docker, Railway, etc.). 
+The application is fully compatible with Vercel or any Node.js hosting platform (Docker, Railway, etc.).
 For standard deployments:
+
 1. Ensure your `.env` contains all required production secrets.
 2. Build the project (`npm run build`).
 3. Run database migrations (`npm run db:push`).
@@ -93,4 +100,5 @@ For standard deployments:
    ```
 
 ## Administration
+
 Access the admin portal at `/admin`. Authentication is required. Users without appropriate roles are securely blocked at the middleware and API layers.

@@ -1,5 +1,5 @@
-import { Fragment } from "react";
 import Link from "next/link";
+import { Fragment } from "react";
 
 import { Container } from "@/components/layout/container";
 import {
@@ -20,12 +20,7 @@ export type PageHeaderProps = {
   eyebrow?: string;
 };
 
-export function PageHeader({
-  title,
-  description,
-  crumbs,
-  eyebrow,
-}: PageHeaderProps) {
+export function PageHeader({ title, description, crumbs, eyebrow }: Readonly<PageHeaderProps>) {
   return (
     <section className="border-b bg-surface">
       <Container className="py-12 sm:py-16">

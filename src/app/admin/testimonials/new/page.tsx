@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+
+import { TestimonialForm } from "../../_components/testimonials/testimonial-form";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
-import { TestimonialForm } from "../../_components/testimonials/testimonial-form";
 
 export const metadata: Metadata = {
   title: "New Testimonial",
@@ -35,9 +37,12 @@ export default async function NewTestimonialPage() {
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Testimonials
         </Link>
-        <h1 className="text-lg font-semibold text-slate-900">New Testimonial</h1>
+        <h1 className="text-lg font-semibold text-slate-900">
+          New Testimonial
+        </h1>
         <p className="mt-1 text-sm text-slate-600">
-          Add a review from a student, parent or alumnus to display on the website.
+          Add a review from a student, parent or alumnus to display on the
+          website.
         </p>
       </div>
 

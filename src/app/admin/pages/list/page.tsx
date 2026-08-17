@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Pencil, Plus } from "lucide-react";
+import { type User } from "next-auth";
+
+import { DeleteButton } from "../../_components/school/delete-button";
+
+import type { Metadata } from "next";
 
 import { hasPermission, PERMISSIONS } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { PageService } from "@/services/pages";
-import { DeleteButton } from "../../_components/school/delete-button";
-import { User } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Pages & SEO",
@@ -78,7 +80,10 @@ export default async function AdminPagesListPage() {
           <tbody className="divide-y divide-slate-100">
             {pages.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-slate-500"
+                >
                   No pages yet.
                 </td>
               </tr>
@@ -87,7 +92,9 @@ export default async function AdminPagesListPage() {
                 <tr key={page.id}>
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {page.title}
-                    <span className="block text-xs font-normal text-slate-500">/{page.slug}</span>
+                    <span className="block text-xs font-normal text-slate-500">
+                      /{page.slug}
+                    </span>
                   </td>
                   <td className="hidden px-4 py-3 text-slate-500 md:table-cell">
                     {page.sectionCount}
@@ -104,7 +111,8 @@ export default async function AdminPagesListPage() {
                   <td className="hidden px-4 py-3 lg:table-cell">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        STATUS_STYLES[page.status] ?? "bg-slate-100 text-slate-600"
+                        STATUS_STYLES[page.status] ??
+                        "bg-slate-100 text-slate-600"
                       }`}
                     >
                       {page.status}
@@ -129,7 +137,11 @@ export default async function AdminPagesListPage() {
                         <Pencil className="h-4 w-4 text-slate-300" />
                       )}
                       {canDelete ? (
-                        <DeleteButton id={page.id} endpoint="/api/v1/admin/pages" label="Delete" />
+                        <DeleteButton
+                          id={page.id}
+                          endpoint="/api/v1/admin/pages"
+                          label="Delete"
+                        />
                       ) : null}
                     </div>
                   </td>

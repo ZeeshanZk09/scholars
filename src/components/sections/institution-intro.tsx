@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
@@ -29,9 +29,8 @@ export function InstitutionIntro() {
               {siteConfig.description}
             </p>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              We combine strong academics with character development, so every
-              student leaves Scholar prepared for examinations, higher education
-              and the world beyond.
+              We combine strong academics with character development, so every student leaves
+              Scholar prepared for examinations, higher education and the world beyond.
             </p>
             <ul className="mt-8 space-y-3">
               {highlights.map((highlight) => (
@@ -61,7 +60,7 @@ export function InstitutionIntro() {
               width={1280}
               height={853}
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="aspect-[4/3] h-auto w-full object-cover"
+              className="aspect-4/3 h-auto w-full object-cover"
             />
           </div>
         </div>

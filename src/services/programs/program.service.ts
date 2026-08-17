@@ -1,8 +1,9 @@
+import type { CreateProgramInput, UpdateProgramInput } from "@/schemas/program/program.schema";
+import type { ApiUser } from "@/server/auth/route-guard";
+
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { slugify } from "@/lib/utils/slug";
 import { ProgramRepository, type ProgramAdmin, type ProgramPublic } from "@/repositories/programs";
-import type { CreateProgramInput, UpdateProgramInput } from "@/schemas/program/program.schema";
-import type { ApiUser } from "@/server/auth/route-guard";
 
 export class ProgramService {
   private readonly programRepository: ProgramRepository;

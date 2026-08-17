@@ -14,7 +14,12 @@ export const createSiteSettingSchema = z.object({
 
 export const updateSiteSettingSchema = z
   .object({
-    key: z.string().trim().min(1).max(100).regex(/^[a-z0-9_]+$/),
+    key: z
+      .string()
+      .trim()
+      .min(1)
+      .max(100)
+      .regex(/^[a-z0-9_]+$/),
     value: z.string().trim().max(5000),
     group: z.string().trim().max(100).optional(),
     description: z.string().trim().max(500).optional(),

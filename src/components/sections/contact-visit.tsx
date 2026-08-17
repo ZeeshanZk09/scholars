@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Clock, Mail, MapPin, MessageSquare, Phone } from "lucide-react";
+import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { SectionHeader } from "@/components/shared/section-header";
@@ -62,9 +62,7 @@ export function ContactVisit() {
                 </span>
                 <div>
                   <p className="text-sm font-medium text-navy">Address</p>
-                  <p className="text-sm text-muted-foreground">
-                    {siteConfig.address}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{siteConfig.address}</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -95,11 +93,7 @@ export function ContactVisit() {
                 </Link>
               </Button>
               <Button asChild variant="outline">
-                <a
-                  href={directionsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
                   <MapPin aria-hidden="true" />
                   Get Directions
                 </a>
@@ -110,9 +104,8 @@ export function ContactVisit() {
           <div className="rounded-xl bg-navy p-6 text-white sm:p-8">
             <h3 className="text-lg font-semibold">Visit Our Campus</h3>
             <p className="mt-3 text-sm leading-relaxed text-slate-300">
-              See our classrooms, labs and facilities in person. Book a campus
-              visit during office hours — we will arrange a guided tour and
-              answer all your questions about admissions.
+              See our classrooms, labs and facilities in person. Book a campus visit during office
+              hours — we will arrange a guided tour and answer all your questions about admissions.
             </p>
             <div className="mt-6 rounded-lg border border-white/15 bg-white/5 p-4">
               <p className="text-sm font-medium text-white">Why visit?</p>

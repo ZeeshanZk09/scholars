@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+
+import type { Metadata } from "next";
 
 import { requireUser } from "@/server/auth";
 
@@ -15,8 +16,8 @@ export default async function UnauthorizedPage() {
     <div className="mx-auto max-w-md rounded-lg border border-slate-200 bg-white p-8 text-center">
       <h1 className="text-lg font-semibold text-slate-900">Access denied</h1>
       <p className="mt-2 text-sm text-slate-600">
-        Your role does not have permission to access this area. Ask a SUPER_ADMIN if you believe
-        this is a mistake.
+        Your role does not have permission to access this area. Ask a
+        SUPER_ADMIN if you believe this is a mistake.
       </p>
       <Link
         href="/admin"

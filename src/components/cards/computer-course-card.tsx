@@ -1,13 +1,9 @@
 import { CalendarClock, Clock, Laptop, Users, Wallet } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import type { ComputerCoursePublic } from "@/repositories/computer-courses/computer-course.repository";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type ComputerCourseCardProps = {
   course: ComputerCoursePublic;
@@ -47,7 +43,10 @@ export function ComputerCourseCard({ course }: ComputerCourseCardProps) {
         ) : null}
         {course.timing ? (
           <p className="flex items-start gap-2 text-sm text-muted-foreground">
-            <CalendarClock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+            <CalendarClock
+              className="mt-0.5 h-4 w-4 shrink-0"
+              aria-hidden="true"
+            />
             {course.timing}
           </p>
         ) : null}
