@@ -124,6 +124,11 @@ export default async function BlogDetailPage({
                   {category.name}
                 </Badge>
               ))}
+              {blog.tags.map((tag) => (
+                <Badge key={tag.id} variant="outline">
+                  #{tag.name}
+                </Badge>
+              ))}
             </div>
             <h1 className="text-3xl font-bold leading-tight tracking-tight text-navy sm:text-4xl">
               {blog.title}

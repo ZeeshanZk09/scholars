@@ -4,45 +4,14 @@ import Credentials from "next-auth/providers/credentials";
 
 import type { NextAuthConfig } from "next-auth";
 
+import { env } from "@/config/env";
+import { clearLoginAttempts, recordLoginFailure } from "@/lib/security/rate-limit";
 import { loginSchema } from "@/schemas/auth/login.schema";
 import { prisma } from "@/server/db";
 
-const LOGIN_MAX_ATTEMPTS = 5;
-const LOGIN_WINDOW_MS = 15 * 60 * 1000;
-
-type AttemptRecord = { count: number; lockedUntil: number };
-
-const loginAttempts = new Map<string, AttemptRecord>();
-
-function isLoginLocked(email: string): boolean {
-  const record = loginAttempts.get(email);
-
-  return Boolean(record && record.lockedUntil > Date.now());
-}
-
-function recordFailedAttempt(email: string): void {
-  const now = Date.now();
-  const record = loginAttempts.get(email);
-
-  if (!record || record.lockedUntil < now) {
-    loginAttempts.set(email, { count: 1, lockedUntil: 0 });
-    return;
-  }
-
-  record.count += 1;
-
-  if (record.count >= LOGIN_MAX_ATTEMPTS) {
-    record.lockedUntil = now + LOGIN_WINDOW_MS;
-  }
-}
-
-function clearLoginAttempts(email: string): void {
-  loginAttempts.delete(email);
-}
-
 export const authConfig = {
   adapter: PrismaAdapter(prisma),
-  trustHost: true,
+  trustHost: env.AUTH_TRUST_HOST,
   session: {
     strategy: "jwt",
     maxAge: 7 * 24 * 60 * 60,
@@ -74,10 +43,6 @@ export const authConfig = {
         const { email, password } = parsed.data;
         const key = email.toLowerCase();
 
-        if (isLoginLocked(key)) {
-          return null;
-        }
-
         const user = await prisma.user.findUnique({
           where: { email: key },
           select: {
@@ -92,23 +57,23 @@ export const authConfig = {
         });
 
         if (!user?.passwordHash) {
-          recordFailedAttempt(key);
+          await recordLoginFailure(key);
           return null;
         }
 
         if (user.status !== "ACTIVE") {
-          recordFailedAttempt(key);
+          await recordLoginFailure(key);
           return null;
         }
 
         const passwordValid = await bcrypt.compare(password, user.passwordHash);
 
         if (!passwordValid) {
-          recordFailedAttempt(key);
+          await recordLoginFailure(key);
           return null;
         }
 
-        clearLoginAttempts(key);
+        await clearLoginAttempts(key);
 
         return {
           id: user.id,

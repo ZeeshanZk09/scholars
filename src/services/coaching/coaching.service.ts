@@ -23,6 +23,16 @@ export class CoachingProgramService {
     return this.coachingRepository.listPublished(options);
   }
 
+  async getPublishedBySlug(slug: string): Promise<CoachingProgramPublic> {
+    const program = await this.coachingRepository.getPublishedBySlug(slug);
+
+    if (!program) {
+      throw new NotFoundError("Coaching program not found.");
+    }
+
+    return program;
+  }
+
   async listForAdmin(options: { skip: number; take: number; status?: string }) {
     return this.coachingRepository.listAll({
       skip: options.skip,

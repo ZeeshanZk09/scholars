@@ -119,6 +119,15 @@ export class ProgramRepository {
     });
   }
 
+  async getPublishedBySlug(slug: string): Promise<ProgramPublic | null> {
+    const program = await prisma.collegeProgram.findFirst({
+      where: { slug, deletedAt: null, status: "PUBLISHED" },
+      select: PROGRAM_PUBLIC_SELECT,
+    });
+
+    return (program as unknown as ProgramPublic | null) ?? null;
+  }
+
   async create(record: CreateProgramRecord): Promise<{ id: string }> {
     return prisma.collegeProgram.create({
       data: {

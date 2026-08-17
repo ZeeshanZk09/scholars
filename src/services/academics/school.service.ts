@@ -13,6 +13,7 @@ import {
   SchoolClassRepository,
   type AcademicLevelAdmin,
   type SchoolClassAdmin,
+  type SchoolClassPublic,
 } from "@/repositories/academics";
 
 export class SchoolService {
@@ -33,6 +34,16 @@ export class SchoolService {
 
   async listClassesPublished() {
     return this.classRepository.listPublished();
+  }
+
+  async getPublishedBySlug(slug: string): Promise<SchoolClassPublic> {
+    const schoolClass = await this.classRepository.getPublishedBySlug(slug);
+
+    if (!schoolClass) {
+      throw new NotFoundError("School class not found.");
+    }
+
+    return schoolClass;
   }
 
   async listLevelsForAdmin(options: { skip: number; take: number; status?: string }) {

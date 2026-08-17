@@ -47,9 +47,12 @@ export function sanitizeRichHtml(html: string): string {
       td: ["colspan", "rowspan"],
       th: ["colspan", "rowspan"],
     },
+    transformTags: {
+      a: sanitizeHtml.simpleTransform("a", { rel: "noopener noreferrer" }),
+    },
     allowedSchemes: ["http", "https", "mailto", "tel"],
     allowedSchemesByTag: {
-      img: ["http", "https", "data"],
+      img: ["http", "https"],
     },
     allowProtocolRelative: false,
   });

@@ -1,4 +1,5 @@
 import { BookOpen, Clock, Users, Wallet } from "lucide-react";
+import Link from "next/link";
 
 import type { CoachingProgramPublic } from "@/repositories/coaching/coaching.repository";
 
@@ -11,7 +12,11 @@ type CoachingCardProps = {
 
 export function CoachingCard({ program }: CoachingCardProps) {
   return (
-    <Card className="flex h-full flex-col transition-shadow hover:shadow-md">
+    <Link
+      href={`/academics/coaching/${program.slug}`}
+      className="block h-full rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <Card className="flex h-full flex-col transition-shadow hover:shadow-md">
       <CardHeader className="pb-3">
         <div className="space-y-2">
           {program.category ? (
@@ -66,6 +71,7 @@ export function CoachingCard({ program }: CoachingCardProps) {
           </span>
         ) : null}
       </CardContent>
-    </Card>
+      </Card>
+    </Link>
   );
 }

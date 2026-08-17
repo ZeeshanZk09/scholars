@@ -24,15 +24,22 @@ export async function getApiUser(): Promise<ApiUser> {
     throw new AuthenticationError("Authentication required.");
   }
 
-  // Verify the user actually exists in the database.
-  // This prevents 500 foreign-key errors if the database is reset but the browser cookie remains.
+  // Verify the user actually exists in the database and load their CURRENT
+  // role and status. We intentionally read these from the DB rather than
+  // trusting the JWT so that a permission change (e.g. demotion) or account
+  // suspension takes effect immediately instead of lingering until the
+  // session token expires.
   const dbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { id: true },
+    select: { id: true, role: true, status: true },
   });
 
   if (!dbUser) {
     throw new AuthenticationError("Session invalid. Please sign in again.");
+  }
+
+  if (dbUser.status !== "ACTIVE") {
+    throw new AuthenticationError("Your account is inactive. Please contact an administrator.");
   }
 
   return {
@@ -40,7 +47,7 @@ export async function getApiUser(): Promise<ApiUser> {
     name: session.user.name,
     email: session.user.email,
     image: session.user.image,
-    role: session.user.role,
+    role: dbUser.role,
   };
 }
 

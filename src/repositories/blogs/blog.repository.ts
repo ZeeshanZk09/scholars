@@ -12,6 +12,11 @@ export const BLOG_SAFE_SELECT = {
   featuredImage: true,
   publishedAt: true,
   createdAt: true,
+  tags: {
+    select: {
+      tag: { select: { id: true, name: true, slug: true } },
+    },
+  },
 } as const;
 
 export type BlogSafe = {
@@ -23,6 +28,7 @@ export type BlogSafe = {
   featuredImage: string | null;
   publishedAt: Date | null;
   createdAt: Date;
+  tags: { id: string; name: string; slug: string }[];
 };
 
 export type CreateBlogRecord = {
@@ -73,6 +79,7 @@ export type BlogPublicDetail = {
   updatedAt: Date;
   author: { id: string; name: string | null } | null;
   categories: { id: string; name: string; slug: string }[];
+  tags: { id: string; name: string; slug: string }[];
   seo: {
     seoTitle: string | null;
     metaDescription: string | null;
@@ -111,6 +118,11 @@ const BLOG_DETAIL_SELECT = {
   categories: {
     select: {
       category: { select: { id: true, name: true, slug: true } },
+    },
+  },
+  tags: {
+    select: {
+      tag: { select: { id: true, name: true, slug: true } },
     },
   },
   seo: {
@@ -363,6 +375,7 @@ export class BlogRepository {
     return {
       ...post,
       categories: post.categories.map((c) => c.category),
+      tags: post.tags.map((t) => t.tag),
     } as unknown as BlogPublicDetail;
   }
 
@@ -379,6 +392,7 @@ export class BlogRepository {
     return {
       ...post,
       categories: post.categories.map((c) => c.category),
+      tags: post.tags.map((t) => t.tag),
     } as unknown as BlogPublicDetail;
   }
 

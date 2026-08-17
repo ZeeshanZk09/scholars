@@ -23,6 +23,8 @@ import { InquiryStatusButton } from "./_components/admissions/inquiry-status-but
 import {
   ADMIN_MODULES,
   getAccessibleModules,
+  hasPermission,
+  PERMISSIONS,
 } from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 import { AdmissionsService } from "@/services/admissions";
@@ -71,6 +73,7 @@ export default async function AdminDashboardPage() {
 
   const accessibleModules = getAccessibleModules(user.role);
   const modules = Object.entries(ADMIN_MODULES);
+  const canViewInquiries = hasPermission(user.role, PERMISSIONS.ADMISSION_READ);
 
   const [
     usersResult,
@@ -99,7 +102,9 @@ export default async function AdminDashboardPage() {
     new TestimonialService().listForAdmin({ skip: 0, take: 1 }),
     new FacilityService().listForAdmin({ skip: 0, take: 1 }),
     new AdmissionsService().listPeriods({ skip: 0, take: 1 }),
-    new AdmissionsService().listInquiries({ skip: 0, take: 100 }),
+    canViewInquiries
+      ? new AdmissionsService().listInquiries({ skip: 0, take: 100 })
+      : Promise.resolve({ items: [], total: 0 }),
     new ContactService().listForAdmin({ skip: 0, take: 1 }),
     new ContactService().listForAdmin({ skip: 0, take: 1, status: "NEW" }),
     new NavigationService().listForAdmin(),
@@ -330,6 +335,7 @@ export default async function AdminDashboardPage() {
         </div>
       </section>
 
+      {canViewInquiries && (
       <section
         aria-label="Recent inquiries"
         className="rounded-lg border border-slate-200 bg-white"
@@ -420,6 +426,7 @@ export default async function AdminDashboardPage() {
           </table>
         </div>
       </section>
+      )}
 
       <section
         aria-label="Content statistics"

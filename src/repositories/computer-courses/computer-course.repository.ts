@@ -141,6 +141,15 @@ export class ComputerCourseRepository {
     });
   }
 
+  async getPublishedBySlug(slug: string): Promise<ComputerCoursePublic | null> {
+    const course = await prisma.computerCourse.findFirst({
+      where: { slug, deletedAt: null, status: "PUBLISHED" },
+      select: COMPUTER_COURSE_PUBLIC_SELECT,
+    });
+
+    return (course as unknown as ComputerCoursePublic | null) ?? null;
+  }
+
   async create(record: CreateComputerCourseRecord): Promise<{ id: string }> {
     return prisma.computerCourse.create({
       data: {

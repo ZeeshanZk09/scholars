@@ -40,6 +40,14 @@ export function BlogCard({ blog, category }: Readonly<BlogCardProps>) {
           <Badge variant="secondary" className="w-fit">
             {category}
           </Badge>
+        ) : blog.tags.length > 0 ? (
+          <div className="flex flex-wrap gap-1">
+            {blog.tags.slice(0, 3).map((tag) => (
+              <Badge key={tag.id} variant="outline" className="text-[0.65rem]">
+                #{tag.name}
+              </Badge>
+            ))}
+          </div>
         ) : (
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />

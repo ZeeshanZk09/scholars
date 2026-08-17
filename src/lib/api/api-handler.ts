@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import type { HttpStatus } from "@/lib/constants/http-status.constants";
 
-import { toSafeError, BadRequestError } from "@/lib/errors";
+import { toSafeError, BadRequestError, RateLimitError } from "@/lib/errors";
 import { logger } from "@/lib/logger/logger";
 import { jsonError } from "@/lib/response/api-response";
 import { idParamsSchema, slugParamsSchema } from "@/schemas/common/params.schema";
@@ -56,6 +56,10 @@ export function withApiHandler(handler: ApiRouteHandler) {
         safe.statusCode as HttpStatus,
         { requestId }
       );
+
+      if (error instanceof RateLimitError && error.retryAfter) {
+        response.headers.set("Retry-After", String(error.retryAfter));
+      }
 
       response.headers.set("X-Request-Id", requestId);
 

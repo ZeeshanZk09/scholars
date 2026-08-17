@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { JsonLd } from "@/components/seo/json-ld";
-import { siteConfig } from "@/lib/site-config";
+import { getSiteSettings } from "@/lib/site-settings";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -12,57 +12,65 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.fullName,
-    template: `%s | ${siteConfig.fullName}`,
-  },
-  description: siteConfig.description,
-  openGraph: {
-    type: "website",
-    siteName: siteConfig.fullName,
-    url: siteConfig.url,
-    locale: siteConfig.locale,
-    title: siteConfig.fullName,
-    description: siteConfig.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.fullName,
-    description: siteConfig.description,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteConfig.fullName,
-  url: siteConfig.url,
-  description: siteConfig.description,
-  email: siteConfig.email,
-  telephone: siteConfig.phone,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: siteConfig.address,
-    addressCountry: "PK",
-  },
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: siteConfig.phone,
-    contactType: "customer service",
-    email: siteConfig.email,
-  },
-};
+  return {
+    metadataBase: new URL(settings.url),
+    title: {
+      default: settings.fullName,
+      template: `%s | ${settings.fullName}`,
+    },
+    description: settings.description,
+    openGraph: {
+      type: "website",
+      siteName: settings.fullName,
+      url: settings.url,
+      locale: settings.locale,
+      title: settings.fullName,
+      description: settings.description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: settings.fullName,
+      description: settings.description,
+    },
+  };
+}
 
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteConfig.fullName,
-  url: siteConfig.url,
-};
+export default async function RootLayout({
+  children,
+}: LayoutProps<"/">) {
+  const settings = await getSiteSettings();
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: settings.fullName,
+    url: settings.url,
+    description: settings.description,
+    email: settings.email,
+    telephone: settings.phone,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: settings.address,
+      addressCountry: "PK",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: settings.phone,
+      contactType: "customer service",
+      email: settings.email,
+    },
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: settings.fullName,
+    url: settings.url,
+  };
+
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">

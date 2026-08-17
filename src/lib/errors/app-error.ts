@@ -93,11 +93,18 @@ export class BadRequestError extends AppError {
 }
 
 export class RateLimitError extends AppError {
-  constructor(message = "Too many requests, please try again later") {
+  public readonly retryAfter?: number;
+
+  constructor(
+    retryAfter?: number,
+    message = "Too many requests, please try again later"
+  ) {
     super(ERROR_CODES.RATE_LIMITED, message, {
       statusCode: HTTP_STATUS.TOO_MANY_REQUESTS,
+      details: retryAfter ? { retryAfter } : undefined,
     });
     this.name = "RateLimitError";
+    this.retryAfter = retryAfter;
   }
 }
 

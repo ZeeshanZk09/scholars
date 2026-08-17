@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { siteConfig } from "@/lib/site-config";
+import { getSiteSettings } from "@/lib/site-settings";
 
 const ContactForm = dynamic(() =>
   import("@/components/forms/contact-form").then((mod) => mod.ContactForm),
@@ -28,9 +28,10 @@ const officeHours = [
   { days: "Sunday", hours: "Closed" },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    siteConfig.address,
+    settings.address,
   )}`;
 
   return (
@@ -60,9 +61,9 @@ export default function ContactPage() {
                     </span>
                     <div>
                       <p className="font-medium text-foreground">Address</p>
-                      <p className="mt-0.5 text-muted-foreground">
-                        {siteConfig.address}
-                      </p>
+                       <p className="mt-0.5 text-muted-foreground">
+                         {settings.address}
+                       </p>
                       <a
                         href={mapsUrl}
                         target="_blank"
@@ -85,10 +86,10 @@ export default function ContactPage() {
                     <div>
                       <p className="font-medium text-foreground">Phone</p>
                       <a
-                        href={`tel:${siteConfig.phoneHref}`}
+                        href={`tel:${settings.phoneHref}`}
                         className="mt-0.5 text-muted-foreground hover:text-primary"
                       >
-                        {siteConfig.phone}
+                        {settings.phone}
                       </a>
                     </div>
                   </div>
@@ -100,10 +101,10 @@ export default function ContactPage() {
                     <div>
                       <p className="font-medium text-foreground">Email</p>
                       <a
-                        href={`mailto:${siteConfig.email}`}
-                        className="mt-0.5 text-muted-foreground hover:text-primary"
-                      >
-                        {siteConfig.email}
+                         href={`mailto:${settings.email}`}
+                         className="mt-0.5 text-muted-foreground hover:text-primary"
+                       >
+                         {settings.email}
                       </a>
                     </div>
                   </div>

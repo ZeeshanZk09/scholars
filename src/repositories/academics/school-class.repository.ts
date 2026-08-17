@@ -110,6 +110,15 @@ export class SchoolClassRepository {
     });
   }
 
+  async getPublishedBySlug(slug: string): Promise<SchoolClassPublic | null> {
+    const schoolClass = await prisma.schoolClass.findFirst({
+      where: { slug, deletedAt: null, status: "PUBLISHED" },
+      select: SCHOOL_CLASS_PUBLIC_SELECT,
+    });
+
+    return (schoolClass as unknown as SchoolClassPublic | null) ?? null;
+  }
+
   async create(record: CreateSchoolClassRecord): Promise<{ id: string }> {
     return prisma.schoolClass.create({
       data: {

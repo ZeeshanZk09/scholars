@@ -4,7 +4,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   APP_URL: z.url().default("http://localhost:3000"),
   APP_NAME: z.string().default("Scholar School"),
-  DATABASE_URL: z.string().min(1),
+  DATABASE_POSTGRES_URL: z.string().min(1),
   AUTH_SECRET: z.string().min(1),
   AUTH_URL: z.url().optional(),
   AUTH_TRUST_HOST: z

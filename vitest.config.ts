@@ -19,7 +19,7 @@ export default defineConfig({
     testTimeout: 30000,
     hookTimeout: 30000,
     env: {
-      DATABASE_URL:
+      DATABASE_POSTGRES_URL:
         "postgresql://test:test@localhost:5432/scholar_school?schema=public",
       AUTH_SECRET: "test-secret",
       APP_URL: "http://localhost:3000",

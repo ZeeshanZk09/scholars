@@ -1,9 +1,71 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 import { RateLimitError } from "@/lib/errors";
-import { rateLimit, getClientIp } from "@/lib/security/rate-limit";
+import { rateLimit, getClientIp, recordLoginFailure, clearLoginAttempts } from "@/lib/security/rate-limit";
 import { assertSameOrigin } from "@/lib/security/same-origin";
 import { sanitizeRichHtml } from "@/lib/security/sanitize-html";
+
+vi.mock("@/server/db", () => {
+  const store = new Map<string, { count: number; resetAt: number }>();
+
+  return {
+    prisma: {
+      rateLimitBucket: {
+        async findUnique({ where }: { where: { key: string } }) {
+          const bucket = store.get(where.key);
+
+          return bucket
+            ? { key: where.key, count: bucket.count, resetAt: new Date(bucket.resetAt) }
+            : null;
+        },
+        async upsert({
+          where,
+          create,
+          update,
+        }: {
+          where: { key: string };
+          create: { count: number; resetAt: Date };
+          update: { count: number; resetAt: Date };
+        }) {
+          const existing = store.get(where.key);
+          const next =
+            !existing || existing.resetAt <= Date.now()
+              ? { count: create.count, resetAt: create.resetAt.getTime() }
+              : { count: update.count, resetAt: update.resetAt.getTime() };
+
+          store.set(where.key, next);
+
+          return { key: where.key, count: next.count, resetAt: new Date(next.resetAt) };
+        },
+        async update({
+          where,
+          data,
+        }: {
+          where: { key: string };
+          data: { count: { increment: number } };
+        }) {
+          const bucket = store.get(where.key);
+
+          if (bucket) {
+            bucket.count += data.count.increment;
+          }
+
+          return {
+            key: where.key,
+            count: bucket?.count ?? 0,
+            resetAt: new Date(bucket?.resetAt ?? 0),
+          };
+        },
+        async deleteMany({ where }: { where: { key: string } }) {
+          store.delete(where.key);
+
+          return { count: 1 };
+        },
+      },
+    },
+  };
+});
+
 
 describe("sanitizeRichHtml (Phase 23 XSS defense)", () => {
   it("strips script tags and event handlers", () => {
@@ -41,27 +103,41 @@ describe("sanitizeRichHtml (Phase 23 XSS defense)", () => {
 });
 
 describe("rateLimit (Phase 23 abuse defense)", () => {
-  it("throws a RateLimitError after the limit is exceeded", () => {
-    expect(() =>
+  it("throws a RateLimitError after the limit is exceeded", async () => {
+    await expect(
       rateLimit({ key: "rl-test-1", limit: 2, windowMs: 60_000 }),
-    ).not.toThrow();
-    expect(() =>
+    ).resolves.toBeUndefined();
+    await expect(
       rateLimit({ key: "rl-test-1", limit: 2, windowMs: 60_000 }),
-    ).not.toThrow();
-    expect(() =>
+    ).resolves.toBeUndefined();
+    await expect(
       rateLimit({ key: "rl-test-1", limit: 2, windowMs: 60_000 }),
-    ).toThrow(RateLimitError);
+    ).rejects.toThrow(RateLimitError);
   });
 
-  it("tracks keys independently", () => {
-    const a = () =>
-      rateLimit({ key: "rl-test-2a", limit: 1, windowMs: 60_000 });
-    const b = () =>
-      rateLimit({ key: "rl-test-2b", limit: 1, windowMs: 60_000 });
+  it("tracks keys independently", async () => {
+    const a = () => rateLimit({ key: "rl-test-2a", limit: 1, windowMs: 60_000 });
+    const b = () => rateLimit({ key: "rl-test-2b", limit: 1, windowMs: 60_000 });
 
-    expect(a).not.toThrow();
-    expect(b).not.toThrow();
-    expect(a).toThrow(RateLimitError);
+    await expect(a()).resolves.toBeUndefined();
+    await expect(b()).resolves.toBeUndefined();
+    await expect(a()).rejects.toThrow(RateLimitError);
+  });
+});
+
+describe("recordLoginFailure / clearLoginAttempts (login brute-force defense)", () => {
+  it("locks after the maximum failed attempts and resets on clear", async () => {
+    const key = "login-fail:test@example.com";
+
+    for (let i = 0; i < 5; i++) {
+      expect(await recordLoginFailure(key)).toBe(false);
+    }
+
+    expect(await recordLoginFailure(key)).toBe(true);
+
+    await clearLoginAttempts(key);
+
+    expect(await recordLoginFailure(key)).toBe(false);
   });
 });
 

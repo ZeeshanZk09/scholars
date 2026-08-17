@@ -23,6 +23,16 @@ export class ComputerCourseService {
     return this.computerCourseRepository.listPublished(options);
   }
 
+  async getPublishedBySlug(slug: string): Promise<ComputerCoursePublic> {
+    const course = await this.computerCourseRepository.getPublishedBySlug(slug);
+
+    if (!course) {
+      throw new NotFoundError("Computer course not found.");
+    }
+
+    return course;
+  }
+
   async listForAdmin(options: { skip: number; take: number; status?: string }) {
     return this.computerCourseRepository.listAll({
       skip: options.skip,

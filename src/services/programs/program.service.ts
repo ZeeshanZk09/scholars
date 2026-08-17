@@ -16,6 +16,16 @@ export class ProgramService {
     return this.programRepository.listPublished(options);
   }
 
+  async getPublishedBySlug(slug: string): Promise<ProgramPublic> {
+    const program = await this.programRepository.getPublishedBySlug(slug);
+
+    if (!program) {
+      throw new NotFoundError("College program not found.");
+    }
+
+    return program;
+  }
+
   async listForAdmin(options: { skip: number; take: number; status?: string }) {
     return this.programRepository.listAll({
       skip: options.skip,

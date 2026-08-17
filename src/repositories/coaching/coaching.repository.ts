@@ -127,6 +127,15 @@ export class CoachingProgramRepository {
     });
   }
 
+  async getPublishedBySlug(slug: string): Promise<CoachingProgramPublic | null> {
+    const program = await prisma.coachingProgram.findFirst({
+      where: { slug, deletedAt: null, status: "PUBLISHED" },
+      select: COACHING_PUBLIC_SELECT,
+    });
+
+    return (program as unknown as CoachingProgramPublic | null) ?? null;
+  }
+
   async create(record: CreateCoachingProgramRecord): Promise<{ id: string }> {
     return prisma.coachingProgram.create({
       data: {

@@ -808,3 +808,20 @@ model NavigationItem {
   @@index([displayOrder])
   @@map("navigation_items")
 }
+
+// ============================================================
+// RATE LIMITING
+// ============================================================
+
+model RateLimitBucket {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  count     Int      @default(1)
+  resetAt   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([resetAt])
+  @@map("rate_limit_buckets")
+}
+

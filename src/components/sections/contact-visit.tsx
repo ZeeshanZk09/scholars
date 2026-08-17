@@ -4,16 +4,17 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { SectionHeader } from "@/components/shared/section-header";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site-config";
+import { getSiteSettings } from "@/lib/site-settings";
 
 const officeHours = [
   { days: "Monday – Saturday", time: "8:00 AM – 4:00 PM" },
   { days: "Sunday", time: "Closed" },
 ];
 
-export function ContactVisit() {
+export async function ContactVisit() {
+  const settings = await getSiteSettings();
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    siteConfig.address
+    settings.address
   )}`;
 
   return (
@@ -35,10 +36,10 @@ export function ContactVisit() {
                 <div>
                   <p className="text-sm font-medium text-navy">Phone</p>
                   <a
-                    href={`tel:${siteConfig.phoneHref}`}
+                    href={`tel:${settings.phoneHref}`}
                     className="text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
-                    {siteConfig.phone}
+                    {settings.phone}
                   </a>
                 </div>
               </li>
@@ -49,10 +50,10 @@ export function ContactVisit() {
                 <div>
                   <p className="text-sm font-medium text-navy">Email</p>
                   <a
-                    href={`mailto:${siteConfig.email}`}
+                    href={`mailto:${settings.email}`}
                     className="text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
-                    {siteConfig.email}
+                    {settings.email}
                   </a>
                 </div>
               </li>
@@ -62,7 +63,7 @@ export function ContactVisit() {
                 </span>
                 <div>
                   <p className="text-sm font-medium text-navy">Address</p>
-                  <p className="text-sm text-muted-foreground">{siteConfig.address}</p>
+                  <p className="text-sm text-muted-foreground">{settings.address}</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">

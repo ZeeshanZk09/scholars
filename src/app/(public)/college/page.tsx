@@ -114,9 +114,10 @@ export default async function CollegePage() {
           {programs.length > 0 ? (
             <div className="mt-12 grid gap-6 md:grid-cols-2">
               {programs.map((program) => (
-                <div
+                <Link
                   key={program.id}
-                  className="rounded-lg border bg-white p-6"
+                  href={`/academics/college/${program.slug}`}
+                  className="rounded-lg border bg-white p-6 transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-2">
@@ -171,7 +172,7 @@ export default async function CollegePage() {
                       </div>
                     ) : null}
                   </dl>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (

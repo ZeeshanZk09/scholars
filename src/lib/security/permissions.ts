@@ -111,6 +111,17 @@ export function hasRole(role: Role | undefined, allowedRoles: readonly Role[]): 
   return role !== undefined && allowedRoles.includes(role);
 }
 
+/**
+ * Roles permitted to enter the staff admin area at all. Any authenticated user
+ * whose role is not in this list is redirected away from `/admin` (defense in
+ * depth — individual routes still enforce fine-grained permissions on top).
+ */
+export const ADMIN_ACCESSIBLE_ROLES: readonly Role[] = [
+  USER_ROLES.SUPER_ADMIN,
+  USER_ROLES.ADMIN,
+  USER_ROLES.EDITOR,
+];
+
 export function getPermissionsForRole(role: Role | undefined): readonly Permission[] {
   if (!role) {
     return [];

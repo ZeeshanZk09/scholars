@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Container } from "./container";
 import { siteNav } from "./site-nav";
 
-import { siteConfig, institutions } from "@/lib/site-config";
+import { institutions } from "@/lib/site-config";
+import { getSiteSettings } from "@/lib/site-settings";
 
 const quickLinks = siteNav.map((item) => ({
   label: item.label,
@@ -33,7 +34,9 @@ function FooterLink({
   );
 }
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const settings = await getSiteSettings();
+
   return (
     <footer className="bg-navy-dark text-white">
       <Container className="py-14">
@@ -46,7 +49,7 @@ export function SiteFooter() {
               <span className="text-lg font-bold">Scholar</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-300">
-              {siteConfig.tagline} A single campus family — school, college, coaching and computer
+              {settings.tagline} A single campus family — school, college, coaching and computer
               courses.
             </p>
           </div>
@@ -90,26 +93,26 @@ export function SiteFooter() {
             <ul className="space-y-3 text-sm text-slate-300">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{siteConfig.address}</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <a
-                  href={`tel:${siteConfig.phoneHref}`}
-                  className="transition-colors hover:text-white"
-                >
-                  {siteConfig.phone}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="transition-colors hover:text-white"
-                >
-                  {siteConfig.email}
-                </a>
-              </li>
+                 <span>{settings.address}</span>
+               </li>
+               <li className="flex items-center gap-2.5">
+                 <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
+                 <a
+                   href={`tel:${settings.phoneHref}`}
+                   className="transition-colors hover:text-white"
+                 >
+                   {settings.phone}
+                 </a>
+               </li>
+               <li className="flex items-center gap-2.5">
+                 <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
+                 <a
+                   href={`mailto:${settings.email}`}
+                   className="transition-colors hover:text-white"
+                 >
+                   {settings.email}
+                 </a>
+               </li>
             </ul>
           </div>
         </div>
@@ -118,10 +121,10 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-slate-400 sm:flex-row">
           <p>
-            &copy; {new Date().getFullYear()} {siteConfig.fullName}. All rights reserved.
-          </p>
-          <div className="flex items-center gap-5">
-            <Link href={siteConfig.applyUrl} className="transition-colors hover:text-white">
+             &copy; {new Date().getFullYear()} {settings.fullName}. All rights reserved.
+           </p>
+           <div className="flex items-center gap-5">
+             <Link href={settings.applyUrl} className="transition-colors hover:text-white">
               Apply Now
             </Link>
             <Link href="/admissions" className="transition-colors hover:text-white">

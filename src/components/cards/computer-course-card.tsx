@@ -1,4 +1,5 @@
 import { CalendarClock, Clock, Laptop, Users, Wallet } from "lucide-react";
+import Link from "next/link";
 
 import type { ComputerCoursePublic } from "@/repositories/computer-courses/computer-course.repository";
 
@@ -11,7 +12,11 @@ type ComputerCourseCardProps = {
 
 export function ComputerCourseCard({ course }: ComputerCourseCardProps) {
   return (
-    <Card className="flex h-full flex-col transition-shadow hover:shadow-md">
+    <Link
+      href={`/academics/computer-courses/${course.slug}`}
+      className="block h-full rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <Card className="flex h-full flex-col transition-shadow hover:shadow-md">
       <CardHeader className="pb-3">
         <span className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-navy/10 text-navy">
           <Laptop className="h-6 w-6" aria-hidden="true" />
@@ -57,6 +62,7 @@ export function ComputerCourseCard({ course }: ComputerCourseCardProps) {
           </p>
         ) : null}
       </CardContent>
-    </Card>
+      </Card>
+    </Link>
   );
 }

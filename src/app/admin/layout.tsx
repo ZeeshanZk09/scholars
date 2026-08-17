@@ -29,7 +29,13 @@ import { LogoutButton } from "./logout-button";
 
 import type { ReactNode } from "react";
 
-import { ADMIN_MODULES, getAccessibleModules, type AdminModule } from "@/lib/security/permissions";
+import {
+  ADMIN_ACCESSIBLE_ROLES,
+  ADMIN_MODULES,
+  getAccessibleModules,
+  hasRole,
+  type AdminModule,
+} from "@/lib/security/permissions";
 import { requireUser } from "@/server/auth";
 
 const MODULE_ICONS: Record<AdminModule, typeof LayoutDashboard> = {
@@ -64,6 +70,10 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
     user = await requireUser();
   } catch {
     redirect(`/auth/login?callbackUrl=/admin`);
+  }
+
+  if (!hasRole(user.role, ADMIN_ACCESSIBLE_ROLES)) {
+    redirect("/");
   }
 
   const accessibleModules = getAccessibleModules(user.role);

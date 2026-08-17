@@ -687,6 +687,19 @@ async function main() {
     skipDuplicates: true,
   });
 
+  const firstTag = await prisma.blogTag.findFirst({
+    where: { deletedAt: null },
+    orderBy: { name: "asc" },
+  });
+
+  if (firstTag) {
+    await prisma.blogPostTag.upsert({
+      where: { blogPostId_tagId: { blogPostId: post.id, tagId: firstTag.id } },
+      update: {},
+      create: { blogPostId: post.id, tagId: firstTag.id },
+    });
+  }
+
   console.log("✅ Blog categories, tags & a post");
 
   // ---- Pages ----
@@ -740,12 +753,18 @@ async function main() {
   console.log(`✅ Navigation items (${navItems.length})`);
 
   // ---- Site Settings ----
+  // Keys intentionally match the fields read by `getSiteSettings()` so that
+  // edits made in the admin CMS surface on the public website (footer,
+  // contact page, structured data).
   const settings = [
-    { key: "site_name", value: "Scholar Higher Secondary School", group: "general" },
-    { key: "site_tagline", value: "Quality Education for Tomorrow's Leaders", group: "general" },
-    { key: "contact_email", value: "info@scholarschool.edu.pk", group: "contact" },
-    { key: "contact_phone", value: "+92 300 0000000", group: "contact" },
-    { key: "contact_address", value: "Main Boulevard, City, Pakistan", group: "contact" },
+    { key: "name", value: "Scholar", group: "general" },
+    { key: "fullName", value: "Scholar Higher Secondary School", group: "general" },
+    { key: "tagline", value: "Quality Education for Tomorrow's Leaders", group: "general" },
+    { key: "email", value: "info@scholarschool.edu.pk", group: "contact" },
+    { key: "phone", value: "+92 300 0000000", group: "contact" },
+    { key: "phoneHref", value: "+923000000000", group: "contact" },
+    { key: "address", value: "Main Boulevard, City, Pakistan", group: "contact" },
+    { key: "applyUrl", value: "/admissions/apply", group: "general" },
   ];
 
   for (const s of settings) {
