@@ -88,7 +88,7 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
         <CarouselContent className="ml-0">
           {slides.map((slide, index) => (
             <CarouselItem key={slide.id} className="relative pl-0">
-              {slide.imageUrl && (
+              {/* {slide.imageUrl && (
                 <>
                   <Image
                     src={slide.imageUrl}
@@ -99,7 +99,7 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
                   />
                   <div className="absolute inset-0 bg-linear-to-r from-navy-dark/90 to-navy-dark/30" />
                 </>
-              )}
+              )} */}
               <Container className="relative z-10 py-20 sm:py-28 lg:py-32">
                 <div className="max-w-3xl space-y-5">
                   {slide.eyebrow ? (
