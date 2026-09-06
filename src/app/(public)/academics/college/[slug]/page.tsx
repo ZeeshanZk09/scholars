@@ -42,8 +42,7 @@ export async function generateMetadata({
   const program = await getProgramCached(slug);
 
   const description =
-    program.description ??
-    `Learn about the ${program.name} program at Scholar College.`;
+    program.description ?? `Learn about the ${program.name} program at Scholar College.`;
 
   return {
     title: `${program.name} — Scholar College`,
@@ -82,12 +81,7 @@ export default async function CollegeProgramDetailPage({
     <>
       <JsonLd data={breadcrumbJsonLd} />
       <Container className="py-12 sm:py-16">
-        <Button
-          asChild
-          variant="ghost"
-          size="sm"
-          className="mb-6 -ml-2 text-muted-foreground"
-        >
+        <Button asChild variant="ghost" size="sm" className="mb-6 -ml-2 text-muted-foreground">
           <Link href="/college">
             <ArrowLeft aria-hidden="true" />
             Back to College
@@ -106,9 +100,7 @@ export default async function CollegeProgramDetailPage({
           </header>
 
           {program.description ? (
-            <p className="mt-6 text-base leading-relaxed text-slate-700">
-              {program.description}
-            </p>
+            <p className="mt-6 text-base leading-relaxed text-slate-700">{program.description}</p>
           ) : null}
 
           <dl className="mt-8 space-y-6">
@@ -138,9 +130,7 @@ export default async function CollegeProgramDetailPage({
             ) : null}
             {program.admissionRequirements ? (
               <div>
-                <dt className="text-sm font-semibold text-slate-900">
-                  Admission Requirements
-                </dt>
+                <dt className="text-sm font-semibold text-slate-900">Admission Requirements</dt>
                 <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   {program.admissionRequirements}
                 </dd>

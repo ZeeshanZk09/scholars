@@ -35,15 +35,12 @@ const getSchoolClassCached = cache(async (slug: string) => {
   }
 });
 
-export async function generateMetadata({
-  params,
-}: SchoolClassDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: SchoolClassDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const schoolClass = await getSchoolClassCached(slug);
 
   const description =
-    schoolClass.description ??
-    `Learn about the ${schoolClass.name} class at Scholar School.`;
+    schoolClass.description ?? `Learn about the ${schoolClass.name} class at Scholar School.`;
 
   return {
     title: `${schoolClass.name} — Scholar School`,
@@ -82,12 +79,7 @@ export default async function SchoolClassDetailPage({
     <>
       <JsonLd data={breadcrumbJsonLd} />
       <Container className="py-12 sm:py-16">
-        <Button
-          asChild
-          variant="ghost"
-          size="sm"
-          className="mb-6 -ml-2 text-muted-foreground"
-        >
+        <Button asChild variant="ghost" size="sm" className="mb-6 -ml-2 text-muted-foreground">
           <Link href="/school">
             <ArrowLeft aria-hidden="true" />
             Back to School
@@ -121,9 +113,7 @@ export default async function SchoolClassDetailPage({
             ) : null}
             {schoolClass.learningOutcomes ? (
               <div>
-                <dt className="text-sm font-semibold text-slate-900">
-                  Learning Outcomes
-                </dt>
+                <dt className="text-sm font-semibold text-slate-900">Learning Outcomes</dt>
                 <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   {schoolClass.learningOutcomes}
                 </dd>

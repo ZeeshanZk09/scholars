@@ -4,18 +4,41 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
+function requiredEnv(name: string): string {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`Missing required seed environment variable: ${name}`);
+  }
+
+  return value;
+}
+
 async function main() {
   console.log("🌱 Seeding database...");
 
   // ---- Users ----
-  const adminPasswordHash = await bcrypt.hash("Admin@12345", 12);
+  const adminEmail = requiredEnv("SEED_ADMIN_EMAIL");
+  const adminPassword = requiredEnv("SEED_ADMIN_PASSWORD");
+  const cmsAdminEmail = requiredEnv("SEED_CMS_ADMIN_EMAIL");
+  const cmsAdminPassword = requiredEnv("SEED_CMS_ADMIN_PASSWORD");
+  const editorEmail = requiredEnv("SEED_EDITOR_EMAIL");
+  const editorPassword = requiredEnv("SEED_EDITOR_PASSWORD");
+
+  const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
 
   const admin = await prisma.user.upsert({
-    where: { email: "admin@scholarschool.edu.pk" },
-    update: {},
+    where: { email: adminEmail },
+    update: {
+      name: "Scholar Admin",
+      email: adminEmail,
+      role: "SUPER_ADMIN",
+      passwordHash: adminPasswordHash,
+      status: "ACTIVE",
+    },
     create: {
       name: "Scholar Admin",
-      email: "admin@scholarschool.edu.pk",
+      email: adminEmail,
       role: "SUPER_ADMIN",
       passwordHash: adminPasswordHash,
       status: "ACTIVE",
@@ -25,15 +48,21 @@ async function main() {
   console.log(`✅ Admin user: ${admin.email}`);
 
   // Additional role users for authorization testing.
-  const cmsAdminPasswordHash = await bcrypt.hash("CmsAdmin@123", 12);
-  const editorPasswordHash = await bcrypt.hash("Editor@123", 12);
+  const cmsAdminPasswordHash = await bcrypt.hash(cmsAdminPassword, 12);
+  const editorPasswordHash = await bcrypt.hash(editorPassword, 12);
 
   const cmsAdmin = await prisma.user.upsert({
-    where: { email: "cms@scholarschool.edu.pk" },
-    update: {},
+    where: { email: cmsAdminEmail },
+    update: {
+      name: "CMS Administrator",
+      email: cmsAdminEmail,
+      role: "ADMIN",
+      passwordHash: cmsAdminPasswordHash,
+      status: "ACTIVE",
+    },
     create: {
       name: "CMS Administrator",
-      email: "cms@scholarschool.edu.pk",
+      email: cmsAdminEmail,
       role: "ADMIN",
       passwordHash: cmsAdminPasswordHash,
       status: "ACTIVE",
@@ -41,11 +70,17 @@ async function main() {
   });
 
   const editor = await prisma.user.upsert({
-    where: { email: "editor@scholarschool.edu.pk" },
-    update: {},
+    where: { email: editorEmail },
+    update: {
+      name: "Content Editor",
+      email: editorEmail,
+      role: "EDITOR",
+      passwordHash: editorPasswordHash,
+      status: "ACTIVE",
+    },
     create: {
       name: "Content Editor",
-      email: "editor@scholarschool.edu.pk",
+      email: editorEmail,
       role: "EDITOR",
       passwordHash: editorPasswordHash,
       status: "ACTIVE",
@@ -350,58 +385,108 @@ async function main() {
   // ---- Computer Courses ----
   const computerCourses = [
     {
-      name: "Web Development",
+      name: "PERN Stack Development",
+      duration: "1 Year",
+      eligibility: "Matric and above · Basic computer literacy",
+      outline:
+        "HTML & CSS\nJavaScript & TypeScript\nReact and Node.js\nPostgreSQL databases\nAPIs, authentication and deployment\nPortfolio projects",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 4,000 · 50% payment PKR 3,750 · Full payment PKR 3,500",
+      admissionStatus: "Limited seats available",
+    },
+    {
+      name: "MERN Stack Development",
+      duration: "1 Year",
+      eligibility: "Matric and above · Basic computer literacy",
+      outline:
+        "HTML & CSS\nJavaScript & TypeScript\nReact and Next.js\nMongoDB and Express\nFull-stack application development\nPortfolio projects",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 4,000 · 50% payment PKR 3,750 · Full payment PKR 3,500",
+      admissionStatus: "Limited seats available",
+    },
+    {
+      name: "Full Stack Development",
+      duration: "1 Year",
+      eligibility: "Matric and above · Basic computer literacy",
+      outline:
+        "Frontend development\nBackend development\nDatabases and server architecture\nAuthentication and APIs\nGit and deployment\nCapstone project",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 4,000 · 50% payment PKR 3,750 · Full payment PKR 3,500",
+      admissionStatus: "Limited seats available",
+    },
+    {
+      name: "Advance React Course",
+      duration: "1 Year",
+      eligibility: "Matric and above · Basic computer literacy",
+      outline:
+        "Modern React fundamentals\nComponents, state and hooks\nRouting and data fetching\nPerformance and accessibility\nTesting and deployment\nProduction-ready projects",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 4,000 · 50% payment PKR 3,750 · Full payment PKR 3,500",
+      admissionStatus: "Limited seats available",
+    },
+    {
+      name: "Python Programming Course",
       duration: "6 Months",
-      eligibility: "Matric & above · No prior coding experience required",
+      eligibility: "Matric and above · Beginners welcome",
       outline:
-        "HTML & CSS\nResponsive Web Design\nJavaScript & ES6+\nReact & Next.js\nAPIs & Databases\nPortfolio Project & Deployment",
-      timing: "Evening batches · 5:00 PM – 7:00 PM (Mon–Wed) & Weekend batches",
-      fee: "PKR 35,000 (payable in instalments)",
-      admissionStatus: "Admissions Open",
+        "Python fundamentals\nObject-oriented programming\nFile handling and databases\nProblem solving and automation\nPractical programming projects",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 3,500 · 50% payment PKR 3,250 · Full payment PKR 3,000",
+      admissionStatus: "Limited seats available",
     },
     {
-      name: "Graphic Design",
-      duration: "3 Months",
-      eligibility: "Minimum Matric · Basic computer literacy",
+      name: "JavaScript Programming Course",
+      duration: "6 Months",
+      eligibility: "Matric and above · Beginners welcome",
       outline:
-        "Design Principles & Colour Theory\nTypography & Layout\nAdobe Photoshop & Illustrator\nLogo & Brand Identity Design\nSocial Media & Print Design",
-      timing: "Evening batches · 4:00 PM – 6:00 PM (Tue–Thu) & Weekend batches",
-      fee: "PKR 20,000 (payable in instalments)",
-      admissionStatus: "Admissions Open",
+        "JavaScript fundamentals\nES6+ and asynchronous programming\nDOM and browser APIs\nObject-oriented programming\nPractical web projects",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 3,500 · 50% payment PKR 3,250 · Full payment PKR 3,000",
+      admissionStatus: "Limited seats available",
     },
     {
-      name: "MS Office Essentials",
-      duration: "2 Months",
-      eligibility: "For students, professionals & job seekers",
+      name: "Frontend Development",
+      duration: "6 Months",
+      eligibility: "Matric and above · Beginners welcome",
       outline:
-        "Word: Documents & Mail Merge\nExcel: Formulas, Charts & Data Analysis\nPowerPoint: Effective Presentations\nOutlook & Productivity Tips",
-      timing: "Morning & evening batches available",
-      fee: "PKR 12,000",
-      admissionStatus: "Limited Seats",
+        "HTML and semantic markup\nCSS and responsive design\nJavaScript fundamentals\nReact fundamentals\nAccessible portfolio website",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 3,500 · 50% payment PKR 3,250 · Full payment PKR 3,000",
+      admissionStatus: "Limited seats available",
+    },
+    {
+      name: "Python Backend Development",
+      duration: "6 Months",
+      eligibility: "Matric and above · Python basics recommended",
+      outline:
+        "Python web development\nBackend frameworks\nREST APIs and authentication\nDatabases and deployment\nProduction-ready backend project",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 3,500 · 50% payment PKR 3,250 · Full payment PKR 3,000",
+      admissionStatus: "Limited seats available",
+    },
+    {
+      name: "Node.js Backend Development",
+      duration: "6 Months",
+      eligibility: "Matric and above · JavaScript basics recommended",
+      outline:
+        "Node.js fundamentals\nExpress APIs\nDatabases and authentication\nTesting and deployment\nBackend portfolio project",
+      timing: "Girls classes: 3:00 PM - 6:00 PM · Boys classes: 6:00 PM - 9:00 PM",
+      fee: "Monthly PKR 3,500 · 50% payment PKR 3,250 · Full payment PKR 3,000",
+      admissionStatus: "Limited seats available",
     },
   ];
+
+  await prisma.computerCourse.deleteMany({});
 
   for (const [index, c] of computerCourses.entries()) {
     const slug = c.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
-    await prisma.computerCourse.upsert({
-      where: { slug },
-      update: {
-        shortDescription: `${c.name} course`,
-        detailedDescription: `Professional ${c.name} training with practical projects.`,
-        duration: c.duration,
-        eligibility: c.eligibility,
-        courseOutline: c.outline,
-        timing: c.timing,
-        fee: c.fee,
-        admissionStatus: c.admissionStatus,
-        instructor: "Senior Faculty",
-      },
-      create: {
+    await prisma.computerCourse.create({
+      data: {
         name: c.name,
         slug,
-        shortDescription: `${c.name} course`,
-        detailedDescription: `Professional ${c.name} training with practical projects.`,
+        shortDescription: `${c.name} training for a successful technology career.`,
+        detailedDescription: `Professional ${c.name} training with practical projects and career-focused instruction.`,
         duration: c.duration,
         eligibility: c.eligibility,
         courseOutline: c.outline,
@@ -409,7 +494,7 @@ async function main() {
         fee: c.fee,
         admissionStatus: c.admissionStatus,
         instructor: "Senior Faculty",
-        isFeatured: index === 0,
+        isFeatured: index < 2,
         status: "PUBLISHED",
         displayOrder: index,
         createdById: admin.id,
@@ -479,27 +564,29 @@ async function main() {
     {
       name: "Computer Lab",
       icon: "computer",
-      imageUrl: "https://placehold.co/800x450/1e3a5f/ffffff/png?text=Computer+Lab",
+      imageUrl: "/scholars-schools-official-images/07-science-museum/science-museum-003.jpg",
     },
     {
       name: "Science Lab",
       icon: "lab",
-      imageUrl: "https://placehold.co/800x450/0f766e/ffffff/png?text=Science+Lab",
+      imageUrl: "/scholars-schools-official-images/07-science-museum/science-museum-001.jpg",
     },
     {
       name: "Library",
       icon: "library",
-      imageUrl: "https://placehold.co/800x450/7c3aed/ffffff/png?text=Library",
+      imageUrl:
+        "/scholars-schools-official-images/01-classroom-activities/classroom-activity-001.jpg",
     },
     {
       name: "Classrooms",
       icon: "classroom",
-      imageUrl: "https://placehold.co/800x450/991b1b/ffffff/png?text=Classrooms",
+      imageUrl:
+        "/scholars-schools-official-images/01-classroom-activities/classroom-activity-013.jpg",
     },
     {
       name: "Sports Ground",
       icon: "sports",
-      imageUrl: "https://placehold.co/800x450/b45309/ffffff/png?text=Sports+Ground",
+      imageUrl: "/scholars-schools-official-images/09-school-events/school-event-001.jpg",
     },
   ];
 
@@ -531,56 +618,71 @@ async function main() {
   // ---- Banners ----
   const banners = [
     {
+      title: "Get 50% Off on All Computer Courses Today",
+      subtitle: "Defense Day Special — Learn More, Pay Less",
+      description:
+        "Celebrate Defense Day with 50% off the monthly fee on all long-term and short-term computer courses. Limited seats available.",
+      imageUrl:
+        "/scholars-schools-official-images/02-national-day/6-september-defence-day-desktop.jpeg",
+      linkUrl: "/computer-courses",
+      ctaLabel: "Explore Computer Courses",
+      startDate: new Date("2026-09-06T00:00:00.000Z"),
+      endDate: new Date("2026-09-10T23:59:59.000Z"),
+      status: "PUBLISHED" as const,
+      displayOrder: 0,
+    },
+    {
       title: "Admissions Open for Session 2026-27",
       subtitle: "School, College, Coaching & Computer Courses",
       description:
         "Applications for the new academic session are now open. Submit your application before the deadline and secure a seat.",
-      imageUrl: "https://placehold.co/1600x600/1e3a5f/ffffff/png?text=Admissions+Open",
+      imageUrl: "/scholars-schools-official-images/07-science-museum/science-museum-008.jpg",
       linkUrl: "/admissions",
       ctaLabel: "Apply Now",
       startDate: new Date("2026-07-01T00:00:00.000Z"),
       endDate: new Date("2026-12-31T23:59:59.000Z"),
       status: "PUBLISHED" as const,
-      displayOrder: 0,
+      displayOrder: 1,
     },
     {
       title: "Enroll in Professional Computer Courses",
       subtitle: "Short-term certifications for students and professionals",
       description:
         "Learn web development, office productivity and programming with hands-on, job-ready training.",
-      imageUrl: "https://placehold.co/1600x600/0f766e/ffffff/png?text=Computer+Courses",
+      imageUrl: "/scholars-schools-official-images/07-science-museum/science-museum-003.jpg",
       linkUrl: "/computer-courses",
       ctaLabel: "Explore Courses",
       startDate: null,
       endDate: null,
       status: "PUBLISHED" as const,
-      displayOrder: 1,
+      displayOrder: 2,
     },
     {
       title: "Summer Prep Workshop",
       subtitle: "Coming soon — exam preparation bootcamps",
       description:
         "A dedicated summer programme for board exam preparation. Schedule will be announced closer to the date.",
-      imageUrl: "https://placehold.co/1600x600/7c3aed/ffffff/png?text=Summer+Workshop",
+      imageUrl:
+        "/scholars-schools-official-images/01-classroom-activities/classroom-activity-009.jpg",
       linkUrl: "/coaching",
       ctaLabel: "Learn More",
       startDate: new Date("2027-01-01T00:00:00.000Z"),
       endDate: null,
       status: "PUBLISHED" as const,
-      displayOrder: 2,
+      displayOrder: 3,
     },
     {
       title: "Winter Admission Drive",
       subtitle: "Last session's enrollment campaign",
       description:
         "An expired banner example — this should no longer appear on the public website.",
-      imageUrl: "https://placehold.co/1600x600/991b1b/ffffff/png?text=Winter+Drive",
+      imageUrl: "/scholars-schools-official-images/07-science-museum/science-museum-001.jpg",
       linkUrl: "/admissions",
       ctaLabel: "Learn More",
       startDate: new Date("2026-01-01T00:00:00.000Z"),
       endDate: new Date("2026-01-31T23:59:59.000Z"),
       status: "PUBLISHED" as const,
-      displayOrder: 3,
+      displayOrder: 4,
     },
   ];
 
@@ -651,11 +753,11 @@ async function main() {
     where: { slug: "welcome-to-scholar-school" },
     update: {},
     create: {
-      title: "Welcome to Scholar Higher Secondary School",
+      title: "Welcome to Scholars Group Of Education",
       slug: "welcome-to-scholar-school",
       excerpt: "An introduction to our academic programs and admissions.",
       content:
-        "Scholar Higher Secondary School welcomes new admissions for the 2026-27 session with programs across school, college, coaching and computer courses.",
+        "Scholars Group Of Education welcomes new admissions for the 2026-27 session with programs across school, college, coaching and computer courses.",
       status: "PUBLISHED",
       publishedAt: new Date(),
       authorId: admin.id,
@@ -668,12 +770,12 @@ async function main() {
     update: {},
     create: {
       blogPostId: post.id,
-      seoTitle: "Welcome to Scholar Higher Secondary School | Admissions 2026-27",
+      seoTitle: "Welcome to Scholars Group Of Education | Admissions 2026-27",
       metaDescription:
-        "An introduction to the academic programs and admissions at Scholar Higher Secondary School, College, Coaching and Computer Courses.",
+        "An introduction to the academic programs and admissions at Scholars Group Of Education, College, Coaching and Computer Courses.",
       keywords: "scholar school, higher secondary school, admissions, college, coaching",
       canonicalUrl: "https://scholarschool.edu.pk/blogs/welcome-to-scholar-school",
-      ogTitle: "Welcome to Scholar Higher Secondary School",
+      ogTitle: "Welcome to Scholars Group Of Education",
       ogDescription: "New admissions for the 2026-27 session are now open.",
       robots: "index, follow",
     },
@@ -695,7 +797,7 @@ async function main() {
   if (firstTag) {
     await prisma.blogPostTag.upsert({
       where: { blogPostId_tagId: { blogPostId: post.id, tagId: firstTag.id } },
-      update: {},
+      update: { blogPostId: post.id, tagId: firstTag.id },
       create: { blogPostId: post.id, tagId: firstTag.id },
     });
   }
@@ -712,7 +814,14 @@ async function main() {
   for (const page of pages) {
     await prisma.page.upsert({
       where: { slug: page.slug },
-      update: {},
+      update: {
+        title: page.title,
+        slug: page.slug,
+        content: `${page.title} page content.`,
+        status: "PUBLISHED",
+        publishedAt: new Date(),
+        createdById: admin.id,
+      },
       create: {
         title: page.title,
         slug: page.slug,
@@ -757,20 +866,24 @@ async function main() {
   // edits made in the admin CMS surface on the public website (footer,
   // contact page, structured data).
   const settings = [
-    { key: "name", value: "Scholar", group: "general" },
-    { key: "fullName", value: "Scholar Higher Secondary School", group: "general" },
-    { key: "tagline", value: "Quality Education for Tomorrow's Leaders", group: "general" },
+    { key: "name", value: "Scholars", group: "general" },
+    { key: "fullName", value: "Scholars Group Of Education", group: "general" },
+    { key: "tagline", value: `Scholars "A Name You Can Trust."`, group: "general" },
     { key: "email", value: "info@scholarschool.edu.pk", group: "contact" },
-    { key: "phone", value: "+92 300 0000000", group: "contact" },
-    { key: "phoneHref", value: "+923000000000", group: "contact" },
-    { key: "address", value: "Main Boulevard, City, Pakistan", group: "contact" },
+    { key: "phone", value: "+92 335 8459783", group: "contact" },
+    { key: "phoneHref", value: "+923358459783", group: "contact" },
+    {
+      key: "address",
+      value: "8/18 Shahrah-e-Ali-Ul-Murtaza Road, Sector 5-J, Gulshan-e-Habib, Karachi",
+      group: "contact",
+    },
     { key: "applyUrl", value: "/admissions/apply", group: "general" },
   ];
 
   for (const s of settings) {
     await prisma.siteSetting.upsert({
       where: { key: s.key },
-      update: {},
+      update: { key: s.key, value: s.value, group: s.group },
       create: { key: s.key, value: s.value, group: s.group },
     });
   }

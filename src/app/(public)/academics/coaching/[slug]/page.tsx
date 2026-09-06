@@ -42,8 +42,7 @@ export async function generateMetadata({
   const program = await getCoachingCached(slug);
 
   const description =
-    program.description ??
-    `Learn about ${program.name} coaching at Scholar Coaching.`;
+    program.description ?? `Learn about ${program.name} coaching at Scholar Coaching.`;
 
   return {
     title: `${program.name} — Scholar Coaching`,
@@ -82,12 +81,7 @@ export default async function CoachingProgramDetailPage({
     <>
       <JsonLd data={breadcrumbJsonLd} />
       <Container className="py-12 sm:py-16">
-        <Button
-          asChild
-          variant="ghost"
-          size="sm"
-          className="mb-6 -ml-2 text-muted-foreground"
-        >
+        <Button asChild variant="ghost" size="sm" className="mb-6 -ml-2 text-muted-foreground">
           <Link href="/coaching">
             <ArrowLeft aria-hidden="true" />
             Back to Coaching
@@ -106,17 +100,13 @@ export default async function CoachingProgramDetailPage({
           </header>
 
           {program.description ? (
-            <p className="mt-6 text-base leading-relaxed text-slate-700">
-              {program.description}
-            </p>
+            <p className="mt-6 text-base leading-relaxed text-slate-700">{program.description}</p>
           ) : null}
 
           <dl className="mt-8 space-y-6">
             {program.targetStudents ? (
               <div>
-                <dt className="text-sm font-semibold text-slate-900">
-                  Target Students
-                </dt>
+                <dt className="text-sm font-semibold text-slate-900">Target Students</dt>
                 <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   {program.targetStudents}
                 </dd>

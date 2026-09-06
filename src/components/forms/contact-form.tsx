@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -14,6 +15,7 @@ import {
 } from "@/schemas/contact/contact.schema";
 
 export function ContactForm() {
+  const [submitted, setSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -52,9 +54,28 @@ export function ContactForm() {
 
       toast.success("Message sent successfully! We will get back to you soon.");
       reset();
+      setSubmitted(true);
     } catch {
       toast.error("Something went wrong. Please try again.");
     }
+  }
+
+  if (submitted) {
+    return (
+      <div
+        className="rounded-xl border border-emerald-200 bg-emerald-50 p-6 text-center"
+        role="status"
+        tabIndex={-1}
+      >
+        <h2 className="text-lg font-semibold text-emerald-950">Message received</h2>
+        <p className="mt-2 text-sm leading-relaxed text-emerald-900/80">
+          Thanks for reaching out. The Scholar team will get back to you within one working day.
+        </p>
+        <Button type="button" variant="outline" className="mt-5" onClick={() => setSubmitted(false)}>
+          Send another message
+        </Button>
+      </div>
+    );
   }
 
   return (

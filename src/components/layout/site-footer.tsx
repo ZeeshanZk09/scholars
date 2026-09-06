@@ -1,4 +1,5 @@
-import { GraduationCap, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "./container";
@@ -43,9 +44,7 @@ export async function SiteFooter() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
-                <GraduationCap className="h-5 w-5" aria-hidden="true" />
-              </span>
+              <Image src="/logo.png" alt="" width={48} height={48} className="h-12 w-12 object-contain" />
               <span className="text-lg font-bold">Scholar</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-300">

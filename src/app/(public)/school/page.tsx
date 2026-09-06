@@ -1,10 +1,4 @@
-import {
-  ArrowRight,
-  CalendarDays,
-  GraduationCap,
-  ListChecks,
-  Layers,
-} from "lucide-react";
+import { ArrowRight, CalendarDays, GraduationCap, ListChecks, Layers } from "lucide-react";
 import Link from "next/link";
 
 import type { Metadata } from "next";
@@ -54,9 +48,7 @@ export default async function SchoolPage() {
     ? await new AdmissionsService().listRequirements(schoolPeriod.id)
     : [];
 
-  const orderedClasses = [...classes].sort(
-    (a, b) => a.displayOrder - b.displayOrder,
-  );
+  const orderedClasses = [...classes].sort((a, b) => a.displayOrder - b.displayOrder);
   const gradeRange =
     orderedClasses.length > 1
       ? `${orderedClasses[0]?.name ?? "—"} to ${orderedClasses.at(-1)?.name ?? "—"}`
@@ -82,17 +74,12 @@ export default async function SchoolPage() {
           {levels.length > 0 ? (
             <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {levels.map((level) => (
-                <div
-                  key={level.id}
-                  className="rounded-lg border bg-surface p-6"
-                >
+                <div key={level.id} className="rounded-lg border bg-surface p-6">
                   <div className="flex items-center gap-3">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-navy text-white">
                       <Layers className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <h3 className="text-lg font-semibold text-navy">
-                      {level.name}
-                    </h3>
+                    <h3 className="text-lg font-semibold text-navy">{level.name}</h3>
                   </div>
                   {level.description ? (
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -141,19 +128,12 @@ export default async function SchoolPage() {
                   className="rounded-lg border bg-white p-6 transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <div className="flex items-center gap-2">
-                    <GraduationCap
-                      className="h-5 w-5 text-navy"
-                      aria-hidden="true"
-                    />
-                    <h3 className="text-lg font-semibold text-navy">
-                      {schoolClass.name}
-                    </h3>
+                    <GraduationCap className="h-5 w-5 text-navy" aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-navy">{schoolClass.name}</h3>
                   </div>
                   {schoolClass.eligibility ? (
                     <p className="mt-2 text-sm text-slate-600">
-                      <span className="font-medium text-slate-800">
-                        Eligibility:
-                      </span>{" "}
+                      <span className="font-medium text-slate-800">Eligibility:</span>{" "}
                       {schoolClass.eligibility}
                     </p>
                   ) : null}
@@ -164,9 +144,7 @@ export default async function SchoolPage() {
                   ) : null}
                   {schoolClass.learningOutcomes ? (
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      <span className="font-medium text-slate-800">
-                        Outcomes:
-                      </span>{" "}
+                      <span className="font-medium text-slate-800">Outcomes:</span>{" "}
                       {schoolClass.learningOutcomes}
                     </p>
                   ) : null}
@@ -195,29 +173,17 @@ export default async function SchoolPage() {
             <div className="rounded-xl bg-navy p-8 text-white">
               <Layers className="h-6 w-6 text-slate-300" aria-hidden="true" />
               <p className="mt-4 text-3xl font-bold">{levels.length}</p>
-              <p className="mt-1 text-sm font-medium text-slate-300">
-                Academic Stages
-              </p>
+              <p className="mt-1 text-sm font-medium text-slate-300">Academic Stages</p>
             </div>
             <div className="rounded-xl bg-navy p-8 text-white">
-              <ListChecks
-                className="h-6 w-6 text-slate-300"
-                aria-hidden="true"
-              />
+              <ListChecks className="h-6 w-6 text-slate-300" aria-hidden="true" />
               <p className="mt-4 text-3xl font-bold">{classes.length}</p>
-              <p className="mt-1 text-sm font-medium text-slate-300">
-                Classes Offered
-              </p>
+              <p className="mt-1 text-sm font-medium text-slate-300">Classes Offered</p>
             </div>
             <div className="rounded-xl bg-navy p-8 text-white">
-              <GraduationCap
-                className="h-6 w-6 text-slate-300"
-                aria-hidden="true"
-              />
+              <GraduationCap className="h-6 w-6 text-slate-300" aria-hidden="true" />
               <p className="mt-4 text-3xl font-bold">{gradeRange}</p>
-              <p className="mt-1 text-sm font-medium text-slate-300">
-                Grade Range
-              </p>
+              <p className="mt-1 text-sm font-medium text-slate-300">Grade Range</p>
             </div>
           </div>
         </Container>
@@ -239,9 +205,7 @@ export default async function SchoolPage() {
             {schoolPeriod ? (
               <div className="rounded-xl border bg-white p-6 sm:p-8">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <h3 className="text-xl font-semibold text-navy">
-                    {schoolPeriod.title}
-                  </h3>
+                  <h3 className="text-xl font-semibold text-navy">{schoolPeriod.title}</h3>
                   <StatusBadge status={schoolPeriod.status} />
                 </div>
                 {schoolPeriod.description ? (
@@ -252,9 +216,7 @@ export default async function SchoolPage() {
                 <dl className="mt-6 space-y-3 text-sm">
                   <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">
                     <dt className="text-slate-600">Session</dt>
-                    <dd className="font-medium text-slate-900">
-                      {schoolPeriod.session.name}
-                    </dd>
+                    <dd className="font-medium text-slate-900">{schoolPeriod.session.name}</dd>
                   </div>
                   {schoolPeriod.openingDate ? (
                     <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">
@@ -298,41 +260,31 @@ export default async function SchoolPage() {
 
             {requirements.length > 0 ? (
               <div className="rounded-xl border bg-white p-6 sm:p-8">
-                <h3 className="text-xl font-semibold text-navy">
-                  Requirements & Documents
-                </h3>
+                <h3 className="text-xl font-semibold text-navy">Requirements & Documents</h3>
                 <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
                   {requirements.map((requirement) => (
                     <div key={requirement.id} className="space-y-3">
                       {requirement.eligibility ? (
                         <p>
-                          <span className="font-semibold text-slate-900">
-                            Eligibility:
-                          </span>{" "}
+                          <span className="font-semibold text-slate-900">Eligibility:</span>{" "}
                           {requirement.eligibility}
                         </p>
                       ) : null}
                       {requirement.requiredDocuments ? (
                         <p>
-                          <span className="font-semibold text-slate-900">
-                            Documents:
-                          </span>{" "}
+                          <span className="font-semibold text-slate-900">Documents:</span>{" "}
                           {requirement.requiredDocuments}
                         </p>
                       ) : null}
                       {requirement.applicationProcess ? (
                         <p>
-                          <span className="font-semibold text-slate-900">
-                            Process:
-                          </span>{" "}
+                          <span className="font-semibold text-slate-900">Process:</span>{" "}
                           {requirement.applicationProcess}
                         </p>
                       ) : null}
                       {requirement.feeInformation ? (
                         <p>
-                          <span className="font-semibold text-slate-900">
-                            Fee:
-                          </span>{" "}
+                          <span className="font-semibold text-slate-900">Fee:</span>{" "}
                           {requirement.feeInformation}
                         </p>
                       ) : null}

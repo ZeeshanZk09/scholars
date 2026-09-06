@@ -7,14 +7,16 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 type AdmissionCardProps = {
   period: AdmissionPeriodRecord;
+  className?: string;
 };
 
-export function AdmissionCard({ period }: Readonly<AdmissionCardProps>) {
+export function AdmissionCard({ period, className }: Readonly<AdmissionCardProps>) {
   return (
-    <Card className="flex h-full flex-col">
+    <Card className={cn("flex h-full flex-col", className)}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-1">

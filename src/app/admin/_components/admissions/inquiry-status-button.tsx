@@ -17,10 +17,7 @@ const STATUS_OPTIONS: { value: InquiryStatus; label: string }[] = [
   { value: "CLOSED", label: "Closed" },
 ];
 
-export function InquiryStatusButton({
-  id,
-  current,
-}: Readonly<InquiryStatusButtonProps>) {
+export function InquiryStatusButton({ id, current }: Readonly<InquiryStatusButtonProps>) {
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
 
@@ -44,19 +41,13 @@ export function InquiryStatusButton({
       const result = await response.json().catch(() => null);
 
       if (!response.ok) {
-        throw new Error(
-          result?.message ?? "Failed to update application status",
-        );
+        throw new Error(result?.message ?? "Failed to update application status");
       }
 
       toast.success("Application status updated");
       router.refresh();
     } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to update application status",
-      );
+      toast.error(error instanceof Error ? error.message : "Failed to update application status");
     } finally {
       setUpdating(false);
     }

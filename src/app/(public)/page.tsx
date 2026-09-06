@@ -1,10 +1,4 @@
-import {
-  ArrowRight,
-  Award,
-  BookOpenCheck,
-  ShieldCheck,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Award, BookOpenCheck, ShieldCheck, Users } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
@@ -37,12 +31,11 @@ import { ProgramService } from "@/services/programs";
 import { TestimonialService } from "@/services/testimonials";
 
 const HeroCarousel = dynamic(() =>
-  import("@/components/sections/hero-carousel").then((mod) => mod.HeroCarousel),
+  import("@/components/sections/hero-carousel").then((mod) => mod.HeroCarousel)
 );
 
 export const metadata: Metadata = {
-  title:
-    "Scholar Higher Secondary School, College, Coaching & Computer Courses",
+  title: "Scholar Higher Secondary School, College, Coaching & Computer Courses",
   description:
     "Welcome to Scholar — a complete educational campus offering school, college, coaching and professional computer courses in one place.",
   alternates: {
@@ -62,20 +55,17 @@ const whyUs = [
   {
     icon: Users,
     title: "Dedicated Faculty",
-    description:
-      "Qualified and experienced teachers committed to every student's progress.",
+    description: "Qualified and experienced teachers committed to every student's progress.",
   },
   {
     icon: BookOpenCheck,
     title: "Structured Academics",
-    description:
-      "Clear syllabi, regular assessments and focused preparation for board exams.",
+    description: "Clear syllabi, regular assessments and focused preparation for board exams.",
   },
   {
     icon: Award,
     title: "Character & Confidence",
-    description:
-      "Co-curricular activities and mentorship build leadership and strong values.",
+    description: "Co-curricular activities and mentorship build leadership and strong values.",
   },
 ];
 
@@ -95,9 +85,7 @@ export default async function HomePage() {
     new FacilityService().listPublished({ take: 6 }),
     new TestimonialService().listPublished({ take: 6 }),
     new BlogService().listPublished({ skip: 0, take: 3 }),
-    new AdmissionsService()
-      .listPeriods({ skip: 0, take: 50 })
-      .then((result) => result.items),
+    new AdmissionsService().listPeriods({ skip: 0, take: 50 }).then((result) => result.items),
     new CoachingProgramService().listPublished({ take: 1 }),
     new ComputerCourseService().listPublished({ take: 1 }),
   ]);
@@ -206,12 +194,8 @@ export default async function HomePage() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-navy text-white">
                   <item.icon className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <h3 className="text-lg font-semibold text-navy">
-                  {item.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
+                <h3 className="text-lg font-semibold text-navy">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
               </div>
             ))}
           </div>
@@ -219,10 +203,7 @@ export default async function HomePage() {
       </section>
 
       {/* Coaching & Computer courses highlight */}
-      <CoachingCoursesPromo
-        coaching={coaching}
-        computerCourses={computerCourses}
-      />
+      <CoachingCoursesPromo coaching={coaching} computerCourses={computerCourses} />
 
       {/* Testimonials */}
       <section className="bg-white">

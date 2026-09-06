@@ -36,7 +36,7 @@ export function CoachingCoursesPromo({
           >
             <div className="relative aspect-video overflow-hidden">
               <Image
-                src="/images/pexels-tima-miroshnichenko-5427868.jpg"
+                src="/scholars-schools-official-images/01-classroom-activities/classroom-activity-001.jpg"
                 alt="Students studying in a Scholar coaching class"
                 width={1280}
                 height={720}
@@ -67,7 +67,7 @@ export function CoachingCoursesPromo({
           >
             <div className="relative aspect-video overflow-hidden">
               <Image
-                src="/images/pexels-pavel-danilyuk-8423043.jpg"
+                src="/scholars-schools-official-images/07-science-museum/science-museum-003.jpg"
                 alt="Students learning computer skills in a Scholar computer course"
                 width={1280}
                 height={720}

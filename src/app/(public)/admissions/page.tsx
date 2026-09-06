@@ -1,3 +1,5 @@
+import { AdmissionsMotion } from "./admissions-motion";
+
 import type { Metadata } from "next";
 
 import { AdmissionCard } from "@/components/cards/admission-card";
@@ -18,50 +20,21 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 300;
-
-const ACTIVE_STATUSES = ["OPEN", "COMING_SOON"] as const;
-
-const steps = [
-  {
-    title: "Submit Your Application",
-    description:
-      "Fill in the online application form with the student's details, contact information and the program you are interested in.",
-  },
-  {
-    title: "Submit Documents",
-    description:
-      "Provide the required documents such as previous result cards, B-form and photographs for verification.",
-  },
-  {
-    title: "Test & Interview",
-    description:
-      "Attend the admission test or interview where applicable for your chosen program or class.",
-  },
-  {
-    title: "Confirm Your Seat",
-    description:
-      "Complete the admission by paying the fee after the merit list or committee decision is announced.",
-  },
-];
-
 export default async function AdmissionsPage() {
   const admissions = new AdmissionsService();
   const periods = await admissions.listPeriods({ skip: 0, take: 50 });
 
   const activePeriods = periods.items.filter((period) =>
-    (ACTIVE_STATUSES as readonly string[]).includes(period.status),
+    ["OPEN", "COMING_SOON"].includes(period.status)
   );
 
   const featuredPeriod = activePeriods[0] ?? periods.items[0];
-  const requirements = featuredPeriod
-    ? await admissions.listRequirements(featuredPeriod.id)
-    : [];
+  const requirements = featuredPeriod ? await admissions.listRequirements(featuredPeriod.id) : [];
 
   const hasActive = activePeriods.length > 0;
 
   return (
-    <>
+    <AdmissionsMotion>
       <PageHeader
         eyebrow="Admissions"
         title="Admissions at Scholar"
@@ -74,17 +47,14 @@ export default async function AdmissionsPage() {
         <Container className="py-16 sm:py-24">
           <SectionHeader
             eyebrow={hasActive ? "Open Now" : "Admission Periods"}
-            title={
-              hasActive
-                ? "Open Admission Periods"
-                : "Upcoming Admission Periods"
-            }
+            title={hasActive ? "Open Admission Periods" : "Upcoming Admission Periods"}
             description="Check the admission periods below for the session, dates and status of each program area."
           />
+
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {activePeriods.length > 0 ? (
               activePeriods.map((period) => (
-                <AdmissionCard key={period.id} period={period} />
+                <AdmissionCard key={period.id} period={period} data-admission-card />
               ))
             ) : (
               <EmptyState
@@ -121,41 +91,31 @@ export default async function AdmissionsPage() {
                   <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
                     {requirement.requiredDocuments ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Required Documents
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Required Documents</h3>
                         <p>{requirement.requiredDocuments}</p>
                       </div>
                     ) : null}
                     {requirement.applicationProcess ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Application Process
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Application Process</h3>
                         <p>{requirement.applicationProcess}</p>
                       </div>
                     ) : null}
                     {requirement.importantDates ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Important Dates
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Important Dates</h3>
                         <p>{requirement.importantDates}</p>
                       </div>
                     ) : null}
                     {requirement.feeInformation ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Fee Information
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Fee Information</h3>
                         <p>{requirement.feeInformation}</p>
                       </div>
                     ) : null}
                     {requirement.contactInformation ? (
                       <div>
-                        <h3 className="mb-1 font-semibold text-foreground">
-                          Contact
-                        </h3>
+                        <h3 className="mb-1 font-semibold text-foreground">Contact</h3>
                         <p>{requirement.contactInformation}</p>
                       </div>
                     ) : null}
@@ -176,17 +136,33 @@ export default async function AdmissionsPage() {
             description="A simple four-step process to begin your journey at Scholar."
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, index) => (
-              <div
-                key={step.title}
-                className="rounded-lg border bg-surface p-6"
-              >
+            {[
+              {
+                title: "Submit Your Application",
+                description:
+                  "Fill in the online application form with the student's details, contact information and the program you are interested in.",
+              },
+              {
+                title: "Submit Documents",
+                description:
+                  "Provide the required documents such as previous result cards, B-form and photographs for verification.",
+              },
+              {
+                title: "Test & Interview",
+                description:
+                  "Attend the admission test or interview where applicable for your chosen program or class.",
+              },
+              {
+                title: "Confirm Your Seat",
+                description:
+                  "Complete the admission by paying the fee after the merit list or committee decision is announced.",
+              },
+            ].map((step, index) => (
+              <div key={step.title} className="rounded-lg border bg-surface p-6" data-apply-step>
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-sm font-bold text-white">
                   {index + 1}
                 </span>
-                <h3 className="mt-4 text-lg font-semibold text-navy">
-                  {step.title}
-                </h3>
+                <h3 className="mt-4 text-lg font-semibold text-navy">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {step.description}
                 </p>
@@ -203,6 +179,6 @@ export default async function AdmissionsPage() {
         secondaryLabel="Contact Us"
         secondaryHref="/contact"
       />
-    </>
+    </AdmissionsMotion>
   );
 }

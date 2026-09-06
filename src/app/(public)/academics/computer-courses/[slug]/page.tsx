@@ -88,12 +88,7 @@ export default async function ComputerCourseDetailPage({
     <>
       <JsonLd data={breadcrumbJsonLd} />
       <Container className="py-12 sm:py-16">
-        <Button
-          asChild
-          variant="ghost"
-          size="sm"
-          className="mb-6 -ml-2 text-muted-foreground"
-        >
+        <Button asChild variant="ghost" size="sm" className="mb-6 -ml-2 text-muted-foreground">
           <Link href="/computer-courses">
             <ArrowLeft aria-hidden="true" />
             Back to Computer Courses
@@ -159,9 +154,7 @@ export default async function ComputerCourseDetailPage({
             {course.fee ? (
               <div>
                 <dt className="text-sm font-semibold text-slate-900">Fee</dt>
-                <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  {course.fee}
-                </dd>
+                <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{course.fee}</dd>
               </div>
             ) : null}
             {course.courseOutline ? (

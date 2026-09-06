@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
+
+import { Button } from "@/components/ui/button";
 
 export default function ErrorPage({
   error,
@@ -14,18 +17,22 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <main className="flex min-h-[60vh] flex-col items-center justify-center gap-4 px-4 text-center">
-      <h1 className="text-2xl font-semibold">Something went wrong</h1>
-      <p className="text-gray-600 dark:text-gray-400">
-        An unexpected error occurred. Please try again.
-      </p>
-      <button
-        type="button"
-        onClick={retry}
-        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-      >
-        Try again
-      </button>
+    <main className="flex min-h-[60vh] items-center justify-center bg-surface px-4 py-16">
+      <div className="w-full max-w-lg rounded-xl border bg-white p-8 text-center shadow-sm sm:p-10">
+        <p className="text-sm font-semibold uppercase tracking-widest text-primary">Scholar</p>
+        <h1 className="mt-3 text-2xl font-semibold text-navy">Something went wrong</h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          We could not load this page right now. Please try again or return to the home page.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Button type="button" onClick={retry}>
+            Try again
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/">Back to home</Link>
+          </Button>
+        </div>
+      </div>
     </main>
   );
 }

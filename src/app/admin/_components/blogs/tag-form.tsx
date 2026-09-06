@@ -35,15 +35,13 @@ export function BlogTagForm({ mode, initial }: Readonly<BlogTagFormProps>) {
 
     try {
       const response = await fetch(
-        mode === "edit"
-          ? `/api/v1/admin/blogs/tags/${initial?.id}`
-          : "/api/v1/admin/blogs/tags",
+        mode === "edit" ? `/api/v1/admin/blogs/tags/${initial?.id}` : "/api/v1/admin/blogs/tags",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        },
+        }
       );
 
       const result = await response.json().catch(() => null);
@@ -75,10 +73,7 @@ export function BlogTagForm({ mode, initial }: Readonly<BlogTagFormProps>) {
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
           Name <span className="text-red-600">*</span>
         </label>
         <input

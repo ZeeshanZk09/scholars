@@ -10,28 +10,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSiteSettings } from "@/lib/site-settings";
 
 const ContactForm = dynamic(() =>
-  import("@/components/forms/contact-form").then((mod) => mod.ContactForm),
+  import("@/components/forms/contact-form").then((mod) => mod.ContactForm)
 );
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description:
-    "Get in touch with Scholar — admissions, campus visits, fees and general enquiries.",
+  description: "Get in touch with Scholar — admissions, campus visits, fees and general enquiries.",
   alternates: {
     canonical: "/contact",
   },
 };
 
 const officeHours = [
-  { days: "Monday – Friday", hours: "8:00 AM – 5:00 PM" },
-  { days: "Saturday", hours: "8:00 AM – 1:00 PM" },
+  { days: "Monday – Saturday", hours: "8:00 AM – 7:00 PM" },
   { days: "Sunday", hours: "Closed" },
 ];
 
 export default async function ContactPage() {
   const settings = await getSiteSettings();
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    settings.address,
+    settings.address
   )}`;
 
   return (
@@ -50,9 +48,7 @@ export default async function ContactPage() {
             <div className="space-y-6 lg:col-span-2">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg text-navy">
-                    Get in Touch
-                  </CardTitle>
+                  <CardTitle className="text-lg text-navy">Get in Touch</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-5 text-sm">
                   <div className="flex items-start gap-3">
@@ -61,9 +57,7 @@ export default async function ContactPage() {
                     </span>
                     <div>
                       <p className="font-medium text-foreground">Address</p>
-                       <p className="mt-0.5 text-muted-foreground">
-                         {settings.address}
-                       </p>
+                      <p className="mt-0.5 text-muted-foreground">{settings.address}</p>
                       <a
                         href={mapsUrl}
                         target="_blank"
@@ -71,10 +65,7 @@ export default async function ContactPage() {
                         className="mt-1 inline-flex items-center gap-1 font-medium text-primary hover:underline"
                       >
                         Get Directions
-                        <ArrowUpRight
-                          className="h-3.5 w-3.5"
-                          aria-hidden="true"
-                        />
+                        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                       </a>
                     </div>
                   </div>
@@ -101,10 +92,10 @@ export default async function ContactPage() {
                     <div>
                       <p className="font-medium text-foreground">Email</p>
                       <a
-                         href={`mailto:${settings.email}`}
-                         className="mt-0.5 text-muted-foreground hover:text-primary"
-                       >
-                         {settings.email}
+                        href={`mailto:${settings.email}`}
+                        className="mt-0.5 text-muted-foreground hover:text-primary"
+                      >
+                        {settings.email}
                       </a>
                     </div>
                   </div>
@@ -113,9 +104,7 @@ export default async function ContactPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg text-navy">
-                    Office Hours
-                  </CardTitle>
+                  <CardTitle className="text-lg text-navy">Office Hours</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   {officeHours.map((slot) => (
@@ -127,9 +116,7 @@ export default async function ContactPage() {
                         <Clock className="h-4 w-4" aria-hidden="true" />
                         {slot.days}
                       </span>
-                      <span className="font-medium text-foreground">
-                        {slot.hours}
-                      </span>
+                      <span className="font-medium text-foreground">{slot.hours}</span>
                     </div>
                   ))}
                 </CardContent>
@@ -137,10 +124,7 @@ export default async function ContactPage() {
 
               <p className="text-sm leading-relaxed text-muted-foreground">
                 Prefer visiting before you apply?{" "}
-                <Link
-                  href="/admissions"
-                  className="font-medium text-primary hover:underline"
-                >
+                <Link href="/admissions" className="font-medium text-primary hover:underline">
                   Check our admission dates
                 </Link>{" "}
                 and plan a campus tour.
@@ -151,9 +135,7 @@ export default async function ContactPage() {
             <div className="lg:col-span-3">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg text-navy">
-                    Send us a Message
-                  </CardTitle>
+                  <CardTitle className="text-lg text-navy">Send us a Message</CardTitle>
                   <p className="text-sm text-muted-foreground">
                     We typically respond within one working day.
                   </p>

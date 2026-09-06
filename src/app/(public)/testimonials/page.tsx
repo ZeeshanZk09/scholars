@@ -33,10 +33,7 @@ export default async function TestimonialsPage() {
           {testimonials.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {testimonials.map((testimonial) => (
-                <TestimonialCard
-                  key={testimonial.id}
-                  testimonial={testimonial}
-                />
+                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
               ))}
             </div>
           ) : (

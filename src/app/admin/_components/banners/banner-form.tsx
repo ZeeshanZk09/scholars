@@ -41,10 +41,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
     displayOrder: initial?.displayOrder ?? 0,
   });
 
-  function setField<K extends keyof BannerFormData>(
-    key: K,
-    value: BannerFormData[K],
-  ) {
+  function setField<K extends keyof BannerFormData>(key: K, value: BannerFormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -77,15 +74,13 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
 
     try {
       const response = await fetch(
-        mode === "edit"
-          ? `/api/v1/admin/banners/${initial?.id}`
-          : "/api/v1/admin/banners",
+        mode === "edit" ? `/api/v1/admin/banners/${initial?.id}` : "/api/v1/admin/banners",
         {
           method: mode === "edit" ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        },
+        }
       );
 
       const result = await response.json().catch(() => null);
@@ -98,9 +93,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
       router.push("/admin/banners");
       router.refresh();
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to save banner",
-      );
+      toast.error(error instanceof Error ? error.message : "Failed to save banner");
     } finally {
       setSaving(false);
     }
@@ -119,10 +112,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="title" className="block text-sm font-medium text-slate-900">
           Title <span className="text-red-600">*</span>
         </label>
         <input
@@ -136,10 +126,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
       </div>
 
       <div>
-        <label
-          htmlFor="subtitle"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="subtitle" className="block text-sm font-medium text-slate-900">
           Subtitle
         </label>
         <input
@@ -153,10 +140,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
       </div>
 
       <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
           Description
         </label>
         <textarea
@@ -170,10 +154,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
       </div>
 
       <div>
-        <label
-          htmlFor="imageUrl"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="imageUrl" className="block text-sm font-medium text-slate-900">
           Image URL <span className="text-red-600">*</span>
         </label>
         <input
@@ -188,10 +169,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="ctaLabel"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="ctaLabel" className="block text-sm font-medium text-slate-900">
             CTA Label
           </label>
           <input
@@ -205,10 +183,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
         </div>
 
         <div>
-          <label
-            htmlFor="linkUrl"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="linkUrl" className="block text-sm font-medium text-slate-900">
             CTA URL
           </label>
           <input
@@ -224,10 +199,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="startDate"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="startDate" className="block text-sm font-medium text-slate-900">
             Start Date
           </label>
           <input
@@ -243,10 +215,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
         </div>
 
         <div>
-          <label
-            htmlFor="endDate"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="endDate" className="block text-sm font-medium text-slate-900">
             End Date
           </label>
           <input
@@ -264,18 +233,13 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="status"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
             Status
           </label>
           <select
             id="status"
             value={form.status}
-            onChange={(event) =>
-              setField("status", event.target.value as BannerFormData["status"])
-            }
+            onChange={(event) => setField("status", event.target.value as BannerFormData["status"])}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
             {STATUS_OPTIONS.map((status) => (
@@ -287,10 +251,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
         </div>
 
         <div>
-          <label
-            htmlFor="displayOrder"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
             Display Order
           </label>
           <input
@@ -298,9 +259,7 @@ export function BannerForm({ mode, initial }: Readonly<BannerFormProps>) {
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) =>
-              setField("displayOrder", Number(event.target.value))
-            }
+            onChange={(event) => setField("displayOrder", Number(event.target.value))}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

@@ -1,0 +1,37 @@
+# scholars School — local SonarQube Community Build (dev/trials analysis server).
+# NOT part of the app's postgres compose (docker-compose.yml stays untouched).
+# Embedded H2 database is used by design (official docs: intended for dev/trials);
+# data persists in the named volume. Production would use PostgreSQL instead.
+#
+# Usage:
+#   docker compose -f docker-compose.sonarqube.yml up -d
+#   docker compose -f docker-compose.sonarqube.yml logs -f
+#   docker compose -f docker-compose.sonarqube.yml down
+services:
+  sonarqube:
+    image: sonarqube:26.8.0.126808-community
+    container_name: scholars-sonarqube
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - scholars-sonarqube-data:/opt/sonarqube/data
+      - scholars-sonarqube-extensions:/opt/sonarqube/extensions
+      - scholars-sonarqube-logs:/opt/sonarqube/logs
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "false"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 131072
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:9000/api/system/status || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+
+volumes:
+  scholars-sonarqube-data:
+  scholars-sonarqube-extensions:
+  scholars-sonarqube-logs:

@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+const isDev = !isProduction;
+
+const devConnectSrc = `connect-src 'self' ws://127.0.0.1:* ws://localhost:* http://127.0.0.1:* http://localhost:*`;
+
+const productionConnectSrc = `connect-src 'self'`;
+
+const connectSrc = isDev ? devConnectSrc : productionConnectSrc;
+
 const securityHeaders = [
   {
     key: "X-Content-Type-Options",
@@ -27,7 +35,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://placehold.co",
       "font-src 'self' data:",
-      "connect-src 'self'",
+      connectSrc,
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

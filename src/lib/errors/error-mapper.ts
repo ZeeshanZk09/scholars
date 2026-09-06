@@ -1,7 +1,6 @@
 import { type AppError, isAppError, DatabaseError } from "./app-error";
 import { ERROR_CODES } from "./error-codes";
 
-import { isDevelopment } from "@/config/env";
 import { logger } from "@/lib/logger/logger";
 
 const GENERIC_ERROR_MESSAGE =
@@ -43,7 +42,7 @@ export function toSafeError(error: unknown, requestId?: string): SafeError {
     code: ERROR_CODES.INTERNAL_ERROR,
     message: GENERIC_ERROR_MESSAGE,
     statusCode: 500,
-    details: isDevelopment ? { name: errorName(error) } : undefined,
+    details: process.env.NODE_ENV === "development" ? { name: errorName(error) } : undefined,
   };
 }
 

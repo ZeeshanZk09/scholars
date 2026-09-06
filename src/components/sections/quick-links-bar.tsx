@@ -19,7 +19,7 @@ type QuickLinksBarProps = {
   admission: HomeAdmissionSummary;
 };
 
-export function QuickLinksBar({ admission }: QuickLinksBarProps) {
+export function QuickLinksBar({ admission }: Readonly<QuickLinksBarProps>) {
   const links: QuickLink[] = [
     {
       href: "/admissions",

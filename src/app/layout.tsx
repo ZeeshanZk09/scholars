@@ -35,6 +35,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: settings.fullName,
       description: settings.description,
     },
+    icons: {
+      icon: "/logo.png",
+      apple: "/logo.png",
+    },
+    themeColor: "#1248d8",
   };
 }
 

@@ -41,9 +41,7 @@ const getBlogCached = cache(async (slug: string) => {
   }
 });
 
-export async function generateMetadata({
-  params,
-}: BlogDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlogCached(slug);
   const seo = blog.seo[0];
@@ -75,9 +73,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogDetailPage({
-  params,
-}: Readonly<BlogDetailPageProps>) {
+export default async function BlogDetailPage({ params }: Readonly<BlogDetailPageProps>) {
   const { slug } = await params;
   const blog = await getBlogCached(slug);
   const seo = blog.seo[0];
@@ -90,9 +86,7 @@ export default async function BlogDetailPage({
     datePublished: (blog.publishedAt ?? blog.createdAt).toISOString(),
     dateModified: blog.updatedAt.toISOString(),
     image: seo?.ogImage ?? blog.featuredImage ?? undefined,
-    author: blog.author?.name
-      ? { "@type": "Person", name: blog.author.name }
-      : undefined,
+    author: blog.author?.name ? { "@type": "Person", name: blog.author.name } : undefined,
     publisher: {
       "@type": "Organization",
       name: siteConfig.fullName,
@@ -104,12 +98,7 @@ export default async function BlogDetailPage({
     <>
       <JsonLd data={blogPostingJsonLd} />
       <Container className="py-12 sm:py-16">
-        <Button
-          asChild
-          variant="ghost"
-          size="sm"
-          className="mb-6 -ml-2 text-muted-foreground"
-        >
+        <Button asChild variant="ghost" size="sm" className="mb-6 -ml-2 text-muted-foreground">
           <Link href="/blogs">
             <ArrowLeft aria-hidden="true" />
             Back to Blogs

@@ -18,10 +18,7 @@ const STATUS_OPTIONS: { value: MessageStatus; label: string }[] = [
   { value: "ARCHIVED", label: "Archived" },
 ];
 
-export function MessageStatusButton({
-  id,
-  current,
-}: Readonly<MessageStatusButtonProps>) {
+export function MessageStatusButton({ id, current }: Readonly<MessageStatusButtonProps>) {
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
 
@@ -51,11 +48,7 @@ export function MessageStatusButton({
       toast.success("Message status updated");
       router.refresh();
     } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to update message status",
-      );
+      toast.error(error instanceof Error ? error.message : "Failed to update message status");
     } finally {
       setUpdating(false);
     }

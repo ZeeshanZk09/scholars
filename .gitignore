@@ -47,12 +47,12 @@ agent
 .claude
 .vscode
 
-skills-lock.json
-AGENTS.md
-CLAUDE.md
-ARCHITECHTURE.md
-HOMEPAGE.md
-PHASES.md
-PRD.md
-RULES.md
-DESIGN.md
+# skills-lock.json
+# AGENTS.md
+# CLAUDE.md
+# ARCHITECHTURE.md
+# HOMEPAGE.md
+# PHASES.md
+# PRD.md
+# RULES.md
+# DESIGN.md

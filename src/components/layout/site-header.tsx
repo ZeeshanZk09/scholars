@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronDown, GraduationCap, Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
@@ -32,14 +33,19 @@ function Logo({ onClick }: Readonly<{ onClick?: () => void }>) {
     <Link
       href="/"
       onClick={onClick}
-      className="flex items-center gap-2.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="flex items-center gap-2.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
       aria-label={`${siteConfig.fullName} home`}
     >
-      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy text-white">
-        <GraduationCap className="h-5 w-5" aria-hidden="true" />
-      </span>
+      <Image
+        src="/logo.png"
+        alt=""
+        width={44}
+        height={44}
+        className="h-11 w-11 object-contain"
+        priority
+      />
       <span className="flex flex-col leading-tight">
-        <span className="text-base font-bold tracking-tight text-navy">Scholar</span>
+        <span className="text-base font-bold tracking-tight text-navy">Scholars</span>
         <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
           School & College
         </span>
@@ -115,7 +121,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" className="hidden md:inline-flex">
+          <Button asChild size="sm" className="hidden sm:inline-flex">
             <Link href={siteConfig.applyUrl}>Apply Now</Link>
           </Button>
 
@@ -138,7 +144,7 @@ export function SiteHeader() {
 
               <div className="mt-6 flex flex-col gap-1">
                 {siteNav.map((item) => (
-                  <div key={item.href}>
+                  <div key={item.href} className="border-b border-border pb-2 last:border-b-0">
                     <SheetClose asChild>
                       <Link
                         href={item.href}
@@ -150,16 +156,30 @@ export function SiteHeader() {
                         {item.label}
                       </Link>
                     </SheetClose>
-                    {item.children?.map((child) => (
-                      <SheetClose asChild key={child.href}>
-                        <Link
-                          href={child.href}
-                          className="block rounded-md px-6 py-2 text-sm text-slate-600 transition-colors hover:bg-accent hover:text-navy"
-                        >
-                          {child.label}
-                        </Link>
-                      </SheetClose>
-                    ))}
+                    {item.children ? (
+                      <div className="mt-1 border-l-2 border-navy/10 pl-2">
+                        {item.children.map((child) => (
+                          <SheetClose asChild key={child.href}>
+                            <Link
+                              href={child.href}
+                              className={cn(
+                                "block rounded-md px-4 py-2 text-sm transition-colors hover:bg-accent hover:text-navy",
+                                isNavItemActive(pathname, child.href)
+                                  ? "font-semibold text-navy"
+                                  : "text-slate-600"
+                              )}
+                            >
+                              <span className="block">{child.label}</span>
+                              {child.description ? (
+                                <span className="mt-0.5 block text-xs text-muted-foreground">
+                                  {child.description}
+                                </span>
+                              ) : null}
+                            </Link>
+                          </SheetClose>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                 ))}
               </div>

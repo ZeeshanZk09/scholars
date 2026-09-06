@@ -1,10 +1,4 @@
-import {
-  ArrowRight,
-  BookOpen,
-  GraduationCap,
-  Layers,
-  Monitor,
-} from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, Layers, Monitor } from "lucide-react";
 import Link from "next/link";
 
 import type { Metadata } from "next";
@@ -52,8 +46,7 @@ const DIVISIONS = [
     label: "Scholar Coaching",
     href: "/coaching",
     icon: Layers,
-    description:
-      "Focused board-exam and entry-test preparation for school and college students.",
+    description: "Focused board-exam and entry-test preparation for school and college students.",
   },
   {
     key: "computer-courses",
@@ -66,13 +59,12 @@ const DIVISIONS = [
 ] as const;
 
 export default async function AcademicsPage() {
-  const [levels, collegePrograms, coachingPrograms, computerCourses] =
-    await Promise.all([
-      new SchoolService().listLevelsPublished(),
-      new ProgramService().listPublished(),
-      new CoachingProgramService().listPublished(),
-      new ComputerCourseService().listPublished(),
-    ]);
+  const [levels, collegePrograms, coachingPrograms, computerCourses] = await Promise.all([
+    new SchoolService().listLevelsPublished(),
+    new ProgramService().listPublished(),
+    new CoachingProgramService().listPublished(),
+    new ComputerCourseService().listPublished(),
+  ]);
 
   const counts: Record<(typeof DIVISIONS)[number]["key"], number> = {
     school: levels.reduce((total, level) => total + level.classes.length, 0),
@@ -112,9 +104,7 @@ export default async function AcademicsPage() {
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <div>
-                      <h3 className="text-lg font-semibold text-navy">
-                        {division.label}
-                      </h3>
+                      <h3 className="text-lg font-semibold text-navy">{division.label}</h3>
                       <p className="text-xs font-medium text-muted-foreground">
                         {count} {count === 1 ? "program" : "programs"} published
                       </p>

@@ -27,10 +27,7 @@ export function BlogCategoryForm({ mode, initial }: Readonly<BlogCategoryFormPro
     status: initial?.status ?? "PUBLISHED",
   });
 
-  function setField<K extends keyof BlogCategoryFormData>(
-    key: K,
-    value: BlogCategoryFormData[K],
-  ) {
+  function setField<K extends keyof BlogCategoryFormData>(key: K, value: BlogCategoryFormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -60,7 +57,7 @@ export function BlogCategoryForm({ mode, initial }: Readonly<BlogCategoryFormPro
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        },
+        }
       );
 
       const result = await response.json().catch(() => null);
@@ -73,9 +70,7 @@ export function BlogCategoryForm({ mode, initial }: Readonly<BlogCategoryFormPro
       router.push("/admin/blogs/categories");
       router.refresh();
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to save category",
-      );
+      toast.error(error instanceof Error ? error.message : "Failed to save category");
     } finally {
       setSaving(false);
     }
@@ -94,10 +89,7 @@ export function BlogCategoryForm({ mode, initial }: Readonly<BlogCategoryFormPro
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
           Name <span className="text-red-600">*</span>
         </label>
         <input
@@ -111,10 +103,7 @@ export function BlogCategoryForm({ mode, initial }: Readonly<BlogCategoryFormPro
       </div>
 
       <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="description" className="block text-sm font-medium text-slate-900">
           Description
         </label>
         <textarea
@@ -128,10 +117,7 @@ export function BlogCategoryForm({ mode, initial }: Readonly<BlogCategoryFormPro
       </div>
 
       <div>
-        <label
-          htmlFor="status"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="status" className="block text-sm font-medium text-slate-900">
           Status
         </label>
         <select

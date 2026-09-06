@@ -32,10 +32,7 @@ type ComputerCourseFormProps = {
 
 const STATUS_OPTIONS = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
 
-export function ComputerCourseForm({
-  mode,
-  initial,
-}: Readonly<ComputerCourseFormProps>) {
+export function ComputerCourseForm({ mode, initial }: Readonly<ComputerCourseFormProps>) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<ComputerCourseFormData>({
@@ -57,7 +54,7 @@ export function ComputerCourseForm({
 
   function setField<K extends keyof ComputerCourseFormData>(
     key: K,
-    value: ComputerCourseFormData[K],
+    value: ComputerCourseFormData[K]
   ) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
@@ -102,7 +99,7 @@ export function ComputerCourseForm({
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(body),
-        },
+        }
       );
 
       const result = await response.json().catch(() => null);
@@ -115,11 +112,7 @@ export function ComputerCourseForm({
       router.push("/admin/computer-courses");
       router.refresh();
     } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to save computer course",
-      );
+      toast.error(error instanceof Error ? error.message : "Failed to save computer course");
     } finally {
       setSaving(false);
     }
@@ -138,10 +131,7 @@ export function ComputerCourseForm({
       className="max-w-2xl space-y-5 rounded-lg border border-slate-200 bg-white p-6"
     >
       <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="name" className="block text-sm font-medium text-slate-900">
           Course Title <span className="text-red-600">*</span>
         </label>
         <input
@@ -155,10 +145,7 @@ export function ComputerCourseForm({
       </div>
 
       <div>
-        <label
-          htmlFor="slug"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="slug" className="block text-sm font-medium text-slate-900">
           Slug
         </label>
         <input
@@ -172,10 +159,7 @@ export function ComputerCourseForm({
       </div>
 
       <div>
-        <label
-          htmlFor="shortDescription"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="shortDescription" className="block text-sm font-medium text-slate-900">
           Short Description
         </label>
         <input
@@ -189,28 +173,20 @@ export function ComputerCourseForm({
       </div>
 
       <div>
-        <label
-          htmlFor="detailedDescription"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="detailedDescription" className="block text-sm font-medium text-slate-900">
           Detailed Description
         </label>
         <textarea
           id="detailedDescription"
           value={form.detailedDescription}
-          onChange={(event) =>
-            setField("detailedDescription", event.target.value)
-          }
+          onChange={(event) => setField("detailedDescription", event.target.value)}
           rows={4}
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
         />
       </div>
 
       <div>
-        <label
-          htmlFor="courseOutline"
-          className="block text-sm font-medium text-slate-900"
-        >
+        <label htmlFor="courseOutline" className="block text-sm font-medium text-slate-900">
           Course Outline <span className="text-red-600">*</span>
         </label>
         <textarea
@@ -225,10 +201,7 @@ export function ComputerCourseForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="duration"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="duration" className="block text-sm font-medium text-slate-900">
             Duration
           </label>
           <input
@@ -241,10 +214,7 @@ export function ComputerCourseForm({
           />
         </div>
         <div>
-          <label
-            htmlFor="eligibility"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="eligibility" className="block text-sm font-medium text-slate-900">
             Eligibility
           </label>
           <input
@@ -260,10 +230,7 @@ export function ComputerCourseForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="instructor"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="instructor" className="block text-sm font-medium text-slate-900">
             Instructor
           </label>
           <input
@@ -275,10 +242,7 @@ export function ComputerCourseForm({
           />
         </div>
         <div>
-          <label
-            htmlFor="timing"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="timing" className="block text-sm font-medium text-slate-900">
             Schedule / Timings
           </label>
           <input
@@ -294,10 +258,7 @@ export function ComputerCourseForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="fee"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="fee" className="block text-sm font-medium text-slate-900">
             Fee
           </label>
           <input
@@ -310,19 +271,14 @@ export function ComputerCourseForm({
           />
         </div>
         <div>
-          <label
-            htmlFor="admissionStatus"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="admissionStatus" className="block text-sm font-medium text-slate-900">
             Admission Status
           </label>
           <input
             id="admissionStatus"
             type="text"
             value={form.admissionStatus}
-            onChange={(event) =>
-              setField("admissionStatus", event.target.value)
-            }
+            onChange={(event) => setField("admissionStatus", event.target.value)}
             placeholder="e.g. Open / Limited Seats"
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
@@ -331,20 +287,14 @@ export function ComputerCourseForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="status"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="status" className="block text-sm font-medium text-slate-900">
             Status
           </label>
           <select
             id="status"
             value={form.status}
             onChange={(event) =>
-              setField(
-                "status",
-                event.target.value as ComputerCourseFormData["status"],
-              )
+              setField("status", event.target.value as ComputerCourseFormData["status"])
             }
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           >
@@ -357,10 +307,7 @@ export function ComputerCourseForm({
         </div>
 
         <div>
-          <label
-            htmlFor="displayOrder"
-            className="block text-sm font-medium text-slate-900"
-          >
+          <label htmlFor="displayOrder" className="block text-sm font-medium text-slate-900">
             Display Order
           </label>
           <input
@@ -368,9 +315,7 @@ export function ComputerCourseForm({
             type="number"
             min={0}
             value={form.displayOrder}
-            onChange={(event) =>
-              setField("displayOrder", Number(event.target.value))
-            }
+            onChange={(event) => setField("displayOrder", Number(event.target.value))}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
         </div>

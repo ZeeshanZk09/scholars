@@ -29,6 +29,7 @@ type HeroSlide = {
   href: string;
   ctaLabel: string;
   imageUrl: string | null;
+  mobileImageUrl: string | null;
 };
 
 const FALLBACK_SLIDES: HeroSlide[] = [
@@ -40,6 +41,7 @@ const FALLBACK_SLIDES: HeroSlide[] = [
     href: siteConfig.applyUrl,
     ctaLabel: "Apply Now",
     imageUrl: null,
+    mobileImageUrl: null,
   },
 ];
 
@@ -52,6 +54,9 @@ function toSlides(banners: BannerPublic[]): HeroSlide[] {
     href: banner.linkUrl ?? siteConfig.applyUrl,
     ctaLabel: banner.ctaLabel ?? (banner.linkUrl ? "Learn More" : "Apply Now"),
     imageUrl: banner.imageUrl,
+    mobileImageUrl: banner.imageUrl.endsWith("-desktop.jpeg")
+      ? banner.imageUrl.replace("-desktop.jpeg", "-mobile.jpeg")
+      : null,
   }));
 }
 
@@ -73,12 +78,12 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
   }, [api]);
 
   return (
-    <section className="relative bg-navy-dark">
+    <section className="relative bg-navy-dark/70">
       <Carousel
         setApi={setApi}
         plugins={[
           Autoplay({
-            delay: 6000,
+            delay: 3000,
             stopOnInteraction: true,
             stopOnMouseEnter: true,
             playOnInit: true,
@@ -87,20 +92,26 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
       >
         <CarouselContent className="ml-0">
           {slides.map((slide, index) => (
-            <CarouselItem key={slide.id} className="relative pl-0">
-              {/* {slide.imageUrl && (
+            <CarouselItem key={slide.id} className="min-h-150 sm:min-h-166 relative pl-0">
+              {slide.imageUrl && (
                 <>
-                  <Image
-                    src={slide.imageUrl}
-                    alt={slide.title}
-                    fill
-                    className="object-contain object-center opacity-40"
-                    priority={index === 0}
-                  />
-                  <div className="absolute inset-0 bg-linear-to-r from-navy-dark/90 to-navy-dark/30" />
+                  <picture className="absolute inset-0 block">
+                    {slide.mobileImageUrl ? (
+                      <source media="(max-width: 639px)" srcSet={slide.mobileImageUrl} />
+                    ) : null}
+                    <Image
+                      src={slide.imageUrl}
+                      alt={slide.title}
+                      fill
+                      className="object-cover object-center"
+                      priority={index === 0}
+                    />
+                  </picture>
+                  <div className="absolute inset-0 bg-linear-to-br from-[#161556f7] to-navy-dark/30" />
                 </>
-              )} */}
-              <Container className="relative z-10 py-20 sm:py-28 lg:py-32">
+              )}
+
+              <Container className=" relative z-10 py-20 sm:py-28 lg:py-32">
                 <div className="max-w-3xl space-y-5">
                   {slide.eyebrow ? (
                     <p className="text-sm font-semibold uppercase tracking-widest text-sky-200">
@@ -125,35 +136,34 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
                   </div>
                 </div>
               </Container>
+              {slides.length > 1 ? (
+                <div
+                  className="absolute bottom-0 right-[50%] z-10 flex items-center justify-center gap-2 pb-8"
+                  role="tablist"
+                  aria-label="Hero slides"
+                >
+                  {slides.map((slide, index) => (
+                    <button
+                      key={slide.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={index === current}
+                      aria-label={`Go to slide ${index + 1}`}
+                      onClick={() => api?.scrollTo(index)}
+                      className={cn(
+                        "h-2.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                        index === current ? "w-8 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"
+                      )}
+                    />
+                  ))}
+                </div>
+              ) : null}
             </CarouselItem>
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-3 top-1/2 hidden bg-white/10 text-white hover:bg-white/20 hover:text-white sm:flex" />
-        <CarouselNext className="right-3 top-1/2 hidden bg-white/10 text-white hover:bg-white/20 hover:text-white sm:flex" />
-
-        {slides.length > 1 ? (
-          <div
-            className="relative z-10 flex items-center justify-center gap-2 pb-8"
-            role="tablist"
-            aria-label="Hero slides"
-          >
-            {slides.map((slide, index) => (
-              <button
-                key={slide.id}
-                type="button"
-                role="tab"
-                aria-selected={index === current}
-                aria-label={`Go to slide ${index + 1}`}
-                onClick={() => api?.scrollTo(index)}
-                className={cn(
-                  "h-2.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
-                  index === current ? "w-8 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"
-                )}
-              />
-            ))}
-          </div>
-        ) : null}
+        <CarouselPrevious className="left-3 top-1/2 hidden bg-white/10 text-white hover:bg-white/20 hover:text-white lg:flex" />
+        <CarouselNext className="right-3 top-1/2 hidden bg-white/10 text-white hover:bg-white/20 hover:text-white lg:flex" />
       </Carousel>
     </section>
   );

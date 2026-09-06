@@ -14,12 +14,7 @@ interface EditorMainProps {
   // blogId omitted — not used by editor UI
 }
 
-export default function EditorMain({
-  content,
-  onChange,
-  title,
-  onTitleChange,
-}: EditorMainProps) {
+export default function EditorMain({ content, onChange, title, onTitleChange }: EditorMainProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
   const isWorkPage = pathname.includes("/works");
@@ -56,9 +51,7 @@ export default function EditorMain({
             {isWorkPage ? "Work" : "Blog"} Title{" "}
             <span className="text-red-500 dark:text-red-400">*</span>
           </div>
-          <span
-            className={`text-xs ${getTitleColorClass(titleLength, titleLimit)}`}
-          >
+          <span className={`text-xs ${getTitleColorClass(titleLength, titleLimit)}`}>
             {titleLength}/{titleLimit}
           </span>
         </div>
@@ -91,8 +84,7 @@ export default function EditorMain({
             <span className="font-semibold">{wordCount}</span> words
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="font-semibold">{Math.ceil(wordCount / 200)}</span>{" "}
-            min read
+            <span className="font-semibold">{Math.ceil(wordCount / 200)}</span> min read
           </span>
         </div>
       </div>

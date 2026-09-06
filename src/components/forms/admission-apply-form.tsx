@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -18,6 +19,7 @@ type AdmissionApplyFormProps = {
 };
 
 export function AdmissionApplyForm({ periodId }: Readonly<AdmissionApplyFormProps>) {
+  const [submitted, setSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -56,9 +58,29 @@ export function AdmissionApplyForm({ periodId }: Readonly<AdmissionApplyFormProp
 
       toast.success("Application submitted successfully!");
       reset({ admissionPeriodId: periodId });
+      setSubmitted(true);
     } catch {
       toast.error("Something went wrong. Please try again.");
     }
+  }
+
+  if (submitted) {
+    return (
+      <div
+        className="rounded-xl border border-emerald-200 bg-emerald-50 p-6 text-center"
+        role="status"
+        tabIndex={-1}
+      >
+        <h2 className="text-lg font-semibold text-emerald-950">Application received</h2>
+        <p className="mt-2 text-sm leading-relaxed text-emerald-900/80">
+          Thank you for contacting Scholar. Our admissions team will review your details and get
+          in touch with the next steps.
+        </p>
+        <Button type="button" variant="outline" className="mt-5" onClick={() => setSubmitted(false)}>
+          Submit another inquiry
+        </Button>
+      </div>
+    );
   }
 
   return (

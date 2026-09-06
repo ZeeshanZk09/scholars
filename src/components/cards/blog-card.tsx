@@ -13,6 +13,53 @@ type BlogCardProps = {
   category?: string;
 };
 
+function BlogCardMeta(props: Readonly<BlogCardProps>) {
+  if (props.category) {
+    return (
+      <Badge variant="secondary" className="w-fit">
+        {props.category}
+      </Badge>
+    );
+  }
+
+  if (props.blog.tags.length > 0) {
+    return (
+      <div className="flex flex-wrap gap-1">
+        {props.blog.tags.slice(0, 3).map((tag, index) => (
+          <Badge key={`${tag.id}-${index}`} variant="outline" className="text-[0.65rem]">
+            #{tag.name}
+          </Badge>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+      <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+      <time dateTime={props.blog.publishedAt?.toISOString()}>
+        {formatDateShort(props.blog.publishedAt ?? props.blog.createdAt) ?? ""}
+      </time>
+    </span>
+  );
+}
+
+function BlogCardHeader(props: Readonly<BlogCardProps>) {
+  return (
+    <CardHeader className="pb-2">
+      <BlogCardMeta blog={props.blog} category={props.category} />
+      <CardTitle className="text-lg leading-snug text-navy">
+        <Link
+          href={`/blogs/${props.blog.slug}`}
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+        >
+          {props.blog.title}
+        </Link>
+      </CardTitle>
+    </CardHeader>
+  );
+}
+
 export function BlogCard({ blog, category }: Readonly<BlogCardProps>) {
   return (
     <Card className="group flex h-full flex-col overflow-hidden transition-shadow hover:shadow-md">
@@ -35,36 +82,7 @@ export function BlogCard({ blog, category }: Readonly<BlogCardProps>) {
           </span>
         )}
       </Link>
-      <CardHeader className="pb-2">
-        {category ? (
-          <Badge variant="secondary" className="w-fit">
-            {category}
-          </Badge>
-        ) : blog.tags.length > 0 ? (
-          <div className="flex flex-wrap gap-1">
-            {blog.tags.slice(0, 3).map((tag) => (
-              <Badge key={tag.id} variant="outline" className="text-[0.65rem]">
-                #{tag.name}
-              </Badge>
-            ))}
-          </div>
-        ) : (
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
-            <time dateTime={blog.publishedAt?.toISOString()}>
-              {formatDateShort(blog.publishedAt ?? blog.createdAt) ?? ""}
-            </time>
-          </span>
-        )}
-        <CardTitle className="text-lg leading-snug text-navy">
-          <Link
-            href={`/blogs/${blog.slug}`}
-            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
-          >
-            {blog.title}
-          </Link>
-        </CardTitle>
-      </CardHeader>
+      <BlogCardHeader blog={blog} category={category} />
       <CardContent className="flex-1 pb-3">
         <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
           {blog.excerpt ?? "Read the full article on the Scholar blog."}

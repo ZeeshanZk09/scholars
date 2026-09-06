@@ -1,4 +1,7 @@
-import type { Metadata } from "next";
+import { MapPin, Megaphone, Phone, Rocket, UsersRound } from "lucide-react";
+import { type Metadata } from "next";
+
+import type { ComputerCoursePublic } from "@/repositories/computer-courses/computer-course.repository";
 
 import { ComputerCourseCard } from "@/components/cards/computer-course-card";
 import { Container } from "@/components/layout/container";
@@ -6,6 +9,7 @@ import { CtaSection } from "@/components/shared/cta-section";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionHeader } from "@/components/shared/section-header";
+import { getSiteSettings } from "@/lib/site-settings";
 import { ComputerCourseService } from "@/services/computer-courses";
 
 export const metadata: Metadata = {
@@ -28,130 +32,173 @@ const features = [
   "Guidance on building a career in IT",
 ];
 
+function CourseTrack({
+  courses,
+  description,
+  title,
+}: Readonly<{
+  courses: ComputerCoursePublic[];
+  description: string;
+  title: string;
+}>) {
+  if (courses.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="border-t border-slate-200 bg-white">
+      <Container className="py-14 sm:py-20">
+        <SectionHeader eyebrow="Professional Courses" title={title} description={description} />
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {courses.map((course) => (
+            <ComputerCourseCard key={course.id} course={course} />
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 export default async function ComputerCoursesPage() {
   const courses = await new ComputerCourseService().listPublished();
+  const longCourses = courses.filter((course) => course.duration === "1 Year");
+  const shortCourses = courses.filter((course) => course.duration === "6 Months");
+  const settings = await getSiteSettings();
 
   return (
     <>
       <PageHeader
-        eyebrow="Scholar Computer Courses"
-        title="Scholar Computer Courses"
-        description="Practical, career-focused computer courses in modern technologies — designed for students, graduates and working professionals."
+        eyebrow="Professional Courses For A Better Future"
+        title="Learn. Build. Succeed."
+        description="Job-ready computer courses in full-stack development, programming and modern web technologies, with flexible payment plans and separate girls and boys classes."
       />
 
-      <section className="bg-white">
-        <Container className="py-16 sm:py-24">
-          <SectionHeader
-            eyebrow="Our Courses"
-            title="Build Real, In-Demand Skills"
-            description="Short, practical courses that take you from beginner to confident professional in the tools employers actually use."
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {courses.length > 0 ? (
-              courses.map((course) => (
-                <ComputerCourseCard key={course.id} course={course} />
-              ))
-            ) : (
-              <EmptyState
-                className="col-span-full"
-                title="No computer courses yet"
-                description="Computer courses will appear here once they are published."
-              />
-            )}
+      <section className="bg-navy text-white">
+        <Container className="grid gap-8 py-10 sm:grid-cols-[1.4fr_1fr] sm:items-center sm:py-14">
+          <div>
+            <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-amber-300">
+              <Megaphone className="h-4 w-4" aria-hidden="true" />
+              Limited seats are available
+            </p>
+            <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
+              Turn your interest in technology into a successful career.
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base">
+              Learn through practical projects, build a professional portfolio and get the skills
+              needed to earn online or enter the technology industry.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:justify-self-end">
+            <div className="flex items-center gap-3 rounded-lg border border-white/15 bg-white/10 p-4">
+              <Rocket className="h-5 w-5 shrink-0 text-amber-300" aria-hidden="true" />
+              <span className="text-sm font-medium">Job-ready practical training</span>
+            </div>
+            <div className="flex items-center gap-3 rounded-lg border border-white/15 bg-white/10 p-4">
+              <UsersRound className="h-5 w-5 shrink-0 text-amber-300" aria-hidden="true" />
+              <span className="text-sm font-medium">Separate classes for girls and boys</span>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* Course details & outlines */}
       {courses.length > 0 ? (
-        <section className="bg-surface">
+        <>
+          <CourseTrack
+            courses={longCourses}
+            title="Long Courses - 1 Year"
+            description="Build a complete foundation for a professional software career through intensive, project-based training."
+          />
+          <CourseTrack
+            courses={shortCourses}
+            title="Short Courses - 6 Months"
+            description="Choose a focused technology track and start building useful skills in a shorter, career-focused program."
+          />
+        </>
+      ) : (
+        <section className="bg-white">
           <Container className="py-16 sm:py-24">
-            <SectionHeader
-              eyebrow="Course Details"
-              title="What You Will Learn"
-              description="Explore the full details of each course — eligibility, schedule, fee and the complete outline."
+            <EmptyState
+              title="No computer courses yet"
+              description="Computer courses will appear here once they are published."
             />
-            <div className="mt-12 space-y-6">
-              {courses.map((course) => (
-                <article
-                  key={course.id}
-                  className="overflow-hidden rounded-xl border bg-white"
-                >
-                  <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
-                    <div>
-                      <h2 className="text-lg font-semibold text-navy">
-                        {course.name}
-                      </h2>
-                      {course.instructor ? (
-                        <p className="mt-0.5 text-sm text-muted-foreground">
-                          Instructor: {course.instructor}
-                        </p>
-                      ) : null}
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {course.duration ? (
-                        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
-                          {course.duration}
-                        </span>
-                      ) : null}
-                      {course.admissionStatus ? (
-                        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                          {course.admissionStatus}
-                        </span>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="grid gap-8 px-6 py-6 lg:grid-cols-[2fr_1fr]">
-                    <div className="space-y-5">
-                      {course.detailedDescription ? (
-                        <p className="text-sm leading-relaxed text-muted-foreground">
-                          {course.detailedDescription}
-                        </p>
-                      ) : null}
-                      <div>
-                        <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                          Course Outline
-                        </h3>
-                        <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700">
-                          {course.courseOutline}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="space-y-4 rounded-lg bg-slate-50 p-5 text-sm">
-                      {course.eligibility ? (
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Eligibility
-                          </p>
-                          <p className="mt-1 text-slate-700">
-                            {course.eligibility}
-                          </p>
-                        </div>
-                      ) : null}
-                      {course.timing ? (
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Schedule
-                          </p>
-                          <p className="mt-1 text-slate-700">{course.timing}</p>
-                        </div>
-                      ) : null}
-                      {course.fee ? (
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Fee
-                          </p>
-                          <p className="mt-1 text-slate-700">{course.fee}</p>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
           </Container>
         </section>
-      ) : null}
+      )}
+
+      <section className="bg-surface">
+        <Container className="py-14 sm:py-20">
+          <SectionHeader
+            eyebrow="Simple Fee Structure"
+            title="Choose The Payment Plan That Works For You"
+            description="Every course offers monthly, 50% and full-payment options. Contact the office for registration and the latest batch availability."
+          />
+          <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-2">
+            {[
+              {
+                label: "Long courses",
+                value: "PKR 4,000 / month",
+                note: "50%: PKR 3,750 · Full: PKR 3,500",
+              },
+              {
+                label: "Short courses",
+                value: "PKR 3,500 / month",
+                note: "50%: PKR 3,250 · Full: PKR 3,000",
+              },
+            ].map((plan) => (
+              <div
+                key={plan.label}
+                className="rounded-xl border border-navy/10 bg-white p-6 text-center shadow-sm"
+              >
+                <p className="text-sm font-semibold uppercase tracking-wide text-navy/70">
+                  {plan.label}
+                </p>
+                <p className="mt-3 text-2xl font-bold text-navy">{plan.value}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{plan.note}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-white">
+        <Container className="grid gap-6 py-14 sm:grid-cols-2 sm:py-20">
+          <div className="rounded-xl bg-navy p-6 text-white sm:p-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-amber-300">
+              Class timings
+            </p>
+            <h2 className="mt-2 text-2xl font-bold">A schedule that respects your routine.</h2>
+            <div className="mt-6 space-y-3 text-sm text-slate-200">
+              <p>
+                <strong className="text-white">Girls classes:</strong> 03:00 PM to 06:00 PM
+              </p>
+              <p>
+                <strong className="text-white">Boys classes:</strong> 06:00 PM to 09:00 PM
+              </p>
+            </div>
+          </div>
+          <div className="rounded-xl border border-slate-200 bg-surface p-6 sm:p-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-navy/70">
+              Visit or call us
+            </p>
+            <h2 className="mt-2 text-2xl font-bold text-navy">Start your technology journey.</h2>
+            <div className="mt-6 space-y-4 text-sm text-muted-foreground">
+              <p className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                {settings.address}
+              </p>
+              <p className="flex items-center gap-3">
+                <Phone className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                <a
+                  className="font-semibold text-navy hover:underline"
+                  href={`tel:${settings.phoneHref}`}
+                >
+                  {settings.phone}
+                </a>
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
 
       <section className="bg-white">
         <Container className="py-16 sm:py-24">

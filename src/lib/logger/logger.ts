@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-import { isDevelopment } from "@/config/env";
-
 type LogLevel = "debug" | "info" | "warn" | "error";
 
 interface LogEntry {
@@ -23,7 +21,7 @@ const LEVELS: Record<LogLevel, number> = {
 };
 
 function write(level: LogLevel, message: string, context: Record<string, unknown> = {}) {
-  if (!isDevelopment && level === "debug") {
+  if (process.env.NODE_ENV !== "development" && level === "debug") {
     return;
   }
 

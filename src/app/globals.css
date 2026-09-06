@@ -3,10 +3,10 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  /* Scholar brand palette */
-  --navy: #0f2747;
-  --navy-dark: #091c33;
-  --surface: #f8fafc;
+  /* Scholar crest palette */
+  --navy: #0b3bb8;
+  --navy-dark: #061f78;
+  --surface: #f4f8ff;
 
   --background: #ffffff;
   --foreground: #0f172a;
@@ -16,28 +16,33 @@
   --popover: #ffffff;
   --popover-foreground: #0f172a;
 
-  --primary: #0f2747;
+  --primary: #1248d8;
   --primary-foreground: #ffffff;
 
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f2747;
+  --secondary: #eaf1ff;
+  --secondary-foreground: #0b3bb8;
 
-  --muted: #f1f5f9;
+  --muted: #edf3ff;
   --muted-foreground: #64748b;
 
-  --accent: #eef2f7;
-  --accent-foreground: #0f2747;
+  --accent: #e8f8df;
+  --accent-foreground: #176b2a;
 
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
 
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #0f2747;
+  --border: #d8e4fb;
+  --input: #d8e4fb;
+  --ring: #4bd52f;
 
-  --success: #16a34a;
-  --warning: #d97706;
-  --info: #2563eb;
+  --success: #2da83d;
+  --warning: #d79b00;
+  --info: #1248d8;
+
+  --brand-green: #4bd52f;
+  --brand-gold: #ffd817;
+
+  --radius: 0.5rem;
 }
 
 @theme inline {
@@ -67,17 +72,14 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-info: var(--info);
+  --color-brand-green: var(--brand-green);
+  --color-brand-gold: var(--brand-gold);
   --font-sans:
-    var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+    var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-}
-
-:root {
-  --radius: 0.5rem;
 }
 
 body {
