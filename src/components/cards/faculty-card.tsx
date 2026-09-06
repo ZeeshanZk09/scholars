@@ -26,7 +26,7 @@ export function FacultyCard({
             src={faculty.profileImage}
             alt={faculty.name}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-opacity duration-300 group-hover:opacity-[0.9]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (

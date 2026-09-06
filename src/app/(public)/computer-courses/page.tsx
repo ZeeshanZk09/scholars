@@ -13,11 +13,38 @@ import { getSiteSettings } from "@/lib/site-settings";
 import { ComputerCourseService } from "@/services/computer-courses";
 
 export const metadata: Metadata = {
-  title: "Scholar Computer Courses",
+  title: "Scholar Computer Courses - IT & Technology Training",
   description:
     "Practical, career-focused computer courses at Scholar — web development, graphic design, MS Office and more for students and professionals.",
   alternates: {
     canonical: "/computer-courses",
+  },
+  openGraph: {
+    title: "Scholar Computer Courses - IT & Technology Training",
+    description:
+      "Practical, career-focused computer courses at Scholar — web development, graphic design, MS Office and more for students and professionals.",
+    images: [
+      {
+        url: "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+        width: 800,
+        height: 400,
+        alt: "Scholar computer course - student learning technology",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Scholar Computer Courses - IT & Technology Training",
+    description:
+      "Practical, career-focused computer courses at Scholar — web development, graphic design, MS Office and more for students and professionals.",
+    images: [
+      "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 

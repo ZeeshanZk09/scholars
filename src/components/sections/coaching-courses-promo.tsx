@@ -41,7 +41,7 @@ export function CoachingCoursesPromo({
                 width={1280}
                 height={720}
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-[0.9]"
               />
             </div>
             <div className="p-6">
@@ -72,7 +72,7 @@ export function CoachingCoursesPromo({
                 width={1280}
                 height={720}
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-[0.9]"
               />
             </div>
             <div className="p-6">

@@ -9,11 +9,35 @@ import { SectionHeader } from "@/components/shared/section-header";
 import { CoachingProgramService } from "@/services/coaching";
 
 export const metadata: Metadata = {
-  title: "Scholar Coaching",
+  title: "Scholar Coaching - Board Exam Preparation",
   description:
     "Board exam preparation and entry test coaching at Scholar — structured study plans, regular assessments and expert guidance.",
   alternates: {
     canonical: "/coaching",
+  },
+  openGraph: {
+    title: "Scholar Coaching - Board Exam Preparation",
+    description:
+      "Board exam preparation and entry test coaching at Scholar — structured study plans, regular assessments and expert guidance.",
+    images: [
+      {
+        url: "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+        width: 800,
+        height: 400,
+        alt: "Scholar coaching class - students learning",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Scholar Coaching - Board Exam Preparation",
+    description:
+      "Board exam preparation and entry test coaching at Scholar — structured study plans, regular assessments and expert guidance.",
+    images: [
+      "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+    ],
   },
 };
 

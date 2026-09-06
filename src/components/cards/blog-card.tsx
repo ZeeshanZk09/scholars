@@ -74,7 +74,7 @@ export function BlogCard({ blog, category }: Readonly<BlogCardProps>) {
             alt=""
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            className="object-cover transition-opacity duration-300 group-hover:opacity-[0.9]"
           />
         ) : (
           <span className="flex h-full w-full items-center justify-center bg-navy/5 text-navy/40">

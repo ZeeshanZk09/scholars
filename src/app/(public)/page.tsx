@@ -41,6 +41,54 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  openGraph: {
+    title: "Scholar Higher Secondary School, College, Coaching & Computer Courses",
+    description:
+      "Welcome to Scholar — a complete educational campus offering school, college, coaching and professional computer courses in one place.",
+    images: [
+      {
+        url: "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-013.jpg&w=1200&h=630&q=80",
+        width: 1200,
+        height: 630,
+        alt: "Scholar educational campus - students learning together",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+    siteName: "Scholar",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Scholar Higher Secondary School, College, Coaching & Computer Courses",
+    description:
+      "Welcome to Scholar — a complete educational campus offering school, college, coaching and professional computer courses in one place.",
+    images: [
+      "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-013.jpg&w=1200&h=630&q=80",
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.shotcut",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
+// Structured data for Schema.org
+export const schema: Readonly<{
+  "@context": string;
+  "@type": "Organization";
+  name: string;
+  description: string;
+  url: string;
+  logo: string;
+}> = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Scholar",
+  description:
+    "Welcome to Scholar — a complete educational campus offering school, college, coaching and professional computer courses in one place.",
+  url: "https://scholars.zebotix.com/",
+  logo: "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-logo%2Flogo.png&w=512&h=512&q=80",
 };
 
 export const revalidate = 300;
@@ -81,9 +129,9 @@ export default async function HomePage() {
     computerCourses,
   ] = await Promise.all([
     new BannerService().listPublished(),
-    new ProgramService().listPublished({ take: 4 }),
-    new FacilityService().listPublished({ take: 6 }),
-    new TestimonialService().listPublished({ take: 6 }),
+    new ProgramService().listPublished({ take: 3 }),
+    new FacilityService().listPublished({ take: 4 }),
+    new TestimonialService().listPublished({ take: 3 }),
     new BlogService().listPublished({ skip: 0, take: 3 }),
     new AdmissionsService().listPeriods({ skip: 0, take: 50 }).then((result) => result.items),
     new CoachingProgramService().listPublished({ take: 1 }),

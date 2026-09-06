@@ -59,7 +59,7 @@ export function FacilityCard({ facility }: FacilityCardProps) {
             alt={facility.name}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-opacity duration-300 group-hover:opacity-[0.9]"
           />
         </div>
         <CardHeader className="flex-row items-center gap-4 pb-3">

@@ -8,11 +8,38 @@ import { PageHeader } from "@/components/shared/page-header";
 import { FacilityService } from "@/services/facilities";
 
 export const metadata: Metadata = {
-  title: "Campus Facilities",
+  title: "Campus Facilities - Scholar",
   description:
     "Explore the campus facilities at Scholar — purpose-built classrooms, laboratories and spaces that support learning.",
   alternates: {
     canonical: "/facilities",
+  },
+  openGraph: {
+    title: "Campus Facilities - Scholar",
+    description:
+      "Explore the campus facilities at Scholar — purpose-built classrooms, laboratories and spaces that support learning.",
+    images: [
+      {
+        url: "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+        width: 800,
+        height: 400,
+        alt: "Scholar campus facilities - classroom and lab",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Campus Facilities - Scholar",
+    description:
+      "Explore the campus facilities at Scholar — purpose-built classrooms, laboratories and spaces that support learning.",
+    images: [
+      "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 

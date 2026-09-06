@@ -8,11 +8,38 @@ import { PageHeader } from "@/components/shared/page-header";
 import { ProgramService } from "@/services/programs";
 
 export const metadata: Metadata = {
-  title: "Academic Programs",
+  title: "Academic Programs - Scholar",
   description:
     "Explore the academic programs at Scholar — Intermediate groups in Pre-Medical, Pre-Engineering, Computer Science and more.",
   alternates: {
     canonical: "/programs",
+  },
+  openGraph: {
+    title: "Academic Programs - Scholar",
+    description:
+      "Explore the academic programs at Scholar — Intermediate groups in Pre-Medical, Pre-Engineering, Computer Science and more.",
+    images: [
+      {
+        url: "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+        width: 800,
+        height: 400,
+        alt: "Scholar academic programs - classroom learning",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Academic Programs - Scholar",
+    description:
+      "Explore the academic programs at Scholar — Intermediate groups in Pre-Medical, Pre-Engineering, Computer Science and more.",
+    images: [
+      "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-001.jpg&w=800&h=400&q=80",
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 

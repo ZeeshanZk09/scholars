@@ -21,22 +21,21 @@ const highlights = [
 
 export function InstitutionIntro() {
   const reducedMotion = useReducedMotion();
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   // Hero entrance animation - runs once when component mounts
   React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     if (reducedMotion) {
       // Instantly set to final state without animation
-      gsap.set(".institution-intro .text-primary", { opacity: 1, y: 0 });
-      gsap.set(".institution-intro .text-navy", { opacity: 1, y: 0 });
-      gsap.set(".institution-intro h2", { opacity: 1, y: 0 });
-      gsap.set(".institution-intro .text-muted-foreground", { opacity: 1, y: 0 });
-      gsap.set(".institution-intro .bg-white img", { opacity: 1 });
+      gsap.set(container, { opacity: 1, y: 0 });
       return;
     }
 
-    const delay = 0.1;
     const timeline = gsap.timeline({
-      delay,
+      paused: false,
     });
 
     // Fade in eyebrow/title elements sequentially
@@ -87,7 +86,11 @@ export function InstitutionIntro() {
   }, [reducedMotion]);
 
   return (
-    <section className="bg-white" data-section-reveal="institution">
+    <section
+      className="bg-white"
+      data-section-reveal="institution"
+      ref={containerRef}
+    >
       <Container className="py-16 sm:py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>

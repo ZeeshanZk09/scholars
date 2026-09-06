@@ -335,7 +335,7 @@ export const ParagraphFormattingExtension = Extension.create({
           isTocHeading: {
             default: false,
             parseHTML: (element) =>
-              Object.hasOwn(element.dataset, "tocHeading"),
+              'tocHeading' in element.dataset,
             renderHTML: (attributes) => {
               if (attributes.isTocHeading) {
                 return { "data-toc-heading": "true" };

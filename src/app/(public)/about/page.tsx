@@ -12,11 +12,38 @@ import { ManagementService } from "@/services/management";
 import { PrincipalService } from "@/services/principal";
 
 export const metadata: Metadata = {
-  title: "About Scholar",
+  title: "About Scholar - Mission and Values",
   description:
     "Learn about Scholar Higher Secondary School, College, Coaching and Computer Courses — our mission, values and complete educational journey.",
   alternates: {
     canonical: "/about",
+  },
+  openGraph: {
+    title: "About Scholar - Mission and Values",
+    description:
+      "Learn about Scholar Higher Secondary School, College, Coaching and Computer Courses — our mission, values and complete educational journey.",
+    images: [
+      {
+        url: "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-013.jpg&w=1200&h=630&q=80",
+        width: 1200,
+        height: 630,
+        alt: "Scholar campus - main entrance and learning environment",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Scholar - Mission and Values",
+    description:
+      "Learn about Scholar Higher Secondary School, College, Coaching and Computer Courses — our mission, values and complete educational journey.",
+    images: [
+      "https://scholars.zebotix.com/_next/image?url=%2Fscholars-schools-official-images%2F01-classroom-activities%2Fclassroom-activity-013.jpg&w=1200&h=630&q=80",
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 

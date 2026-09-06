@@ -105,6 +105,7 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
                       fill
                       className="object-cover object-center"
                       priority={index === 0}
+                      sizes="100vw"
                     />
                   </picture>
                   <div className="absolute inset-0 bg-linear-to-br from-[#161556f7] to-navy-dark/30" />
