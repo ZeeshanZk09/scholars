@@ -137,34 +137,34 @@ export function HeroCarousel({ banners }: Readonly<{ banners: BannerPublic[] }>)
                   </div>
                 </div>
               </Container>
-              {slides.length > 1 ? (
-                <div
-                  className="absolute bottom-0 right-[50%] z-10 flex items-center justify-center gap-2 pb-8"
-                  role="tablist"
-                  aria-label="Hero slides"
-                >
-                  {slides.map((slide, index) => (
-                    <button
-                      key={slide.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={index === current}
-                      aria-label={`Go to slide ${index + 1}`}
-                      onClick={() => api?.scrollTo(index)}
-                      className={cn(
-                        "h-2.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
-                        index === current ? "w-8 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"
-                      )}
-                    />
-                  ))}
-                </div>
-              ) : null}
             </CarouselItem>
           ))}
         </CarouselContent>
 
         <CarouselPrevious className="left-3 top-1/2 hidden bg-white/10 text-white hover:bg-white/20 hover:text-white lg:flex" />
         <CarouselNext className="right-3 top-1/2 hidden bg-white/10 text-white hover:bg-white/20 hover:text-white lg:flex" />
+        {slides.length > 1 ? (
+          <div
+            className="absolute bottom-10 right-[50%] z-10 flex items-center justify-center gap-2"
+            role="tablist"
+            aria-label="Hero slides"
+          >
+            {slides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                role="tab"
+                aria-selected={index === current}
+                aria-label={`Go to slide ${index + 1}`}
+                onClick={() => api?.scrollTo(index)}
+                className={cn(
+                  "h-2.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                  index === current ? "w-8 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"
+                )}
+              />
+            ))}
+          </div>
+        ) : null}
       </Carousel>
     </section>
   );
