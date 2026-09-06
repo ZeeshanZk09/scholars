@@ -34,19 +34,19 @@ export function InstitutionIntro() {
       return;
     }
 
-    const timeline = gsap.timeline({
-      paused: false,
-    });
+    const timeline = gsap.timeline({});
 
     // Fade in eyebrow/title elements sequentially
-    timeline.from(".institution-intro .text-primary", {
+    // Use data-section-reveal attribute to scope selectors to just this section
+    // GSAP natively supports CSS selector strings
+    timeline.from(".text-primary", {
       opacity: 0,
       y: 25,
       duration: ANIMATION_DURATIONS.normal,
       ease: easing.reveal(),
     });
 
-    timeline.from(".institution-intro .text-navy", {
+    timeline.from(".text-navy", {
       opacity: 0,
       y: 25,
       duration: ANIMATION_DURATIONS.normal,
@@ -54,7 +54,7 @@ export function InstitutionIntro() {
       delay: 0.1,
     });
 
-    timeline.from(".institution-intro h2", {
+    timeline.from("h2", {
       opacity: 0,
       y: 25,
       duration: ANIMATION_DURATIONS.normal,
@@ -63,7 +63,7 @@ export function InstitutionIntro() {
     });
 
     // Fade in supporting text
-    timeline.from(".institution-intro .text-muted-foreground", {
+    timeline.from(".text-muted-foreground", {
       opacity: 0,
       y: 15,
       duration: ANIMATION_DURATIONS.micro,
@@ -72,7 +72,7 @@ export function InstitutionIntro() {
     });
 
     // Fade in image
-    timeline.from(".institution-intro .bg-white img", {
+    timeline.from(".bg-white img", {
       opacity: 0,
       duration: ANIMATION_DURATIONS.normal,
       ease: "power2.out",
@@ -86,12 +86,8 @@ export function InstitutionIntro() {
   }, [reducedMotion]);
 
   return (
-    <section
-      className="bg-white"
-      data-section-reveal="institution"
-      ref={containerRef}
-    >
-      <Container className="py-16 sm:py-24">
+    <section className="bg-white" data-section-reveal="institution" ref={containerRef}>
+      <Container className="py-16 sm:py:24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-primary">
