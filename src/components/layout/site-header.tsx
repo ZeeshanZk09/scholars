@@ -45,8 +45,8 @@ function Logo({ onClick }: Readonly<{ onClick?: () => void }>) {
         priority
       />
       <span className="flex flex-col leading-tight">
-        <span className="font-bold text-navy text-3xl">Scholars</span>
-        <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+        <span className="font-bold text-navy text-2xl sm:text-3xl">Scholars</span>
+        <span className="text-[9px] sm:text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
           Group Of Education
         </span>
       </span>
