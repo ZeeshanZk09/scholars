@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import Script from "next/script";
 
 import type { Metadata } from "next";
 import "./globals.css";
@@ -82,6 +83,18 @@ export default async function RootLayout({
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-WGLHS355YD"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-WGLHS355YD');
+          `}
+        </Script>
       </body>
     </html>
   );
