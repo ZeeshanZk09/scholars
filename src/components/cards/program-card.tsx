@@ -1,17 +1,18 @@
 "use client";
 
 import { ArrowRight, Clock } from "lucide-react";
-import Link from "next/link";
 import { motion } from "motion/react";
+import Link from "next/link";
 import * as React from "react";
 
 import type { ProgramPublic } from "@/repositories/programs/program.repository";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useReducedMotion } from "@/lib/animations/accessibility";
-import { ANIMATION_PRESETS } from "@/lib/animations/presets";
 import { ANIMATION_DURATIONS } from "@/lib/animations/config";
+import { ANIMATION_PRESETS } from "@/lib/animations/presets";
 import { cn } from "@/lib/utils";
 
 type ProgramCardProps = {
@@ -61,9 +62,7 @@ export function ProgramCard({
         </CardHeader>
         <CardContent className="flex-1 space-y-3 pb-4">
           {program.description ? (
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              {program.description}
-            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">{program.description}</p>
           ) : null}
           <div className="space-y-1.5 text-sm">
             {program.duration ? (

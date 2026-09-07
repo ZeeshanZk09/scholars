@@ -6,11 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { ANIMATION_PRESETS } from "@/lib/animations/presets";
-import { ANIMATION_DURATIONS } from "@/lib/animations/config";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { useReducedMotion } from "@/lib/animations/accessibility";
+import { ANIMATION_DURATIONS } from "@/lib/animations/config";
+import { ANIMATION_PRESETS } from "@/lib/animations/presets";
 import { siteConfig } from "@/lib/site-config";
 
 const highlights = [

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Scroll-triggered framer-motion animations.
  * All animations respect the user's prefers-reduced-motion preference.
@@ -24,8 +25,8 @@ export function scrollFadeUp({
     // Use the accessibility approach: set inline styles directly
     const elements = typeof document !== "undefined" ? document.querySelectorAll(trigger) : [];
     elements.forEach((el) => {
-      ;(el as HTMLElement).style.opacity = "1";
-      ;(el as HTMLElement).style.transform = "translateY(0)";
+      (el as HTMLElement).style.opacity = "1";
+      (el as HTMLElement).style.transform = "translateY(0)";
     });
     return;
   }
@@ -57,8 +58,8 @@ export function scrollFadeDown({
   if (reducedMotion) {
     const elements = typeof document !== "undefined" ? document.querySelectorAll(trigger) : [];
     elements.forEach((el) => {
-      ;(el as HTMLElement).style.opacity = "1";
-      ;(el as HTMLElement).style.transform = "translateY(0)";
+      (el as HTMLElement).style.opacity = "1";
+      (el as HTMLElement).style.transform = "translateY(0)";
     });
     return;
   }
@@ -88,9 +89,10 @@ export function scrollStagger({
     const elements = typeof document !== "undefined" ? document.querySelectorAll(trigger) : [];
     elements.forEach((el, index) => {
       const delay = index * stagger;
-      ;(el as HTMLElement).style.transition = `opacity 0.5s ${ease} ${delay}ms, transform 0.5s ${ease} ${delay}ms`;
-      ;(el as HTMLElement).style.opacity = "1";
-      ;(el as HTMLElement).style.transform = "translateY(0)";
+      (el as HTMLElement).style.transition =
+        `opacity 0.5s ${ease} ${delay}ms, transform 0.5s ${ease} ${delay}ms`;
+      (el as HTMLElement).style.opacity = "1";
+      (el as HTMLElement).style.transform = "translateY(0)";
     });
     return;
   }

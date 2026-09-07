@@ -44,16 +44,55 @@ export async function SiteFooter() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <div className="flex items-center gap-2.5">
-              <Image src="/logo.png" alt="" width={48} height={48} className="h-12 w-12 object-contain" />
-              <span className="text-lg font-bold">Scholar</span>
+              <Image
+                src="/logo.png"
+                alt=""
+                width={48}
+                height={48}
+                className="h-12 w-12 object-contain"
+              />
+              <span className="text-lg font-bold">Scholars</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-300">
               {settings.tagline} A single campus family — school, college, coaching and computer
               courses.
             </p>
           </div>
+          <div className="hidden max-sm:flex max-sm:gap-10 max-sm:w-full">
+            <nav aria-label="Quick links">
+              <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-400">
+                Quick Links
+              </h2>
+              <ul className="space-y-2.5">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <FooterLink href={link.href}>{link.label}</FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-          <nav aria-label="Quick links">
+            <nav aria-label="Academics">
+              <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-400">
+                Academics
+              </h2>
+              <ul className="space-y-2.5">
+                {academicLinks.map((link) => (
+                  <li key={link.href}>
+                    <FooterLink href={link.href}>{link.label}</FooterLink>
+                  </li>
+                ))}
+                <li>
+                  <FooterLink href="/programs">Academic Programs</FooterLink>
+                </li>
+                <li>
+                  <FooterLink href="/blogs">Blogs</FooterLink>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <nav aria-label="Quick links" className="max-sm:hidden">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-400">
               Quick Links
             </h2>
@@ -66,7 +105,7 @@ export async function SiteFooter() {
             </ul>
           </nav>
 
-          <nav aria-label="Academics">
+          <nav aria-label="Academics" className="max-sm:hidden">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-400">
               Academics
             </h2>
@@ -92,26 +131,23 @@ export async function SiteFooter() {
             <ul className="space-y-3 text-sm text-slate-300">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                 <span>{settings.address}</span>
-               </li>
-               <li className="flex items-center gap-2.5">
-                 <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
-                 <a
-                   href={`tel:${settings.phoneHref}`}
-                   className="transition-colors hover:text-white"
-                 >
-                   {settings.phone}
-                 </a>
-               </li>
-               <li className="flex items-center gap-2.5">
-                 <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
-                 <a
-                   href={`mailto:${settings.email}`}
-                   className="transition-colors hover:text-white"
-                 >
-                   {settings.email}
-                 </a>
-               </li>
+                <span>{settings.address}</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <a
+                  href={`tel:${settings.phoneHref}`}
+                  className="transition-colors hover:text-white"
+                >
+                  {settings.phone}
+                </a>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <a href={`mailto:${settings.email}`} className="transition-colors hover:text-white">
+                  {settings.email}
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -120,10 +156,10 @@ export async function SiteFooter() {
       <div className="border-t border-white/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-slate-400 sm:flex-row">
           <p>
-             &copy; {new Date().getFullYear()} {settings.fullName}. All rights reserved.
-           </p>
-           <div className="flex items-center gap-5">
-             <Link href={settings.applyUrl} className="transition-colors hover:text-white">
+            &copy; {new Date().getFullYear()} {settings.fullName}. All rights reserved.
+          </p>
+          <div className="flex items-center gap-5">
+            <Link href={settings.applyUrl} className="transition-colors hover:text-white">
               Apply Now
             </Link>
             <Link href="/admissions" className="transition-colors hover:text-white">

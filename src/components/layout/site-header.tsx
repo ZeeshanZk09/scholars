@@ -41,13 +41,13 @@ function Logo({ onClick }: Readonly<{ onClick?: () => void }>) {
         alt=""
         width={44}
         height={44}
-        className="h-11 w-11 object-contain"
+        className="size-14 object-contain"
         priority
       />
       <span className="flex flex-col leading-tight">
-        <span className="text-base font-bold tracking-tight text-navy">Scholars</span>
-        <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-          School & College
+        <span className="font-bold text-navy text-3xl">Scholars</span>
+        <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+          Group Of Education
         </span>
       </span>
     </Link>

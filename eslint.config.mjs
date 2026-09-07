@@ -42,14 +42,7 @@ export default [
       "import/order": [
         "error",
         {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            ["parent", "sibling"],
-            "index",
-            "type",
-          ],
+          groups: ["builtin", "external", "internal", ["parent", "sibling"], "index", "type"],
           "newlines-between": "always",
           alphabetize: { order: "asc", caseInsensitive: true },
         },
@@ -74,10 +67,7 @@ export default [
       "react/prop-types": "off",
       "react/self-closing-comp": "error",
       "react/jsx-no-target-blank": "error",
-      "react/jsx-curly-brace-presence": [
-        "error",
-        { props: "never", children: "never" },
-      ],
+      "react/jsx-curly-brace-presence": ["error", { props: "never", children: "never" }],
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
     },
@@ -115,6 +105,7 @@ export default [
       "build/**",
       "next-env.d.ts",
       ".agents/**",
+      ".opencode/**",
       "agent/**",
     ],
   },

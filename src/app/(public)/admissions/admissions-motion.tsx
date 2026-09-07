@@ -1,12 +1,12 @@
 "use client";
 
-import { motion, type Variants } from "motion/react";
-import * as React from "react";
+import { type Variants } from "motion/react";
+import { Children, cloneElement, isValidElement } from "react";
+
 import { useReducedMotion } from "@/lib/animations/accessibility";
 
 export function AdmissionsMotion({ children }: Readonly<{ children: React.ReactNode }>) {
   const reducedMotion = useReducedMotion();
-  const containerRef = React.useRef<HTMLDivElement>(null);
 
   // Use motion variants for staggered reveal
   const containerVariants: Variants = {
@@ -27,29 +27,24 @@ export function AdmissionsMotion({ children }: Readonly<{ children: React.ReactN
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="space-y-6"
-      style={reducedMotion ? {} : {}}
-    >
-      {React.Children.map(children, (child, index) => {
-        if (!React.isValidElement(child)) return null;
+    <div className="space-y-6">
+      {Children.map(children, (child, index) => {
+        if (!isValidElement(child)) return null;
 
-        const childRef = React.useRef<HTMLDivElement>(null);
-
-        return React.cloneElement(child, {
-          ...(reducedMotion ? {} : {
-            ref: childRef,
-            initial: "hidden",
-            animate: "visible",
-            variants: {
-              container: containerVariants,
-              item: {
-                ...itemVariants,
-                transition: { delayChildren: index * 0.15 },
-              },
-            },
-          }),
+        return cloneElement(child, {
+          ...(reducedMotion
+            ? {}
+            : {
+                initial: "hidden",
+                animate: "visible",
+                variants: {
+                  container: containerVariants,
+                  item: {
+                    ...itemVariants,
+                    transition: { delayChildren: index * 0.15 },
+                  },
+                },
+              }),
         });
       })}
     </div>
