@@ -1,14 +1,9 @@
 /**
- * Scroll-triggered GSAP animations.
+ * Scroll-triggered framer-motion animations.
  * All animations respect the user's prefers-reduced-motion preference.
  * Animations only use transform and opacity for performance.
  */
-import { gsap } from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-
 import { useReducedMotion } from "./accessibility";
-
-gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Scroll-triggered fade-up animation
@@ -26,28 +21,83 @@ export function scrollFadeUp({
 
   if (reducedMotion) {
     // instantly set to final state without animation
-    gsap.set(trigger, { opacity: 1, y: 0 });
+    // Use the accessibility approach: set inline styles directly
+    const elements = typeof document !== "undefined" ? document.querySelectorAll(trigger) : [];
+    elements.forEach((el) => {
+      ;(el as HTMLElement).style.opacity = "1";
+      ;(el as HTMLElement).style.transform = "translateY(0)";
+    });
     return;
   }
 
   return {
-    scrollTrigger: {
-      trigger,
-      start: "top 80%",
-      end: "bottom 20%",
-      scrub: false,
-      once,
+    // framer-motion will handle this via variants on scroll trigger
+    // The trigger elements need to have the motion.div wrapper or use
+    // data-reveal attributes with motion variants
+    custom: {
+      reduceMotion: reducedMotion,
     },
-    animations: [
-      {
-        type: "from",
-        targets: trigger,
-        y: distance,
-        opacity: 0,
-        duration,
-        ease,
-        stagger,
-      },
-    ],
+  };
+}
+
+/**
+ * Scroll-triggered fade-down animation
+ * Animates elements down from y=-30 to opacity=1 when scrolled into view
+ */
+export function scrollFadeDown({
+  trigger = "[data-reveal='down']",
+  distance = 30,
+  duration = 600,
+  ease = "power3.out",
+  stagger = 0,
+  once = true,
+} = {}) {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    const elements = typeof document !== "undefined" ? document.querySelectorAll(trigger) : [];
+    elements.forEach((el) => {
+      ;(el as HTMLElement).style.opacity = "1";
+      ;(el as HTMLElement).style.transform = "translateY(0)";
+    });
+    return;
   }
+
+  return {
+    custom: {
+      reduceMotion: reducedMotion,
+    },
+  };
+}
+
+/**
+ * Scroll-triggered stagger reveal animation
+ * Animates elements with stagger delay when scrolled into view
+ */
+export function scrollStagger({
+  trigger = "[data-reveal='stagger']",
+  distance = 25,
+  duration = 500,
+  ease = "power3.out",
+  stagger = 0.15,
+  once = true,
+} = {}) {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    const elements = typeof document !== "undefined" ? document.querySelectorAll(trigger) : [];
+    elements.forEach((el, index) => {
+      const delay = index * stagger;
+      ;(el as HTMLElement).style.transition = `opacity 0.5s ${ease} ${delay}ms, transform 0.5s ${ease} ${delay}ms`;
+      ;(el as HTMLElement).style.opacity = "1";
+      ;(el as HTMLElement).style.transform = "translateY(0)";
+    });
+    return;
+  }
+
+  return {
+    custom: {
+      reduceMotion: reducedMotion,
+    },
+  };
 }

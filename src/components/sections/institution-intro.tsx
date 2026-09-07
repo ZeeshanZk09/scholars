@@ -1,15 +1,16 @@
 "use client";
-import { gsap } from "gsap";
+
 import { ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
+import { ANIMATION_PRESETS } from "@/lib/animations/presets";
+import { ANIMATION_DURATIONS } from "@/lib/animations/config";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { useReducedMotion } from "@/lib/animations/accessibility";
-import { ANIMATION_DURATIONS } from "@/lib/animations/config";
-import { easing } from "@/lib/animations/eases";
 import { siteConfig } from "@/lib/site-config";
 
 const highlights = [
@@ -21,75 +22,33 @@ const highlights = [
 
 export function InstitutionIntro() {
   const reducedMotion = useReducedMotion();
-  const containerRef = React.useRef<HTMLDivElement>(null);
 
-  // Hero entrance animation - runs once when component mounts
-  React.useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    if (reducedMotion) {
-      // Instantly set to final state without animation
-      gsap.set(container, { opacity: 1, y: 0 });
-      return;
-    }
-
-    const timeline = gsap.timeline({});
-
-    // Fade in eyebrow/title elements sequentially
-    // Use data-section-reveal attribute to scope selectors to just this section
-    // GSAP natively supports CSS selector strings
-    timeline.from(".text-primary", {
-      opacity: 0,
-      y: 25,
-      duration: ANIMATION_DURATIONS.normal,
-      ease: easing.reveal(),
-    });
-
-    timeline.from(".text-navy", {
-      opacity: 0,
-      y: 25,
-      duration: ANIMATION_DURATIONS.normal,
-      ease: easing.reveal(),
-      delay: 0.1,
-    });
-
-    timeline.from("h2", {
-      opacity: 0,
-      y: 25,
-      duration: ANIMATION_DURATIONS.normal,
-      ease: easing.reveal(),
-      delay: 0.15,
-    });
-
-    // Fade in supporting text
-    timeline.from(".text-muted-foreground", {
-      opacity: 0,
-      y: 15,
-      duration: ANIMATION_DURATIONS.micro,
-      ease: easing.ui(),
-      delay: 0.2,
-    });
-
-    // Fade in image
-    timeline.from(".bg-white img", {
-      opacity: 0,
-      duration: ANIMATION_DURATIONS.normal,
-      ease: "power2.out",
-      delay: 0.3,
-    });
-
-    // Clean up on unmount
-    return () => {
-      timeline.kill();
-    };
-  }, [reducedMotion]);
+  const fadeUpConfig = ANIMATION_PRESETS.fadeUp({
+    distance: 30,
+    duration: ANIMATION_DURATIONS.section,
+    ease: "power3.out",
+    delay: 0,
+  });
 
   return (
-    <section className="bg-white" data-section-reveal="institution" ref={containerRef}>
-      <Container className="py-16 sm:py:24">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div>
+    <section
+      className="bg-white"
+      data-section-reveal="institution"
+      style={reducedMotion ? { animation: "none" } : {}}
+    >
+      <Container className="py-16 sm:py-24">
+        <motion.div
+          variants={fadeUpConfig.variants}
+          initial={fadeUpConfig.initial}
+          animate={fadeUpConfig.animate}
+          className="grid items-center gap-12 lg:grid-cols-2"
+        >
+          <motion.div
+            variants={fadeUpConfig.variants}
+            initial={fadeUpConfig.initial}
+            animate={fadeUpConfig.animate}
+            style={reducedMotion ? { opacity: 1, y: 0 } : {}}
+          >
             <p className="text-sm font-semibold uppercase tracking-wider text-primary">
               Welcome to Scholar
             </p>
@@ -122,9 +81,11 @@ export function InstitutionIntro() {
                 </Link>
               </Button>
             </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-xl">
+          </motion.div>
+          <motion.div
+            className="relative overflow-hidden rounded-xl"
+            style={reducedMotion ? { opacity: 1 } : {}}
+          >
             <Image
               src="/scholars-schools-official-images/01-classroom-activities/classroom-activity-013.jpg"
               alt="Students learning together in a classroom at Scholar"
@@ -133,8 +94,8 @@ export function InstitutionIntro() {
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="aspect-4/3 h-auto w-full object-cover transition-opacity duration-500 group-hover:opacity-[0.9]"
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </Container>
     </section>
   );

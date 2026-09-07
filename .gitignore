@@ -41,11 +41,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-docs/
-agent
-.agents
-.claude
-.vscode
+# docs/
+# agent
+# .agents
+# .claude
+# .vscode
 
 # skills-lock.json
 # AGENTS.md

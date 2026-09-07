@@ -1,48 +1,57 @@
 "use client";
 
-import { gsap } from "gsap";
-import { useEffect, useRef } from "react";
-
+import { motion, type Variants } from "motion/react";
+import * as React from "react";
 import { useReducedMotion } from "@/lib/animations/accessibility";
-import { ANIMATION_DURATIONS } from "@/lib/animations/config";
-import { easing } from "@/lib/animations/eases";
 
 export function AdmissionsMotion({ children }: Readonly<{ children: React.ReactNode }>) {
   const reducedMotion = useReducedMotion();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+  // Use motion variants for staggered reveal
+  const containerVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0,
+      },
+    },
+  };
 
-    const cards = container.querySelectorAll<HTMLElement>(".admission-card");
-    if (cards.length === 0) return;
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
 
-    if (reducedMotion) {
-      // Instantly set to final state without animation
-      cards.forEach((card) => {
-        gsap.set(card, { opacity: 1, y: 0 });
-      });
-      return;
-    }
+  return (
+    <div
+      ref={containerRef}
+      className="space-y-6"
+      style={reducedMotion ? {} : {}}
+    >
+      {React.Children.map(children, (child, index) => {
+        if (!React.isValidElement(child)) return null;
 
-    const context = gsap.context(() => {
-      gsap.from(cards, {
-        opacity: 0,
-        y: 15,
-        stagger: 0.1,
-        duration: ANIMATION_DURATIONS.normal,
-        ease: easing.reveal(),
-        scrollTrigger: {
-          trigger: container,
-          start: "top 80%",
-          once: true,
-        },
-      });
-    }, container);
+        const childRef = React.useRef<HTMLDivElement>(null);
 
-    return () => context.revert();
-  }, [reducedMotion]);
-
-  return <div ref={containerRef}>{children}</div>;
+        return React.cloneElement(child, {
+          ...(reducedMotion ? {} : {
+            ref: childRef,
+            initial: "hidden",
+            animate: "visible",
+            variants: {
+              container: containerVariants,
+              item: {
+                ...itemVariants,
+                transition: { delayChildren: index * 0.15 },
+              },
+            },
+          }),
+        });
+      })}
+    </div>
+  );
 }
